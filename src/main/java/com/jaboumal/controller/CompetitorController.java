@@ -75,6 +75,7 @@ public class CompetitorController {
             if (competitorDTO.getFirstName().toLowerCase().contains(searchText.toLowerCase()) ||
                     competitorDTO.getLastName().toLowerCase().contains(searchText.toLowerCase()) ||
                     String.valueOf(competitorDTO.getLizenzNummer()).equals(searchText)) {
+                log.info("Found person for: {}", searchText);
                 return competitorDTO;
             }
         }
