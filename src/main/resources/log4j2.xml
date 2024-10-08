@@ -4,20 +4,31 @@
         # Console appender
         <Console name="stdout" target="SYSTEM_OUT">
             # Pattern of log message for console appender
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %p %m%n"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%-6p] %c{3} - %m%n"/>
         </Console>
 
         # File appender
-        <File name="LogFile" fileName="berchtoldApp-log4j2.log">
+        <!--<File name="LogFile" fileName="berchtoldApp-log4j2.log">
             # Pattern of log message for file appender
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %p %m%n"/>
-        </File>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%p] %m%n"/>
+        </File>-->
+
+        <RollingFile name="roll-by-time"
+                     fileName="target/berchtoldApp-log4j2.log"
+                     filePattern="target/berchtoldApp-log4j2.%d{MM-dd-yyyy}.log.gz"
+                     ignoreExceptions="false">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-6p] %c{3} - %m%n</Pattern>
+            </PatternLayout>
+            <TimeBasedTriggeringPolicy/>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
         <Root level="debug">
             <AppenderRef ref="stdout"/>
-            <AppenderRef ref="LogFile"/>
+            <!--<AppenderRef ref="LogFile"/>-->
+            <AppenderRef ref="roll-by-time"/>
         </Root>
     </Loggers>
 </Configuration>
