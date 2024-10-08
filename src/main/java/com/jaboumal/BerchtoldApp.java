@@ -3,19 +3,22 @@ package com.jaboumal;
 import com.jaboumal.controller.CompetitorController;
 import com.jaboumal.gui.MainGui;
 import com.jaboumal.util.SerialPortReader;
-import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Properties;
 
-public class BerchtoldApp {
+import static com.jaboumal.constants.FilePaths.*;
 
+public class BerchtoldApp {
+    private static final Logger log = LoggerFactory.getLogger(BerchtoldApp.class);
     public static final String baseDirectory = "C:/BerchtoldschiessenApp/";
 
     public static void main(String[] args) {
@@ -59,7 +62,7 @@ public class BerchtoldApp {
         try {
             createBaseDirectories();
         } catch (IOException e) {
-            System.out.println("Could not create directories.");
+            log.error("Could not create directories.", e);
             throw new RuntimeException(e);
         }
 
@@ -67,7 +70,7 @@ public class BerchtoldApp {
         if (file.exists()) {
             loadSystemProperties(fileName, prop);
         } else {
-            System.out.println("config.yaml in BerchtoldschiessenApp not found. Create a config.yaml file.");
+            log.warn("config.yaml in BerchtoldschiessenApp not found. Create a config.yaml file.");
             copyConfigFile(fileName);
             loadSystemProperties(fileName, prop);
         }
@@ -76,8 +79,11 @@ public class BerchtoldApp {
             String value = prop.getProperty(name);
             System.setProperty(name, value);
         }
-        System.out.println(prop.getProperty("INPUT_DOCX"));
-        System.out.println(prop.getProperty("OUTPUT_DOCX"));
+        log.debug("BASE_DIRECTORY: {}", prop.getProperty("BASE_DIRECTORY"));
+        log.debug("INPUT_DOCX: {}", prop.getProperty(INPUT_DOCX));
+        log.debug("OUTPUT_DOCX: {}", prop.getProperty(OUTPUT_DOCX));
+        log.debug("INPUT_XML: {}", prop.getProperty(INPUT_XML));
+        log.debug("INPUT_COMPETITORS: {}", prop.getProperty(INPUT_COMPETITORS));
     }
 
     private static void createBaseDirectories() throws IOException {
@@ -92,6 +98,7 @@ public class BerchtoldApp {
             File targetFile = new File(fileName);
             Files.copy(in, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
+            log.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -100,7 +107,7 @@ public class BerchtoldApp {
         try (FileInputStream fis = new FileInputStream(fileName)) {
             prop.load(fis);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         }
     }
 }

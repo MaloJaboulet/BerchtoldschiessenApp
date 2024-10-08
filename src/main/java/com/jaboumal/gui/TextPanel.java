@@ -5,6 +5,8 @@ import com.jaboumal.dto.CompetitorDTO;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +15,7 @@ import java.awt.event.ActionListener;
 
 public class TextPanel extends JPanel {
 
+    private static final Logger log = LoggerFactory.getLogger(TextPanel.class);
     private JLabel lastnameLabel;
     private JLabel lastnameField;
     private JLabel firstNameLabel;
@@ -76,7 +79,7 @@ public class TextPanel extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("button pressed");
+                log.debug("Search button pressed");
                 CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithSearchText(searchField.getText());
 
                 CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);

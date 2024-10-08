@@ -13,7 +13,6 @@ public class TextFieldWithPlaceholder extends JTextField {
         addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                System.out.println(getText());
                 setText("");
                 setForeground(Color.BLACK);
             }

@@ -9,6 +9,8 @@ import com.jaboumal.util.FileReader;
 import com.jaboumal.util.XMLCreate;
 import com.jaboumal.util.XMLToDocxLoader;
 import com.jaboumal.constants.EventMessages;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.print.*;
 import javax.print.attribute.DocAttributeSet;
@@ -24,13 +26,14 @@ import java.util.List;
 import java.util.Properties;
 
 public class CompetitorController {
+    private static final Logger log = LoggerFactory.getLogger(CompetitorController.class);
     private static List<CompetitorDTO> competitors;
 
 
     public void loadCompetitorsFromFile() {
         FileReader fileReader = new FileReader();
         competitors = fileReader.readCompetitorFile();
-        System.out.println("Competitors read");
+        log.info("Competitors file read");
 
         /*File folder = new File("src/main/resources/");
         File[] listOfFiles = folder.listFiles();
@@ -54,7 +57,6 @@ public class CompetitorController {
         } else {
             EventMessagePanel.addErrorMessage(EventMessages.NO_COMPETITOR_FOUND);
             GuiFrame.addCompetitorDataToFields(null);
-            System.out.println("no person found");
         }
 
     }
@@ -76,6 +78,7 @@ public class CompetitorController {
                 return competitorDTO;
             }
         }
+        log.warn("No person found for: {}", searchText);
         return null;
     }
 
@@ -91,7 +94,7 @@ public class CompetitorController {
             String fileName = loader.loadDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
             PrintService.printDoc(fileName);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
     }
 }

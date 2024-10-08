@@ -5,11 +5,14 @@ import com.jaboumal.dto.CompetitorDTO;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class SerialPortReader {
+    private final static Logger log = LoggerFactory.getLogger(SerialPortReader.class);
     static byte[] barcodeBuffer = new byte[9];
     /*public static void main(String[] ap) throws IOException {
 
@@ -81,7 +84,7 @@ public class SerialPortReader {
     }*/
 
     public void createSerialPortReader() {
-        System.out.println(Arrays.toString(SerialPort.getCommPorts()));
+        log.debug(Arrays.toString(SerialPort.getCommPorts()));
 
         SerialPort comPort = SerialPort.getCommPorts()[2];
         comPort.openPort();
@@ -95,21 +98,21 @@ public class SerialPortReader {
             @Override
             public void serialEvent(SerialPortEvent event) {
                 byte[] newData = event.getReceivedData();
-                System.out.println("Received data of size: " + newData.length);
+                log.debug("Received data of size: {}", newData.length);
                 for (byte newDatum : newData) {
-                    System.out.print((char) newDatum);
+                    log.debug(String.valueOf((char) newDatum));
                 }
 
                 if (newData.length < 8) {
-                    System.out.println("\n");
-                    System.out.println("Data too short");
+                    //System.out.println("\n");
+                    log.debug("Data too short");
                 } else {
                     barcodeBuffer = Arrays.copyOfRange(newData, 0, 9);
                     String barcodeString = Arrays.toString(new String(barcodeBuffer, StandardCharsets.UTF_8).toCharArray());
                     String formattedBarcodeString = formatBarcode(barcodeString);
 
-                    System.out.println("\n");
-                    System.out.println("Formatted Barcode String: " + formattedBarcodeString);
+                    //System.out.println("\n");
+                    log.debug("Formatted Barcode String: {}", formattedBarcodeString);
                     CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithLizenzNummer(Integer.parseInt(formattedBarcodeString));
                     CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
                 }

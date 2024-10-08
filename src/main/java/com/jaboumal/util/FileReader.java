@@ -2,6 +2,8 @@ package com.jaboumal.util;
 
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.constants.FilePaths;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +14,9 @@ import java.util.Scanner;
 import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS;
 
 public class FileReader {
-    public List<CompetitorDTO> readCompetitorFile(){
+    private final static Logger log = LoggerFactory.getLogger(FileReader.class);
+
+    public List<CompetitorDTO> readCompetitorFile() {
         List<CompetitorDTO> competitors = new ArrayList<>();
         try {
             FilePaths filePaths = new FilePaths();
@@ -21,7 +25,7 @@ public class FileReader {
             Scanner competitorScanner = new Scanner(competitorFile);//macht einen neuen Scanner
 
 
-            while (competitorScanner.hasNextLine()){
+            while (competitorScanner.hasNextLine()) {
                 List<String> row = getRecordFromLine(competitorScanner.nextLine());
                 int lizenzNummer = Integer.parseInt(row.get(0));
                 String firstname = row.get(1);
@@ -33,7 +37,7 @@ public class FileReader {
             }
             competitorScanner.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
 
         return competitors;

@@ -1,5 +1,7 @@
 package com.jaboumal.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.org.okapibarcode.backend.Code128;
 import uk.org.okapibarcode.backend.HumanReadableLocation;
 import uk.org.okapibarcode.graphics.Color;
@@ -12,6 +14,7 @@ import java.io.*;
 import java.util.Base64;
 
 public class BarcodeCreater {
+    private static final Logger log = LoggerFactory.getLogger(BarcodeCreater.class);
 
     public String createBarcode(int schuetzenNummer) throws IOException {
 
@@ -29,6 +32,7 @@ public class BarcodeCreater {
             System.out.println(barcode);
             return barcode;*/
         } catch (final IOException ioe) {
+            log.error(ioe.getMessage(), ioe);
             throw new UncheckedIOException(ioe);
         }
     }
@@ -61,8 +65,9 @@ public class BarcodeCreater {
             fileInputStreamReader.read(bytes);
             //encodedfile = new String(Base64.encodeBase64(bytes), StandardCharsets.UTF_8);
             encodedfile = Base64.getEncoder().encodeToString(bytes);
-            encodedfile.replace(" ","");
+            encodedfile.replace(" ", "");
         } catch (IOException e) {
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
 

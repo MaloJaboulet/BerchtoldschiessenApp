@@ -4,6 +4,8 @@ import com.jaboumal.constants.FilePaths;
 import org.docx4j.Docx4J;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +14,7 @@ import java.io.FileNotFoundException;
 import static com.jaboumal.constants.FilePaths.*;
 
 public class XMLToDocxLoader {
+    private static final Logger log = LoggerFactory.getLogger(XMLToDocxLoader.class);
     public String loadDataInDocxFile(String competitorName) throws FileNotFoundException, Docx4JException {
         FilePaths filePaths = new FilePaths();
         String output_docx = String.format(filePaths.getPath(OUTPUT_DOCX), competitorName);
@@ -21,7 +24,7 @@ public class XMLToDocxLoader {
         FileInputStream xmlStream = new FileInputStream(inputXml);
         Docx4J.bind(wordMLPackage, xmlStream, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML | Docx4J.FLAG_BIND_REMOVE_SDT);
         Docx4J.save(wordMLPackage, new File(output_docx), Docx4J.FLAG_NONE);
-        System.out.println("Saved: " + output_docx);
+        log.info("Saved: {}", output_docx);
 
         inputXml.delete();
 

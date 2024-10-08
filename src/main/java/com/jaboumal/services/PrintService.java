@@ -1,5 +1,8 @@
 package com.jaboumal.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.print.*;
 import javax.print.attribute.DocAttributeSet;
 import javax.print.attribute.HashDocAttributeSet;
@@ -10,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public class PrintService {
+    private static final Logger log = LoggerFactory.getLogger(PrintService.class);
     public static void printDoc(String filename) throws Exception {
         File outputFile = new File(filename);
         DocFlavor psFlavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
@@ -52,13 +56,12 @@ public class PrintService {
                 Doc doc = new SimpleDoc(input, flavor, das);
 
                 pras.add(new JobName(outputFile.getName(), null));
-                job.print(doc, pras);
-                System.out.println("Printing file: " + outputFile.getName());
+                //job.print(doc, pras);
+                log.info("Printing file: {}", outputFile.getName());
 
             }
         } catch (Exception e) {
-            System.out.println("Failed");
-            e.printStackTrace();
+            log.error("Failed to print file: {}", outputFile.getName(), e);
         }
     }
 }
