@@ -14,8 +14,8 @@
         </File>-->
 
         <RollingFile name="roll-by-time"
-                     fileName="C:/BerchtoldschiessenApp/logging/berchtoldApp-log4j2.log"
-                     filePattern="C:/BerchtoldschiessenApp/logging/berchtoldApp-log4j2.%d{MM-dd-yyyy}.log.gz"
+                     fileName="target/berchtoldApp-log4j2.log"
+                     filePattern="target/berchtoldApp-log4j2.%d{MM-dd-yyyy}.log.gz"
                      ignoreExceptions="false">
             <PatternLayout>
                 <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-6p] %c{3} - %m%n</Pattern>
@@ -27,7 +27,7 @@
     <Loggers>
         # Override log level for specified package
         <Logger name="org.docx4j" level="ERROR"/>
-        <Root level="INFO">
+        <Root level="DEBUG">
             <AppenderRef ref="stdout"/>
             <!--<AppenderRef ref="LogFile"/>-->
             <AppenderRef ref="roll-by-time"/>

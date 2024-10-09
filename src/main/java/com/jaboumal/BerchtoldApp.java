@@ -55,6 +55,7 @@ public class BerchtoldApp {
         String fileName = "";
         if (System.getProperty("app.env") != null && System.getProperty("app.env").toLowerCase().contains("local")) {
             fileName = "src/main/resources/config/config_local.yaml";
+
         } else {
             fileName = baseDirectory.concat("config/config.yaml");
         }
