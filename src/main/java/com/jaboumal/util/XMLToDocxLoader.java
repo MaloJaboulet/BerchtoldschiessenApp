@@ -15,6 +15,7 @@ import static com.jaboumal.constants.FilePaths.*;
 
 public class XMLToDocxLoader {
     private static final Logger log = LoggerFactory.getLogger(XMLToDocxLoader.class);
+
     public String loadDataInDocxFile(String competitorName) throws FileNotFoundException, Docx4JException {
         FilePaths filePaths = new FilePaths();
         String output_docx = String.format(filePaths.getPath(OUTPUT_DOCX), competitorName);

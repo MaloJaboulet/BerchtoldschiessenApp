@@ -1,5 +1,6 @@
 package com.jaboumal.controller;
 
+import com.jaboumal.constants.EventMessages;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.GuiFrame;
@@ -8,22 +9,10 @@ import com.jaboumal.util.BarcodeCreator;
 import com.jaboumal.util.FileReader;
 import com.jaboumal.util.XMLCreate;
 import com.jaboumal.util.XMLToDocxLoader;
-import com.jaboumal.constants.EventMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.print.*;
-import javax.print.attribute.DocAttributeSet;
-import javax.print.attribute.HashDocAttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.JobName;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 
 public class CompetitorController {
     private static final Logger log = LoggerFactory.getLogger(CompetitorController.class);
@@ -34,18 +23,6 @@ public class CompetitorController {
         FileReader fileReader = new FileReader();
         competitors = fileReader.readCompetitorFile();
         log.info("Competitors file read");
-
-        /*File folder = new File("src/main/resources/");
-        File[] listOfFiles = folder.listFiles();
-        if(listOfFiles != null) {
-            for (File listOfFile : listOfFiles) {
-                if (listOfFile.isFile()) {
-                    System.out.println("File " + listOfFile.getName());
-                } else if (listOfFile.isDirectory()) {
-                    System.out.println("Directory " + listOfFile.getName());
-                }
-            }
-        }*/
     }
 
     public static void addCompetitorDataToFieldsAndShowMessage(CompetitorDTO competitor) {

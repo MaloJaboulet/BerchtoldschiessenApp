@@ -22,21 +22,6 @@ public class BerchtoldApp {
     public static final String baseDirectory = "C:/BerchtoldschiessenApp/";
 
     public static void main(String[] args) {
-               /* Util.BarcodeCreater barcodeCreater = new Util.BarcodeCreater();
-        String barcode = barcodeCreater.createBarcode(925177);
-
-        Util.XMLCreate xmlCreate = new Util.XMLCreate();
-        xmlCreate.createXml("Hans Peter", "01.01.2000", barcode);
-
-        DataFileLoader loader = new DataFileLoader();
-        loader.loadDataInFile();*/
-
-       /* Gui com.jaboumal.gui = new Gui();
-        com.jaboumal.gui.createFrame();
-
-        com.jaboumal.gui.setLastnameField("Peter", com.jaboumal.gui);
-        com.jaboumal.gui.setNameField("Peter");*/
-
         printWelcomeMessage();
 
         loadConfigFile();
@@ -53,7 +38,8 @@ public class BerchtoldApp {
 
     public static void loadConfigFile() {
         Properties prop = new Properties();
-        String fileName = "";
+        String fileName;
+
         if (System.getProperty("app.env") != null && System.getProperty("app.env").toLowerCase().contains("local")) {
             fileName = "src/main/resources/config/config_local.yaml";
 
@@ -113,7 +99,7 @@ public class BerchtoldApp {
         }
     }
 
-    private static void printWelcomeMessage(){
+    private static void printWelcomeMessage() {
         log.info("********************************************");
         log.info("***** Welcome to BerchtoldschiessenApp *****");
         log.info("********************************************");

@@ -14,40 +14,14 @@ import java.io.FileInputStream;
 
 public class PrintService {
     private static final Logger log = LoggerFactory.getLogger(PrintService.class);
-    public static void printDoc(String filename) throws Exception {
+
+    public static void printDoc(String filename) {
         File outputFile = new File(filename);
-        DocFlavor psFlavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
-        PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-
-        //aset.add(Finishings.STAPLE);
-        /*PrintService[] pservices = PrintServiceLookup.lookupPrintServices(psFlavor, aset);
-        for (PrintService ps : pservices) {
-            if (ps.getName().contains("OfficeJet")) {
-                DocPrintJob pj = ps.createPrintJob();
-                aset.add(new Copies(2));
-                aset.add(MediaSizeName.ISO_A4);
-                aset.add(Sides.TWO_SIDED_LONG_EDGE);
-
-                try {
-                    FileInputStream fis = new FileInputStream(outputFile);
-                    Doc doc = new SimpleDoc(fis, psFlavor, null);
-                    pj.print(doc, aset);
-                    System.out.println("printing");
-                } catch (IOException | PrintException e) {
-                    System.err.println(e);
-                }
-                break;
-            }
-        }
-         */
 
         try {
             PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-            //pras.add(OrientationRequested.PORTRAIT);
             DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
-            javax.print.PrintService printService[] = PrintServiceLookup.lookupPrintServices(flavor, pras);
             javax.print.PrintService defaultService = PrintServiceLookup.lookupDefaultPrintService();
-            //PrintService service = ServiceUI.printDialog(null, 200, 200, printService, defaultService, flavor, pras);
 
             log.debug("Default Print Service: {}", defaultService);
             if (defaultService != null) {
