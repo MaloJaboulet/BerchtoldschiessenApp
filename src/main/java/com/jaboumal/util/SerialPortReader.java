@@ -104,14 +104,12 @@ public class SerialPortReader {
                 }
 
                 if (newData.length < 8) {
-                    //System.out.println("\n");
                     log.debug("Data too short");
                 } else {
                     barcodeBuffer = Arrays.copyOfRange(newData, 0, 9);
                     String barcodeString = Arrays.toString(new String(barcodeBuffer, StandardCharsets.UTF_8).toCharArray());
                     String formattedBarcodeString = formatBarcode(barcodeString);
 
-                    //System.out.println("\n");
                     log.debug("Formatted Barcode String: {}", formattedBarcodeString);
                     CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithLizenzNummer(Integer.parseInt(formattedBarcodeString));
                     CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);

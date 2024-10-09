@@ -16,7 +16,7 @@ import java.util.Base64;
 public class BarcodeCreator {
     private static final Logger log = LoggerFactory.getLogger(BarcodeCreator.class);
 
-    public String createBarcode(int schuetzenNummer) throws IOException {
+    public String createBarcode(int schuetzenNummer) {
 
         int newSchuetzenNummer = ((schuetzenNummer + 10_000_000) * 100);
         int rest = newSchuetzenNummer % 97;
@@ -25,12 +25,8 @@ public class BarcodeCreator {
         try {
             final ByteArrayOutputStream os = new ByteArrayOutputStream();
 
-            //File image = new File(com.jaboumal.Main.BARCODE_INPUT);
             ImageIO.write(createBarcodeImage(barcodeNummer), "png", os);
             return Base64.getEncoder().encodeToString(os.toByteArray());
-            /*String barcode = encodeFileToBase64Binary(image);
-            System.out.println(barcode);
-            return barcode;*/
         } catch (final IOException ioe) {
             log.error(ioe.getMessage(), ioe);
             throw new UncheckedIOException(ioe);
@@ -55,22 +51,5 @@ public class BarcodeCreator {
         g2d.dispose();
 
         return image;
-    }
-
-    private String encodeFileToBase64Binary(File file) {
-        String encodedfile = null;
-        try {
-            FileInputStream fileInputStreamReader = new FileInputStream(file);
-            byte[] bytes = new byte[(int) file.length()];
-            fileInputStreamReader.read(bytes);
-            //encodedfile = new String(Base64.encodeBase64(bytes), StandardCharsets.UTF_8);
-            encodedfile = Base64.getEncoder().encodeToString(bytes);
-            encodedfile.replace(" ", "");
-        } catch (IOException e) {
-            log.error(e.getMessage(), e);
-            throw new RuntimeException(e);
-        }
-
-        return encodedfile;
     }
 }

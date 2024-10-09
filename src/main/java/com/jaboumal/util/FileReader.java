@@ -21,7 +21,6 @@ public class FileReader {
         try {
             FilePaths filePaths = new FilePaths();
             File competitorFile = new File(filePaths.getPath(INPUT_COMPETITORS));
-            //File competitorFile = new File(System.getProperty("BASE_DIRECTORY").concat(System.getProperty("INPUT_COMPETITORS")));
             Scanner competitorScanner = new Scanner(competitorFile);//macht einen neuen Scanner
 
 
