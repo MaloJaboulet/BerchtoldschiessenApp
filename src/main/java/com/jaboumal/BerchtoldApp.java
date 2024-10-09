@@ -37,6 +37,7 @@ public class BerchtoldApp {
         com.jaboumal.gui.setLastnameField("Peter", com.jaboumal.gui);
         com.jaboumal.gui.setNameField("Peter");*/
 
+        printWelcomeMessage();
 
         loadConfigFile();
 
@@ -110,5 +111,11 @@ public class BerchtoldApp {
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
         }
+    }
+
+    private static void printWelcomeMessage(){
+        log.info("********************************************");
+        log.info("***** Welcome to BerchtoldschiessenApp *****");
+        log.info("********************************************");
     }
 }
