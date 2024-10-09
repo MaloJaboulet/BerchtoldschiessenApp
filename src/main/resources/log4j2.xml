@@ -25,7 +25,9 @@
     </Appenders>
 
     <Loggers>
-        <Root level="debug">
+        # Override log level for specified package
+        <Logger name="org.docx4j" level="ERROR"/>
+        <Root level="DEBUG">
             <AppenderRef ref="stdout"/>
             <!--<AppenderRef ref="LogFile"/>-->
             <AppenderRef ref="roll-by-time"/>

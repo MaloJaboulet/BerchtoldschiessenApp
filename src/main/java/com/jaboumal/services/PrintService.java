@@ -49,13 +49,16 @@ public class PrintService {
             javax.print.PrintService defaultService = PrintServiceLookup.lookupDefaultPrintService();
             //PrintService service = ServiceUI.printDialog(null, 200, 200, printService, defaultService, flavor, pras);
 
+            log.debug("Default Print Service: {}", defaultService);
             if (defaultService != null) {
                 DocPrintJob job = defaultService.createPrintJob();
                 FileInputStream input = new FileInputStream(outputFile);
                 DocAttributeSet das = new HashDocAttributeSet();
                 Doc doc = new SimpleDoc(input, flavor, das);
 
+
                 pras.add(new JobName(outputFile.getName(), null));
+                //TODO enable printing
                 //job.print(doc, pras);
                 log.info("Printing file: {}", outputFile.getName());
 
