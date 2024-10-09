@@ -1,7 +1,5 @@
 package com.jaboumal.gui;
 
-import com.jaboumal.dto.CompetitorDTO;
-
 public class MainGui {
     public static void main(String[] args) {
 
@@ -16,7 +14,4 @@ public class MainGui {
         gui.createFrame();
     }
 
-    public void showCompetitorData(CompetitorDTO competitor){
-        GuiFrame.addCompetitorDataToFields(competitor);
-    }
 }

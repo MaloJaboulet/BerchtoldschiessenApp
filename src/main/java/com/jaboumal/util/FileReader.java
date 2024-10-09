@@ -43,7 +43,7 @@ public class FileReader {
     }
 
     private List<String> getRecordFromLine(String line) {
-        List<String> values = new ArrayList<String>();
+        List<String> values = new ArrayList<>();
         try (Scanner rowScanner = new Scanner(line)) {
             rowScanner.useDelimiter(",");
             while (rowScanner.hasNext()) {
