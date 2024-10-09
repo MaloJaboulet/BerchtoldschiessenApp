@@ -195,7 +195,8 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>**/log4j.properties</exclude>
+                        <exclude>**/log4j2-local.xml</exclude>
+                        <exclude>**/config-local.xml</exclude>
                     </excludes>
                     <archive>
                         <manifest>
