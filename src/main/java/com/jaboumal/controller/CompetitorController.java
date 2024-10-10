@@ -5,10 +5,9 @@ import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.GuiFrame;
 import com.jaboumal.services.PrintService;
+import com.jaboumal.services.XMLService;
 import com.jaboumal.util.BarcodeCreator;
 import com.jaboumal.util.FileReader;
-import com.jaboumal.util.XMLCreate;
-import com.jaboumal.util.XMLToDocxLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,11 +64,10 @@ public class CompetitorController {
             BarcodeCreator barcodeCreator = new BarcodeCreator();
             String barcode = barcodeCreator.createBarcode(competitor.getLizenzNummer());
 
-            XMLCreate xmlCreate = new XMLCreate();
-            xmlCreate.createXml(competitor.getFirstName() + " " + competitor.getLastName(), competitor.getDateOfBirth(), barcode);
+            XMLService xmlService = new XMLService();
+            xmlService.createXml(competitor.getFirstName() + " " + competitor.getLastName(), competitor.getDateOfBirth(), barcode);
 
-            XMLToDocxLoader loader = new XMLToDocxLoader();
-            String fileName = loader.loadDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
+            String fileName = xmlService.loadXMLDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
             PrintService.printDoc(fileName);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
