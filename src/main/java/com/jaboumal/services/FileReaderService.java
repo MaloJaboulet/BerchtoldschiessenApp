@@ -1,4 +1,4 @@
-package com.jaboumal.util;
+package com.jaboumal.services;
 
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.constants.FilePaths;
@@ -13,8 +13,8 @@ import java.util.Scanner;
 
 import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS;
 
-public class FileReader {
-    private final static Logger log = LoggerFactory.getLogger(FileReader.class);
+public class FileReaderService {
+    private final static Logger log = LoggerFactory.getLogger(FileReaderService.class);
 
     public List<CompetitorDTO> readCompetitorFile() {
         List<CompetitorDTO> competitors = new ArrayList<>();

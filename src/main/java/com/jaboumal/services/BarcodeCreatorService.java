@@ -1,4 +1,4 @@
-package com.jaboumal.util;
+package com.jaboumal.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +13,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Base64;
 
-public class BarcodeCreator {
-    private static final Logger log = LoggerFactory.getLogger(BarcodeCreator.class);
+public class BarcodeCreatorService {
+    private static final Logger log = LoggerFactory.getLogger(BarcodeCreatorService.class);
 
     public String createBarcode(int schuetzenNummer) {
 

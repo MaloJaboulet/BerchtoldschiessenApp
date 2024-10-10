@@ -6,8 +6,8 @@ import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.GuiFrame;
 import com.jaboumal.services.PrintService;
 import com.jaboumal.services.XMLService;
-import com.jaboumal.util.BarcodeCreator;
-import com.jaboumal.util.FileReader;
+import com.jaboumal.services.BarcodeCreatorService;
+import com.jaboumal.services.FileReaderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,8 +19,8 @@ public class CompetitorController {
 
 
     public void loadCompetitorsFromFile() {
-        FileReader fileReader = new FileReader();
-        competitors = fileReader.readCompetitorFile();
+        FileReaderService fileReaderService = new FileReaderService();
+        competitors = fileReaderService.readCompetitorFile();
         log.info("Competitors file read");
     }
 
@@ -61,8 +61,8 @@ public class CompetitorController {
 
     public static void createStandblatt(CompetitorDTO competitor) {
         try {
-            BarcodeCreator barcodeCreator = new BarcodeCreator();
-            String barcode = barcodeCreator.createBarcode(competitor.getLizenzNummer());
+            BarcodeCreatorService barcodeCreatorService = new BarcodeCreatorService();
+            String barcode = barcodeCreatorService.createBarcode(competitor.getLizenzNummer());
 
             XMLService xmlService = new XMLService();
             xmlService.createXml(competitor.getFirstName() + " " + competitor.getLastName(), competitor.getDateOfBirth(), barcode);

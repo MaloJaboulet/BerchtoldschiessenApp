@@ -3,7 +3,7 @@ package com.jaboumal;
 import com.jaboumal.controller.CompetitorController;
 import com.jaboumal.gui.MainGui;
 import com.jaboumal.services.ConfigService;
-import com.jaboumal.util.SerialPortReader;
+import com.jaboumal.services.SerialPortReaderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,8 +21,8 @@ public class BerchtoldApp {
         MainGui gui = new MainGui();
         gui.createGui();
 
-        SerialPortReader serialPortReader = new SerialPortReader();
-        serialPortReader.createSerialPortReader();
+        SerialPortReaderService serialPortReaderService = new SerialPortReaderService();
+        serialPortReaderService.createSerialPortReader();
     }
 
 

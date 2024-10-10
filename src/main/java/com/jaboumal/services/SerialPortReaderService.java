@@ -1,4 +1,4 @@
-package com.jaboumal.util;
+package com.jaboumal.services;
 
 import com.jaboumal.controller.CompetitorController;
 import com.jaboumal.dto.CompetitorDTO;
@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-public class SerialPortReader {
-    private final static Logger log = LoggerFactory.getLogger(SerialPortReader.class);
+public class SerialPortReaderService {
+    private final static Logger log = LoggerFactory.getLogger(SerialPortReaderService.class);
     static byte[] barcodeBuffer = new byte[9];
 
     public void createSerialPortReader() {
