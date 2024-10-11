@@ -48,4 +48,9 @@ public class CompetitorDTO {
     public void setLizenzNummer(int lizenzNummer) {
         this.lizenzNummer = lizenzNummer;
     }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName+", " + lizenzNummer+", " + dateOfBirth;
+    }
 }

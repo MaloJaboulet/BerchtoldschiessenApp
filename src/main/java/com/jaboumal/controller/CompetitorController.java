@@ -2,6 +2,7 @@ package com.jaboumal.controller;
 
 import com.jaboumal.constants.EventMessages;
 import com.jaboumal.dto.CompetitorDTO;
+import com.jaboumal.gui.CompetitorSelectionDialog;
 import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.GuiFrame;
 import com.jaboumal.services.BarcodeCreatorService;
@@ -11,6 +12,7 @@ import com.jaboumal.services.XMLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompetitorController {
@@ -51,14 +53,30 @@ public class CompetitorController {
     }
 
     public static CompetitorDTO searchCompetitorWithSearchText(String searchText) {
+        List<CompetitorDTO> resultList = new ArrayList<>();
+
         for (CompetitorDTO competitorDTO : competitors) {
             if (competitorDTO.getFirstName().toLowerCase().contains(searchText.toLowerCase()) ||
                     competitorDTO.getLastName().toLowerCase().contains(searchText.toLowerCase()) ||
                     String.valueOf(competitorDTO.getLizenzNummer()).equals(searchText)) {
                 log.info("Found person for: {}", searchText);
-                return competitorDTO;
+                resultList.add(competitorDTO);
             }
         }
+
+        if (resultList.size() == 1) {
+            return resultList.getFirst();
+        }
+
+        if (resultList.size() > 1) {
+            CompetitorSelectionDialog competitorSelectionDialog =new CompetitorSelectionDialog();
+            CompetitorDTO selectedCompetitor = competitorSelectionDialog.showDialog(resultList);
+
+            if (selectedCompetitor != null) {
+                return selectedCompetitor;
+            }
+        }
+
         log.warn("No person found for: {}", searchText);
         return null;
     }
