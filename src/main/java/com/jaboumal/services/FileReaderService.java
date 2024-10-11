@@ -1,7 +1,9 @@
-package com.jaboumal.util;
+package com.jaboumal.services;
 
-import com.jaboumal.dto.CompetitorDTO;
+import com.jaboumal.constants.EventMessages;
 import com.jaboumal.constants.FilePaths;
+import com.jaboumal.dto.CompetitorDTO;
+import com.jaboumal.gui.EventMessagePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,8 +15,8 @@ import java.util.Scanner;
 
 import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS;
 
-public class FileReader {
-    private final static Logger log = LoggerFactory.getLogger(FileReader.class);
+public class FileReaderService {
+    private final static Logger log = LoggerFactory.getLogger(FileReaderService.class);
 
     public List<CompetitorDTO> readCompetitorFile() {
         List<CompetitorDTO> competitors = new ArrayList<>();
@@ -26,6 +28,9 @@ public class FileReader {
 
             while (competitorScanner.hasNextLine()) {
                 List<String> row = getRecordFromLine(competitorScanner.nextLine());
+                if (row.size() != 4) {
+                    throw new IllegalArgumentException("competitor.csv does not contain 4 columns.");
+                }
                 int lizenzNummer = Integer.parseInt(row.get(0));
                 String firstname = row.get(1);
                 String lastname = row.get(2);
@@ -37,8 +42,10 @@ public class FileReader {
             competitorScanner.close();
         } catch (FileNotFoundException e) {
             log.error(e.getMessage(), e);
+            EventMessagePanel.addErrorMessage(EventMessages.NO_COMPETITOR_FILE_FOUND);
         }
 
+        log.info("Competitors file read");
         return competitors;
     }
 

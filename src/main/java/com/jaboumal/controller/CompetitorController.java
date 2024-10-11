@@ -4,11 +4,10 @@ import com.jaboumal.constants.EventMessages;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.GuiFrame;
+import com.jaboumal.services.BarcodeCreatorService;
+import com.jaboumal.services.FileReaderService;
 import com.jaboumal.services.PrintService;
-import com.jaboumal.util.BarcodeCreator;
-import com.jaboumal.util.FileReader;
-import com.jaboumal.util.XMLCreate;
-import com.jaboumal.util.XMLToDocxLoader;
+import com.jaboumal.services.XMLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +19,13 @@ public class CompetitorController {
 
 
     public void loadCompetitorsFromFile() {
-        FileReader fileReader = new FileReader();
-        competitors = fileReader.readCompetitorFile();
-        log.info("Competitors file read");
+        FileReaderService fileReaderService = new FileReaderService();
+        try {
+            competitors = fileReaderService.readCompetitorFile();
+        } catch (IllegalArgumentException ex) {
+            EventMessagePanel.addErrorMessage(EventMessages.COMPETITOR_FILE_WRONG_FORMAT);
+            log.error(ex.getMessage());
+        }
     }
 
     public static void addCompetitorDataToFieldsAndShowMessage(CompetitorDTO competitor) {
@@ -62,14 +65,13 @@ public class CompetitorController {
 
     public static void createStandblatt(CompetitorDTO competitor) {
         try {
-            BarcodeCreator barcodeCreator = new BarcodeCreator();
-            String barcode = barcodeCreator.createBarcode(competitor.getLizenzNummer());
+            BarcodeCreatorService barcodeCreatorService = new BarcodeCreatorService();
+            String barcode = barcodeCreatorService.createBarcode(competitor.getLizenzNummer());
 
-            XMLCreate xmlCreate = new XMLCreate();
-            xmlCreate.createXml(competitor.getFirstName() + " " + competitor.getLastName(), competitor.getDateOfBirth(), barcode);
+            XMLService xmlService = new XMLService();
+            xmlService.createXml(competitor.getFirstName() + " " + competitor.getLastName(), competitor.getDateOfBirth(), barcode);
 
-            XMLToDocxLoader loader = new XMLToDocxLoader();
-            String fileName = loader.loadDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
+            String fileName = xmlService.loadXMLDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
             PrintService.printDoc(fileName);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
