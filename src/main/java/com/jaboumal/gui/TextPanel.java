@@ -68,6 +68,15 @@ public class TextPanel extends JPanel {
         searchField.setFocusable(true);
         searchField.setRequestFocusEnabled(true);
         searchField.setText("Vorname, Nachname, Schützennummer");
+
+        searchField.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log.debug("Enter pressed on Textfield");
+                searchCompetitor();
+            }
+        });
     }
 
     private void createSearchButton() {
@@ -80,9 +89,7 @@ public class TextPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 log.debug("Search button pressed");
-                CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithSearchText(searchField.getText());
-
-                CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
+                searchCompetitor();
             }
         });
     }
@@ -112,5 +119,10 @@ public class TextPanel extends JPanel {
         final Spacer spacer3 = new Spacer();
         add(spacer3, new GridConstraints(3, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         add(searchButton, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
+    }
+
+    private void searchCompetitor(){
+        CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithSearchText(searchField.getText());
+        CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
     }
 }
