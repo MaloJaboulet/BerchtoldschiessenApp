@@ -30,13 +30,13 @@ public class TextPanel extends JPanel {
     public TextPanel() {
         super(new GridLayoutManager(4, 6, new Insets(0, 50, 0, 0), -1, -1));
         firstNameLabel = new JLabel("Vorname");
-        firstNameField = new JLabel("{vorname}");
+        firstNameField = new JLabel();
 
         lastnameLabel = new JLabel("Nachname");
-        lastnameField = new JLabel("{nachname}");
+        lastnameField = new JLabel();
 
         shooterNumberLabel = new JLabel("Schützennummer");
-        shooterNumberField = new JLabel("{schnum}");
+        shooterNumberField = new JLabel();
 
         searchLabel = new JLabel("Suche");
         createSearchTextField();
