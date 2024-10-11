@@ -1,0 +1,20 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BerchtoldApp" type="Application" factoryName="Application" nameIsGenerated="true">
+    <envs>
+      <env name="app.env" value="local" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.jaboumal.BerchtoldApp" />
+    <module name="BerchtoldSchiessenApp" />
+    <option name="PROGRAM_PARAMETERS" value="$MAVEN_REPOSITORY$ " />
+    <option name="VM_PARAMETERS" value="-Dapp.env=local" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.jaboumal.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
