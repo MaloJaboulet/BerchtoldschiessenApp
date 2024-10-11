@@ -22,13 +22,14 @@ public class GuiFrame extends JFrame {
         setContentPane(mainPanel);
         setTitle("Berchtoldschiessen");
         setSize(800, 500);
-        setVisible(true);
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        //com.jaboumal.gui.searchButton.requestFocus();
+        setMinimumSize(getSize());
+        pack();
+        getContentPane().requestFocusInWindow();
 
-
-        //pack();
+        setVisible(true);
     }
 
     public static void addCompetitorDataToFields(CompetitorDTO competitorDTO) {

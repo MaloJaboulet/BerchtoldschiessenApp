@@ -74,6 +74,7 @@ public class TextPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 log.debug("Enter pressed on Textfield");
+                searchButton.grabFocus();
                 searchCompetitor();
             }
         });
@@ -98,7 +99,7 @@ public class TextPanel extends JPanel {
         firstNameField.setText("");
         lastnameField.setText("");
         shooterNumberField.setText("");
-        searchField.setText("");
+        searchField.setText("Vorname, Nachname, Schützennummer");
         this.competitorDTO = null;
         PrintPanel.makePrintButtonDisabled();
     }
