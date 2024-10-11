@@ -1,20 +1,28 @@
 package com.jaboumal.services;
 
 import com.jaboumal.dto.CompetitorDTO;
+import com.jaboumal.gui.EventMessagePanel;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static com.jaboumal.constants.FilePaths.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mockStatic;
 
-
+@ExtendWith(MockitoExtension.class)
 class FileReaderServiceTest {
 
     FileReaderService fileReaderService;
+
+    @BeforeAll
+    static void init() {
+        mockStatic(EventMessagePanel.class);
+    }
 
     @BeforeEach
     void setUp() {
