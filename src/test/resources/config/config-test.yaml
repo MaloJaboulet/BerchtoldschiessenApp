@@ -1,0 +1,9 @@
+app.env: test
+
+BASE_DIRECTORY: src/test/resources
+INPUT_XML: output/data_output.xml
+OUTPUT_DOCX: output/Berchtoldschiessen_%s.docx
+INPUT_COMPETITORS: input/competitors.csv
+
+
+INPUT_DOCX: Berchtoldschiessen_test2.docx

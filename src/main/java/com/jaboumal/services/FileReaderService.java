@@ -26,6 +26,9 @@ public class FileReaderService {
 
             while (competitorScanner.hasNextLine()) {
                 List<String> row = getRecordFromLine(competitorScanner.nextLine());
+                if (row.size() != 4) {
+                    throw new IllegalArgumentException("competitor.csv does not contain 4 columns.");
+                }
                 int lizenzNummer = Integer.parseInt(row.get(0));
                 String firstname = row.get(1);
                 String lastname = row.get(2);
