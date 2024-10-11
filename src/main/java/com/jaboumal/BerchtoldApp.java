@@ -15,11 +15,13 @@ public class BerchtoldApp {
 
         ConfigService.loadConfigFile();
 
+        MainGui gui = new MainGui();
+        gui.createGui();
+
         CompetitorController competitorController = new CompetitorController();
         competitorController.loadCompetitorsFromFile();
 
-        MainGui gui = new MainGui();
-        gui.createGui();
+
 
         SerialPortReaderService serialPortReaderService = new SerialPortReaderService();
         serialPortReaderService.createSerialPortReader();

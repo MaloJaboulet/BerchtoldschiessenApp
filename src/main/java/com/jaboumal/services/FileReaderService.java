@@ -1,7 +1,9 @@
 package com.jaboumal.services;
 
-import com.jaboumal.dto.CompetitorDTO;
+import com.jaboumal.constants.EventMessages;
 import com.jaboumal.constants.FilePaths;
+import com.jaboumal.dto.CompetitorDTO;
+import com.jaboumal.gui.EventMessagePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,8 +42,10 @@ public class FileReaderService {
             competitorScanner.close();
         } catch (FileNotFoundException e) {
             log.error(e.getMessage(), e);
+            EventMessagePanel.addErrorMessage(EventMessages.NO_COMPETITOR_FILE_FOUND);
         }
 
+        log.info("Competitors file read");
         return competitors;
     }
 

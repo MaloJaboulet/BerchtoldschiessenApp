@@ -4,10 +4,10 @@ import com.jaboumal.constants.EventMessages;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.GuiFrame;
-import com.jaboumal.services.PrintService;
-import com.jaboumal.services.XMLService;
 import com.jaboumal.services.BarcodeCreatorService;
 import com.jaboumal.services.FileReaderService;
+import com.jaboumal.services.PrintService;
+import com.jaboumal.services.XMLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +20,12 @@ public class CompetitorController {
 
     public void loadCompetitorsFromFile() {
         FileReaderService fileReaderService = new FileReaderService();
-        competitors = fileReaderService.readCompetitorFile();
-        log.info("Competitors file read");
+        try {
+            competitors = fileReaderService.readCompetitorFile();
+        } catch (IllegalArgumentException ex) {
+            EventMessagePanel.addErrorMessage(EventMessages.COMPETITOR_FILE_WRONG_FORMAT);
+            log.error(ex.getMessage());
+        }
     }
 
     public static void addCompetitorDataToFieldsAndShowMessage(CompetitorDTO competitor) {
