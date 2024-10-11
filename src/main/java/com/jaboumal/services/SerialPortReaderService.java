@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 
 public class SerialPortReaderService {
     private final static Logger log = LoggerFactory.getLogger(SerialPortReaderService.class);
@@ -24,40 +25,44 @@ public class SerialPortReaderService {
         try {
             SerialPort comPort = SerialPort.getCommPort("COM6");
 
-            if (!Arrays.asList(SerialPort.getCommPorts()).contains(comPort)) {
+            boolean scannerPortFound = Arrays.stream(SerialPort.getCommPorts())
+                    .anyMatch(serialPort -> serialPort.getSystemPortName().equals("COM6"));
+
+
+            if (!scannerPortFound) {
                 log.error(EventMessages.SCANNER_NOT_CONNECTED);
                 EventMessagePanel.addErrorMessage(EventMessages.SCANNER_NOT_CONNECTED);
+            } else {
+                comPort.openPort();
+
+                comPort.addDataListener(new SerialPortDataListener() {
+                    @Override
+                    public int getListeningEvents() {
+                        return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
+                    }
+
+                    @Override
+                    public void serialEvent(SerialPortEvent event) {
+                        byte[] newData = event.getReceivedData();
+                        log.debug("Received data of size: {}", newData.length);
+                        for (byte newDatum : newData) {
+                            log.debug(String.valueOf((char) newDatum));
+                        }
+
+                        if (newData.length < 8) {
+                            log.debug("Data too short");
+                        } else {
+                            barcodeBuffer = Arrays.copyOfRange(newData, 0, 9);
+                            String barcodeString = Arrays.toString(new String(barcodeBuffer, StandardCharsets.UTF_8).toCharArray());
+                            String formattedBarcodeString = formatBarcode(barcodeString);
+
+                            log.debug("Formatted Barcode String: {}", formattedBarcodeString);
+                            CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithLizenzNummer(Integer.parseInt(formattedBarcodeString));
+                            CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
+                        }
+                    }
+                });
             }
-
-            comPort.openPort();
-
-            comPort.addDataListener(new SerialPortDataListener() {
-                @Override
-                public int getListeningEvents() {
-                    return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
-                }
-
-                @Override
-                public void serialEvent(SerialPortEvent event) {
-                    byte[] newData = event.getReceivedData();
-                    log.debug("Received data of size: {}", newData.length);
-                    for (byte newDatum : newData) {
-                        log.debug(String.valueOf((char) newDatum));
-                    }
-
-                    if (newData.length < 8) {
-                        log.debug("Data too short");
-                    } else {
-                        barcodeBuffer = Arrays.copyOfRange(newData, 0, 9);
-                        String barcodeString = Arrays.toString(new String(barcodeBuffer, StandardCharsets.UTF_8).toCharArray());
-                        String formattedBarcodeString = formatBarcode(barcodeString);
-
-                        log.debug("Formatted Barcode String: {}", formattedBarcodeString);
-                        CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithLizenzNummer(Integer.parseInt(formattedBarcodeString));
-                        CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
-                    }
-                }
-            });
         } catch (SerialPortInvalidPortException exception) {
             log.error(exception.getMessage());
             EventMessagePanel.addErrorMessage(EventMessages.SCANNER_NOT_CONNECTED);
