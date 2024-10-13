@@ -5,12 +5,14 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "root")
 public class RootDTO {
+    @XmlElement(name = "berchtoldschiessen")
+    private BerchtoldschiessenDTO berchtoldschiessenDTO;
 
 
     public RootDTO() {
     }
 
-    //Class only needed to read data from XML file
     public RootDTO(BerchtoldschiessenDTO berchtoldschiessenDTO) {
+        this.berchtoldschiessenDTO = berchtoldschiessenDTO;
     }
 }
