@@ -26,7 +26,7 @@
 
     <Loggers>
         # Override log level for specified package
-        <Logger name="org.docx4j" level="ERROR"/>
+        <Logger name="org.docx4j" level="FATAL"/>
         <Root level="DEBUG">
             <AppenderRef ref="stdout"/>
             <!--<AppenderRef ref="LogFile"/>-->
