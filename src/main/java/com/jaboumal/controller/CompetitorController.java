@@ -89,8 +89,8 @@ public class CompetitorController {
             XMLService xmlService = new XMLService();
             xmlService.createXml(competitor.getFirstName() + " " + competitor.getLastName(), competitor.getDateOfBirth(), barcode);
 
-            String fileName = xmlService.loadXMLDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
-            PrintService.printDoc(fileName);
+            String pathPrintingFile = xmlService.loadXMLDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
+            PrintService.printDoc(pathPrintingFile);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

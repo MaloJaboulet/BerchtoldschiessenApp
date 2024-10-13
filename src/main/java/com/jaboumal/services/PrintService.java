@@ -15,8 +15,8 @@ import java.io.FileInputStream;
 public class PrintService {
     private static final Logger log = LoggerFactory.getLogger(PrintService.class);
 
-    public static void printDoc(String filename) {
-        File outputFile = new File(filename);
+    public static void printDoc(String pathPrintingFile) {
+        File outputFile = new File(pathPrintingFile);
 
         try {
             PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
