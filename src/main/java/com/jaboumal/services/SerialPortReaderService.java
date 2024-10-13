@@ -1,19 +1,18 @@
 package com.jaboumal.services;
 
+import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortDataListener;
+import com.fazecast.jSerialComm.SerialPortEvent;
 import com.fazecast.jSerialComm.SerialPortInvalidPortException;
 import com.jaboumal.constants.EventMessages;
 import com.jaboumal.controller.CompetitorController;
 import com.jaboumal.dto.CompetitorDTO;
-import com.fazecast.jSerialComm.SerialPort;
-import com.fazecast.jSerialComm.SerialPortDataListener;
-import com.fazecast.jSerialComm.SerialPortEvent;
 import com.jaboumal.gui.EventMessagePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.List;
 
 public class SerialPortReaderService {
     private final static Logger log = LoggerFactory.getLogger(SerialPortReaderService.class);

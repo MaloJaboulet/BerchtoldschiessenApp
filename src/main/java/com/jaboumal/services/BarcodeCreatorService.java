@@ -10,7 +10,9 @@ import uk.org.okapibarcode.output.Java2DRenderer;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Base64;
 
 public class BarcodeCreatorService {

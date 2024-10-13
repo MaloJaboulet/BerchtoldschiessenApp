@@ -1,8 +1,8 @@
 package com.jaboumal.gui;
 
-import com.jaboumal.constants.EventMessages;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.jaboumal.constants.EventMessages;
 
 import javax.swing.*;
 import java.awt.*;

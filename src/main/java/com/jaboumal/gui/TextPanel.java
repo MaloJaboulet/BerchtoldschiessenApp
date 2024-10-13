@@ -1,10 +1,10 @@
 package com.jaboumal.gui;
 
-import com.jaboumal.controller.CompetitorController;
-import com.jaboumal.dto.CompetitorDTO;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import com.jaboumal.controller.CompetitorController;
+import com.jaboumal.dto.CompetitorDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
