@@ -16,13 +16,13 @@ import java.awt.event.ActionListener;
 public class TextPanel extends JPanel {
 
     private static final Logger log = LoggerFactory.getLogger(TextPanel.class);
-    private JLabel lastnameLabel;
-    private JLabel lastnameField;
-    private JLabel firstNameLabel;
-    private JLabel firstNameField;
-    private JLabel shooterNumberLabel;
-    private JLabel shooterNumberField;
-    private JLabel searchLabel;
+    private final JLabel lastnameLabel;
+    private final JLabel lastnameField;
+    private final JLabel firstNameLabel;
+    private final JLabel firstNameField;
+    private final JLabel shooterNumberLabel;
+    private final JLabel shooterNumberField;
+    private final JLabel searchLabel;
     private JTextField searchField;
     private JButton searchButton;
     private CompetitorDTO competitorDTO;
