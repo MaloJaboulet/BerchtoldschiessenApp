@@ -1,7 +1,7 @@
 package com.jaboumal;
 
 import com.jaboumal.controller.CompetitorController;
-import com.jaboumal.gui.MainGui;
+import com.jaboumal.gui.Gui;
 import com.jaboumal.services.ConfigService;
 import com.jaboumal.services.SerialPortReaderService;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -20,7 +20,7 @@ public class BerchtoldApp {
 
         ConfigService.loadConfigFile();
 
-        MainGui gui = new MainGui();
+        Gui gui = new Gui();
         gui.createGui();
 
         CompetitorController competitorController = new CompetitorController();

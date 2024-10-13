@@ -6,12 +6,12 @@ import com.jaboumal.dto.CompetitorDTO;
 import javax.swing.*;
 import java.awt.*;
 
-public class GuiFrame extends JFrame {
+public class MainFrame extends JFrame {
 
     private static MainPanel mainPanel;
 
-    public GuiFrame() throws HeadlessException {
-        GuiFrame.mainPanel = new MainPanel();
+    public MainFrame() throws HeadlessException {
+        MainFrame.mainPanel = new MainPanel();
         mainPanel.setName("mainPanel");
     }
 

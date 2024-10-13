@@ -4,7 +4,7 @@ import com.jaboumal.constants.EventMessages;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.CompetitorSelectionDialog;
 import com.jaboumal.gui.EventMessagePanel;
-import com.jaboumal.gui.GuiFrame;
+import com.jaboumal.gui.MainFrame;
 import com.jaboumal.services.BarcodeCreatorService;
 import com.jaboumal.services.FileReaderService;
 import com.jaboumal.services.PrintService;
@@ -33,12 +33,12 @@ public class CompetitorController {
     public static void addCompetitorDataToFieldsAndShowMessage(CompetitorDTO competitor) {
 
         if (competitor != null) {
-            GuiFrame.addCompetitorDataToFields(competitor);
+            MainFrame.addCompetitorDataToFields(competitor);
             EventMessagePanel.addSuccessMessage(EventMessages.COMPETITOR_FOUND);
 
         } else {
             EventMessagePanel.addErrorMessage(EventMessages.NO_COMPETITOR_FOUND);
-            GuiFrame.addCompetitorDataToFields(null);
+            MainFrame.addCompetitorDataToFields(null);
         }
 
     }

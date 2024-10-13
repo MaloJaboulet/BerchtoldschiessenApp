@@ -22,7 +22,7 @@ public class PrintPanel extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiFrame.createAndPrintStandblatt();
+                MainFrame.createAndPrintStandblatt();
                 EventMessagePanel.addSuccessMessage(EventMessages.PRINT_SUCCESSFUL);
             }
         });

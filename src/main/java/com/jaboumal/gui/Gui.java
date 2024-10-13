@@ -1,8 +1,8 @@
 package com.jaboumal.gui;
 
-public class MainGui {
+public class Gui {
     public void createGui(){
-        GuiFrame gui = new GuiFrame();
+        MainFrame gui = new MainFrame();
 
         gui.createFrame();
     }
