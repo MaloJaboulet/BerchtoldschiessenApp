@@ -63,20 +63,10 @@ public class TextPanel extends JPanel {
 
     private void createSearchTextField() {
         searchField = new TextFieldWithPlaceholder();
-        searchField.setDragEnabled(false);
-        searchField.setFocusTraversalPolicyProvider(false);
-        searchField.setFocusable(true);
-        searchField.setRequestFocusEnabled(true);
-        searchField.setText("Vorname, Nachname, Schützennummer");
-
-        searchField.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                log.debug("Enter pressed on Textfield");
-                searchButton.grabFocus();
-                searchCompetitor();
-            }
+        searchField.addActionListener(_ -> {
+            log.debug("Enter pressed on Textfield");
+            searchButton.grabFocus();
+            searchCompetitor();
         });
     }
 
@@ -99,7 +89,6 @@ public class TextPanel extends JPanel {
         firstNameField.setText("");
         lastnameField.setText("");
         shooterNumberField.setText("");
-        searchField.setText("Vorname, Nachname, Schützennummer");
         this.competitorDTO = null;
         PrintPanel.makePrintButtonDisabled();
     }
