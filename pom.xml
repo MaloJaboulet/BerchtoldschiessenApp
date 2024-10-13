@@ -148,40 +148,28 @@
                 </configuration>
             </plugin>
 
-            <!-- Make this jar executable -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <excludes>
-                        <exclude>**/log4j2-local.xml</exclude>
-                        <exclude>**/config-local.xml</exclude>
-                    </excludes>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                     <archive>
                         <manifest>
-                            <addClasspath>true</addClasspath>
                             <mainClass>com.jaboumal.BerchtoldApp</mainClass>
-                            <classpathPrefix>dependency-jars/</classpathPrefix>
                         </manifest>
                     </archive>
                 </configuration>
-            </plugin>
-
-            <!-- Copy project dependency -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>copy-dependencies</id>
+                        <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>copy-dependencies</goal>
+                            <goal>single</goal>
                         </goals>
                         <configuration>
-                            <!-- exclude junit, we need runtime dependency only -->
-                            <includeScope>runtime</includeScope>
-                            <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+                            <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>
                 </executions>
