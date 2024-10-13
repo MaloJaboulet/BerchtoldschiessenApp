@@ -16,8 +16,8 @@
     </properties>
 
     <scm>
-        <connection>scm:git:git@github:MaloJaboulet/BerchtoldschiessenApp.git</connection>
-        <developerConnection>scm:git:git@github:MaloJaboulet/BerchtoldschiessenApp.git</developerConnection>
+        <connection>scm:git:https://github.com/MaloJaboulet/BerchtoldschiessenApp.git</connection>
+        <developerConnection>scm:git:https://github.com/MaloJaboulet/BerchtoldschiessenApp.git</developerConnection>
         <url>https://github.com/MaloJaboulet/BerchtoldschiessenApp</url>
         <tag>${project.version}</tag>
     </scm>
