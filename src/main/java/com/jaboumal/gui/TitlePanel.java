@@ -13,7 +13,7 @@ public class TitlePanel extends JPanel {
     public TitlePanel() {
         title = new JLabel();
         setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
-        Font titleFont = GuiUtil.getFont(null, -1, 24, title.getFont());
+        Font titleFont = FontUtil.getFont(null, -1, 24, title.getFont());
         if (titleFont != null) title.setFont(titleFont);
         title.setHorizontalAlignment(0);
         title.setHorizontalTextPosition(11);

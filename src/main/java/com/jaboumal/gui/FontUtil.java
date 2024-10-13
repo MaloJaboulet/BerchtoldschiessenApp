@@ -5,7 +5,7 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.util.Locale;
 
-public class GuiUtil {
+public class FontUtil {
     public static Font getFont(String fontName, int style, int size, Font currentFont) {
         if (currentFont == null) return null;
         String resultName;
