@@ -8,11 +8,6 @@
         </Console>
 
         # File appender
-        <!--<File name="LogFile" fileName="berchtoldApp-log4j2.log">
-            # Pattern of log message for file appender
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%p] %m%n"/>
-        </File>-->
-
         <RollingFile name="roll-by-time"
                      fileName="C:/BerchtoldschiessenApp/logging/berchtoldApp-log4j2.log"
                      filePattern="C:/BerchtoldschiessenApp/logging/berchtoldApp-log4j2.%d{MM-dd-yyyy}.log.gz"
@@ -29,7 +24,6 @@
         <Logger name="org.docx4j" level="FATAL"/>
         <Root level="INFO">
             <AppenderRef ref="stdout"/>
-            <!--<AppenderRef ref="LogFile"/>-->
             <AppenderRef ref="roll-by-time"/>
         </Root>
     </Loggers>
