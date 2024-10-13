@@ -33,7 +33,7 @@ public class PrintService {
 
                 pras.add(new JobName(outputFile.getName(), null));
                 //TODO enable printing
-                //job.print(doc, pras);
+                job.print(doc, pras);
                 log.info("Printing file: {}", outputFile.getName());
                 input.close();
                 outputFile.delete();
