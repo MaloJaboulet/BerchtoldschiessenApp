@@ -11,6 +11,7 @@ public class EventMessagePanel extends JPanel {
 
     public EventMessagePanel() {
         eventMessageLabel = new JLabel();
+        eventMessageLabel.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 12, eventMessageLabel.getFont()));
         setLayout(new GridLayoutManager(1, 1, new Insets(0, 50, 20, 0), -1, -1));
         eventMessageLabel.setVisible(false);
         add(eventMessageLabel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));

@@ -30,15 +30,22 @@ public class TextPanel extends JPanel {
     public TextPanel() {
         super(new GridLayoutManager(4, 6, new Insets(0, 50, 0, 0), -1, -1));
         firstNameLabel = new JLabel("Vorname");
+        firstNameLabel.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, firstNameLabel.getFont()));
         firstNameField = new JLabel();
+        firstNameField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, firstNameField.getFont()));
 
         lastnameLabel = new JLabel("Nachname");
+        lastnameLabel.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, lastnameLabel.getFont()));
         lastnameField = new JLabel();
+        lastnameField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, lastnameField.getFont()));
 
         shooterNumberLabel = new JLabel("Schützennummer");
+        shooterNumberLabel.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, shooterNumberLabel.getFont()));
         shooterNumberField = new JLabel();
+        shooterNumberField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, shooterNumberField.getFont()));
 
         searchLabel = new JLabel("Suche");
+        searchLabel.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, searchLabel.getFont()));
         createSearchTextField();
         createSearchButton();
 
@@ -63,6 +70,7 @@ public class TextPanel extends JPanel {
 
     private void createSearchTextField() {
         searchField = new TextFieldWithPlaceholder();
+        searchField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, searchField.getFont()));
         searchField.addActionListener(_ -> {
             log.debug("Enter pressed on Textfield");
             searchButton.grabFocus();
@@ -75,6 +83,7 @@ public class TextPanel extends JPanel {
         searchButton.setSelected(true);
         searchButton.setRequestFocusEnabled(true);
         searchButton.setText("Search");
+        searchButton.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, searchButton.getFont()));
         searchButton.addActionListener(new ActionListener() {
 
             @Override

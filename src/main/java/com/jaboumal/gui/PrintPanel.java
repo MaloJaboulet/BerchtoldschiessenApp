@@ -16,6 +16,7 @@ public class PrintPanel extends JPanel {
     public PrintPanel() {
         printButton = new JButton("Print");
         printButton.setEnabled(false);
+        printButton.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, printButton.getFont()));
         setLayout(new GridLayoutManager(1, 1, new Insets(0, 50, 20, 0), -1, -1));
         add(printButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         printButton.addActionListener(new ActionListener() {
