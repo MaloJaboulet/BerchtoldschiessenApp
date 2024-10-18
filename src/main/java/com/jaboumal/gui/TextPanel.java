@@ -119,6 +119,7 @@ public class TextPanel extends JPanel {
 
     private void searchCompetitor() {
         CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithSearchText(searchField.getText());
-        CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
+        CompetitorController competitorController = new CompetitorController();
+        competitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
     }
 }

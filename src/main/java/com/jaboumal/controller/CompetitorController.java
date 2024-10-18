@@ -30,7 +30,7 @@ public class CompetitorController {
         }
     }
 
-    public static void addCompetitorDataToFieldsAndShowMessage(CompetitorDTO competitor) {
+    public void addCompetitorDataToFieldsAndShowMessage(CompetitorDTO competitor) {
 
         if (competitor != null) {
             MainFrame.addCompetitorDataToFields(competitor);
@@ -43,7 +43,7 @@ public class CompetitorController {
 
     }
 
-    public static CompetitorDTO searchCompetitorWithLizenzNummer(int lizenzNummer) {
+    public CompetitorDTO searchCompetitorWithLizenzNummer(int lizenzNummer) {
         for (CompetitorDTO competitorDTO : competitors) {
             if (competitorDTO.getLizenzNummer() == lizenzNummer) {
                 return competitorDTO;
