@@ -18,6 +18,7 @@ public class FilePaths {
 
     public static final String OUTPUT_DOCX = "OUTPUT_DOCX";
     public static final String INPUT_COMPETITORS = "INPUT_COMPETITORS";
+    public static final String BASE_DIRECTORY = "BASE_DIRECTORY";
 
     private static Map<String, String> paths;
 
@@ -29,11 +30,11 @@ public class FilePaths {
             paths.put(OUTPUT_DOCX, OUTPUT_DOCX_LOCAL);
             paths.put(INPUT_COMPETITORS, INPUT_COMPETITORS_LOCAL);
         } else {
-            String baseDir = System.getProperty("BASE_DIRECTORY");
-            paths.put(INPUT_DOCX, baseDir.concat(System.getProperty("INPUT_DOCX")));
-            paths.put(INPUT_XML, baseDir.concat(System.getProperty("INPUT_XML")));
-            paths.put(OUTPUT_DOCX, baseDir.concat(System.getProperty("OUTPUT_DOCX")));
-            paths.put(INPUT_COMPETITORS, baseDir.concat(System.getProperty("INPUT_COMPETITORS")));
+            String baseDir = System.getProperty(BASE_DIRECTORY);
+            paths.put(INPUT_DOCX, baseDir.concat(System.getProperty(INPUT_DOCX)));
+            paths.put(INPUT_XML, baseDir.concat(System.getProperty(INPUT_XML)));
+            paths.put(OUTPUT_DOCX, baseDir.concat(System.getProperty(OUTPUT_DOCX)));
+            paths.put(INPUT_COMPETITORS, baseDir.concat(System.getProperty(INPUT_COMPETITORS)));
         }
     }
 
