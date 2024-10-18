@@ -19,6 +19,14 @@ import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS_PATH;
 public class FileReaderService {
     private final static Logger log = LoggerFactory.getLogger(FileReaderService.class);
 
+    /**
+     * Reads the competitor file from the specified path and parses its content into a list of CompetitorDTO objects.
+     * Each line of the file is expected to contain four columns: lizenzNummer, firstname, lastname, and dateOfBirth.
+     * If the file is not found, an error message is logged and displayed.
+     *
+     * @return a list of CompetitorDTO objects parsed from the competitor file
+     * @throws IllegalArgumentException if the file does not contain exactly four columns
+     */
     public List<CompetitorDTO> readCompetitorFile() {
         List<CompetitorDTO> competitors = new ArrayList<>();
         try {

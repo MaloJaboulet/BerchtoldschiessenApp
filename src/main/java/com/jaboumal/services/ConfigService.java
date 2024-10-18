@@ -12,12 +12,28 @@ import java.util.Properties;
 
 import static com.jaboumal.constants.FilePaths.*;
 
+/**
+ * The ConfigService class provides methods to load and manage configuration properties
+ * for the application. It handles loading configuration files, setting system properties,
+ * and creating necessary directories.
+ */
 public class ConfigService {
     private static final Logger log = LoggerFactory.getLogger(ConfigService.class);
     public static final String baseDirectory = "C:/BerchtoldschiessenApp/";
     private static final Properties properties = new Properties();
     private static String fileName = baseDirectory.concat("config/config.properties");
 
+    /**
+     * Loads the application's configuration file and sets various system properties.
+     * This method performs the following steps:
+     * - Determines the appropriate configuration file based on the environment setting.
+     * - Creates necessary base directories.
+     * - Attempts to load system properties from the configuration file.
+     * - Copies the default configuration file if the specified file does not exist.
+     * - Logs the configuration details for debugging purposes.
+     *
+     * @throws RuntimeException If an I/O error occurs when creating directories or copying the configuration file.
+     */
     public static void loadConfigFile() {
         if (System.getProperty("app.env") != null && System.getProperty("app.env").toLowerCase().contains("local")) {
             fileName = "src/main/resources/config/config_local.properties";
