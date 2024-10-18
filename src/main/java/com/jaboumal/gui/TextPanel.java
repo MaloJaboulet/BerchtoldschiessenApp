@@ -5,6 +5,8 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import com.jaboumal.controller.CompetitorController;
 import com.jaboumal.dto.CompetitorDTO;
+import com.jaboumal.gui.customComponents.CustomButton;
+import com.jaboumal.gui.customComponents.CustomLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,36 +18,32 @@ import java.awt.event.ActionListener;
 public class TextPanel extends JPanel {
 
     private static final Logger log = LoggerFactory.getLogger(TextPanel.class);
-    private final JLabel lastnameLabel;
-    private final JLabel lastnameField;
-    private final JLabel firstNameLabel;
-    private final JLabel firstNameField;
-    private final JLabel shooterNumberLabel;
-    private final JLabel shooterNumberField;
-    private final JLabel searchLabel;
+    private final CustomLabel lastnameLabel;
+    private final CustomLabel lastnameField;
+    private final CustomLabel firstNameLabel;
+    private final CustomLabel firstNameField;
+    private final CustomLabel shooterNumberLabel;
+    private final CustomLabel shooterNumberField;
+    private final CustomLabel searchLabel;
     private JTextField searchField;
-    private JButton searchButton;
+    private CustomButton searchButton;
     private CompetitorDTO competitorDTO;
 
     public TextPanel() {
         super(new GridLayoutManager(4, 6, new Insets(0, 50, 0, 0), -1, -1));
-        firstNameLabel = new JLabel("Vorname");
-        firstNameLabel.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, firstNameLabel.getFont()));
-        firstNameField = new JLabel();
+        firstNameLabel = new CustomLabel("Vorname");
+        firstNameField = new CustomLabel();
         firstNameField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, firstNameField.getFont()));
 
-        lastnameLabel = new JLabel("Nachname");
-        lastnameLabel.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, lastnameLabel.getFont()));
-        lastnameField = new JLabel();
+        lastnameLabel = new CustomLabel("Nachname");
+        lastnameField = new CustomLabel();
         lastnameField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, lastnameField.getFont()));
 
-        shooterNumberLabel = new JLabel("Schützennummer");
-        shooterNumberLabel.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, shooterNumberLabel.getFont()));
-        shooterNumberField = new JLabel();
+        shooterNumberLabel = new CustomLabel("Schützennummer");
+        shooterNumberField = new CustomLabel();
         shooterNumberField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, shooterNumberField.getFont()));
 
-        searchLabel = new JLabel("Suche");
-        searchLabel.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, searchLabel.getFont()));
+        searchLabel = new CustomLabel("Suche");
         createSearchTextField();
         createSearchButton();
 
@@ -55,7 +53,7 @@ public class TextPanel extends JPanel {
     public void addDateToFields(CompetitorDTO competitorDTO) {
         if (competitorDTO == null) {
             clearDataOfFields();
-        }else {
+        } else {
             firstNameField.setText(competitorDTO.getFirstName());
             lastnameField.setText(competitorDTO.getLastName());
             shooterNumberField.setText(String.valueOf(competitorDTO.getLizenzNummer()));
@@ -70,7 +68,7 @@ public class TextPanel extends JPanel {
 
     private void createSearchTextField() {
         searchField = new TextFieldWithPlaceholder();
-        searchField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, searchField.getFont()));
+        //searchField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, searchField.getFont()));
         searchField.addActionListener(_ -> {
             log.debug("Enter pressed on Textfield");
             searchButton.grabFocus();
@@ -79,11 +77,11 @@ public class TextPanel extends JPanel {
     }
 
     private void createSearchButton() {
-        searchButton = new JButton();
+        searchButton = new CustomButton();
         searchButton.setSelected(true);
         searchButton.setRequestFocusEnabled(true);
         searchButton.setText("Search");
-        searchButton.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, searchButton.getFont()));
+        //searchButton.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, searchButton.getFont()));
         searchButton.addActionListener(new ActionListener() {
 
             @Override
@@ -120,7 +118,7 @@ public class TextPanel extends JPanel {
         add(searchButton, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
     }
 
-    private void searchCompetitor(){
+    private void searchCompetitor() {
         CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithSearchText(searchField.getText());
         CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
     }

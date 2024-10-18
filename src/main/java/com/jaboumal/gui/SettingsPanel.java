@@ -3,6 +3,7 @@ package com.jaboumal.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import com.jaboumal.gui.customComponents.CustomButton;
 import com.jaboumal.services.ConfigService;
 
 import javax.swing.*;
@@ -20,8 +21,7 @@ public class SettingsPanel extends JPanel {
         final Spacer spacer1 = new Spacer();
         add(spacer1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
 
-        JButton button = new JButton("Settings");
-        button.setText("Settings");
+        CustomButton button = new CustomButton("Settings");
         add(button, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         button.addActionListener(new ActionListener() {

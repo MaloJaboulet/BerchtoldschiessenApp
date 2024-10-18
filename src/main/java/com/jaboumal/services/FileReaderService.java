@@ -7,13 +7,14 @@ import com.jaboumal.gui.EventMessagePanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS;
+import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS_PATH;
 
 public class FileReaderService {
     private final static Logger log = LoggerFactory.getLogger(FileReaderService.class);
@@ -21,8 +22,7 @@ public class FileReaderService {
     public List<CompetitorDTO> readCompetitorFile() {
         List<CompetitorDTO> competitors = new ArrayList<>();
         try {
-            FilePaths filePaths = new FilePaths();
-            File competitorFile = new File(filePaths.getPath(INPUT_COMPETITORS));
+            File competitorFile = new File(FilePaths.getPath(INPUT_COMPETITORS_PATH));
             Scanner competitorScanner = new Scanner(competitorFile);//macht einen neuen Scanner
 
 
@@ -58,5 +58,15 @@ public class FileReaderService {
             }
         }
         return values;
+    }
+
+    public static void copyFile(String filePath, String destinationPath) {
+        try (InputStream in = new FileInputStream(filePath)) {
+            File targetFile = new File(destinationPath);
+            Files.copy(in, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }

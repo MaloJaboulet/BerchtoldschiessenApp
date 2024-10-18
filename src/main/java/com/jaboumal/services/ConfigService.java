@@ -45,7 +45,7 @@ public class ConfigService {
             System.setProperty(name, value);
         }
 
-        log.debug("BASE_DIRECTORY: {}", properties.getProperty("BASE_DIRECTORY"));
+        log.debug("BASE_DIRECTORY: {}", properties.getProperty(BASE_DIRECTORY));
         log.debug("INPUT_DOCX: {}", properties.getProperty(INPUT_DOCX));
         log.debug("OUTPUT_DOCX: {}", properties.getProperty(OUTPUT_DOCX));
         log.debug("INPUT_XML: {}", properties.getProperty(INPUT_XML));

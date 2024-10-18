@@ -22,12 +22,10 @@ public class XMLService {
     private static final Logger log = LoggerFactory.getLogger(XMLService.class);
 
     public void createXml(String name, String dateOfBirth, String barcode) throws JAXBException {
-        FilePaths filePaths = new FilePaths();
-
         BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, name);
         RootDTO rootDTO = new RootDTO(berchtoldschiessenDTO);
 
-        File file = new File(filePaths.getPath(INPUT_XML));
+        File file = new File(FilePaths.getPath(INPUT_XML_PATH));
         JAXBContext jaxbContext = JAXBContext.newInstance(RootDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
@@ -39,11 +37,10 @@ public class XMLService {
 
 
     public String loadXMLDataInDocxFile(String competitorName) throws FileNotFoundException, Docx4JException {
-        FilePaths filePaths = new FilePaths();
-        String output_docx = String.format(filePaths.getPath(OUTPUT_DOCX), competitorName);
+        String output_docx = String.format(FilePaths.getPath(OUTPUT_DOCX_PATH), competitorName);
 
-        File inputXml = new File(filePaths.getPath(INPUT_XML));
-        WordprocessingMLPackage wordMLPackage = Docx4J.load(new File(filePaths.getPath(INPUT_DOCX)));
+        File inputXml = new File(FilePaths.getPath(INPUT_XML_PATH));
+        WordprocessingMLPackage wordMLPackage = Docx4J.load(new File(FilePaths.getPath(INPUT_DOCX_PATH)));
         FileInputStream xmlStream = new FileInputStream(inputXml);
         Docx4J.bind(wordMLPackage, xmlStream, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML | Docx4J.FLAG_BIND_REMOVE_SDT);
         Docx4J.save(wordMLPackage, new File(output_docx), Docx4J.FLAG_NONE);

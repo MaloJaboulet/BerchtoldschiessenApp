@@ -1,5 +1,6 @@
 package com.jaboumal;
 
+import com.jaboumal.constants.FilePaths;
 import com.jaboumal.controller.CompetitorController;
 import com.jaboumal.gui.Gui;
 import com.jaboumal.services.ConfigService;
@@ -19,6 +20,7 @@ public class BerchtoldApp {
         printWelcomeMessage();
 
         ConfigService.loadConfigFile();
+        FilePaths.loadPaths();
 
         Gui gui = new Gui();
         gui.createGui();
