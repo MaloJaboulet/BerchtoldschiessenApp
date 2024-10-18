@@ -35,7 +35,7 @@ public class ConfigService {
         if (file.exists()) {
             loadSystemProperties(fileName);
         } else {
-            log.warn("config.yaml in BerchtoldschiessenApp not found. Create a config.yaml file.");
+            log.warn("config.properties in BerchtoldschiessenApp not found. Create a config.properties file.");
             copyConfigFile(fileName);
             loadSystemProperties(fileName);
         }
@@ -77,9 +77,9 @@ public class ConfigService {
         Files.createDirectories(Paths.get(baseDirectory + "output"));
     }
 
-    private static void copyConfigFile(String fileName) {
-        try (InputStream in = BerchtoldApp.class.getResourceAsStream("/config/config.yaml")) {
-            File targetFile = new File(fileName);
+    private static void copyConfigFile(String filePath) {
+        try (InputStream in = BerchtoldApp.class.getResourceAsStream("/config/config.properties")) {
+            File targetFile = new File(filePath);
             Files.copy(in, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             log.error(e.getMessage());
