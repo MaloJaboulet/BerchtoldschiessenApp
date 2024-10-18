@@ -52,20 +52,6 @@ public class ConfigService {
         log.debug("INPUT_COMPETITORS: {}", properties.getProperty(INPUT_COMPETITORS));
     }
 
-    public static void replaceValue(String propertyName, String replacementValue) {
-        properties.setProperty(propertyName, replacementValue);
-
-        log.info("Property {} with value {} updated.", propertyName, replacementValue);
-        try {
-            FileOutputStream fos = new FileOutputStream(fileName);
-            properties.store(fos, "Update properties");
-            fos.close();
-        } catch (IOException ex) {
-            log.error(ex.getMessage(), ex);
-        }
-
-    }
-
     public static String getProperty(String propertyName) {
         return properties.getProperty(propertyName);
     }

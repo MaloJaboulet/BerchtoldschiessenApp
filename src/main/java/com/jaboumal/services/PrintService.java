@@ -32,7 +32,6 @@ public class PrintService {
 
 
                 pras.add(new JobName(outputFile.getName(), null));
-                //TODO enable printing
                 job.print(doc, pras);
                 log.info("Printing file: {}", outputFile.getName());
                 input.close();
@@ -42,7 +41,5 @@ public class PrintService {
         } catch (Exception e) {
             log.error("Failed to print file: {}", outputFile.getName(), e);
         }
-
-
     }
 }
