@@ -3,17 +3,18 @@ package com.jaboumal.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import com.jaboumal.gui.customComponents.CustomLabel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class TitlePanel extends JPanel {
-    private final JLabel title;
+    private final CustomLabel title;
 
     public TitlePanel() {
-        title = new JLabel();
+        title = new CustomLabel();
         setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
-        Font titleFont = FontUtil.getFont(null, -1, 24, title.getFont());
+        Font titleFont = FontUtil.getFont("Segoe UI", Font.BOLD, 24, title.getFont());
         if (titleFont != null) title.setFont(titleFont);
         title.setHorizontalAlignment(0);
         title.setHorizontalTextPosition(11);

@@ -13,31 +13,40 @@ public class FilePaths {
     private static final String INPUT_COMPETITORS_LOCAL = "src/main/resources/input/competitors.csv";
 
     public static final String INPUT_DOCX = "INPUT_DOCX";
+    public static final String INPUT_DOCX_PATH = "INPUT_DOCX_PATH";
 
     public static final String INPUT_XML = "INPUT_XML";
+    public static final String INPUT_XML_PATH = "INPUT_XML_PATH";
 
     public static final String OUTPUT_DOCX = "OUTPUT_DOCX";
+    public static final String OUTPUT_DOCX_PATH = "OUTPUT_DOCX_PATH";
     public static final String INPUT_COMPETITORS = "INPUT_COMPETITORS";
+    public static final String INPUT_COMPETITORS_PATH = "INPUT_COMPETITORS_PATH";
+    public static final String BASE_DIRECTORY = "BASE_DIRECTORY";
+    public static final String INPUT_FOLDER = "INPUT_FOLDER";
+    public static final String OUTPUT_FOLDER = "OUTPUT_FOLDER";
 
     private static Map<String, String> paths;
 
-    public FilePaths() {
+    public static void loadPaths() {
         paths = new HashMap<>();
         if (System.getProperty("app.env").toLowerCase().contains("local")) {
-            paths.put(INPUT_DOCX, INPUT_DOCX_LOCAL);
-            paths.put(INPUT_XML, INPUT_XML_LOCAL);
-            paths.put(OUTPUT_DOCX, OUTPUT_DOCX_LOCAL);
-            paths.put(INPUT_COMPETITORS, INPUT_COMPETITORS_LOCAL);
+            paths.put(INPUT_DOCX_PATH, INPUT_DOCX_LOCAL);
+            paths.put(INPUT_XML_PATH, INPUT_XML_LOCAL);
+            paths.put(OUTPUT_DOCX_PATH, OUTPUT_DOCX_LOCAL);
+            paths.put(INPUT_COMPETITORS_PATH, INPUT_COMPETITORS_LOCAL);
         } else {
-            String baseDir = System.getProperty("BASE_DIRECTORY");
-            paths.put(INPUT_DOCX, baseDir.concat(System.getProperty("INPUT_DOCX")));
-            paths.put(INPUT_XML, baseDir.concat(System.getProperty("INPUT_XML")));
-            paths.put(OUTPUT_DOCX, baseDir.concat(System.getProperty("OUTPUT_DOCX")));
-            paths.put(INPUT_COMPETITORS, baseDir.concat(System.getProperty("INPUT_COMPETITORS")));
+            String baseDir = System.getProperty(BASE_DIRECTORY);
+            String inputDir = System.getProperty(INPUT_FOLDER);
+            String outputDir = System.getProperty(OUTPUT_FOLDER);
+            paths.put(INPUT_DOCX_PATH, baseDir.concat(System.getProperty(INPUT_DOCX)));
+            paths.put(INPUT_XML_PATH, baseDir.concat(outputDir.concat(System.getProperty(INPUT_XML))));
+            paths.put(OUTPUT_DOCX_PATH, baseDir.concat(outputDir.concat(System.getProperty(OUTPUT_DOCX))));
+            paths.put(INPUT_COMPETITORS_PATH, baseDir.concat(inputDir.concat(System.getProperty(INPUT_COMPETITORS))));
         }
     }
 
-    public String getPath(String filename) {
+    public static String getPath(String filename) {
         return paths.get(filename);
     }
 }

@@ -3,6 +3,7 @@ package com.jaboumal.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.jaboumal.constants.EventMessages;
+import com.jaboumal.gui.customComponents.CustomButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,10 +12,10 @@ import java.awt.event.ActionListener;
 
 public class PrintPanel extends JPanel {
 
-    private static JButton printButton;
+    private static CustomButton printButton;
 
     public PrintPanel() {
-        printButton = new JButton("Print");
+        printButton = new CustomButton("Print");
         printButton.setEnabled(false);
         setLayout(new GridLayoutManager(1, 1, new Insets(0, 50, 20, 0), -1, -1));
         add(printButton, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));

@@ -1,5 +1,6 @@
 package com.jaboumal.services;
 
+import com.jaboumal.constants.FilePaths;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.EventMessagePanel;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,12 +29,15 @@ class FileReaderServiceTest {
     void setUp() {
         fileReaderService = new FileReaderService();
         String baseDir = "src/test/resources/";
-        System.setProperty("BASE_DIRECTORY", baseDir);
-        System.setProperty(INPUT_COMPETITORS, "input/competitors.csv");
+        System.setProperty(BASE_DIRECTORY, baseDir);
+        System.setProperty(INPUT_FOLDER, "input/");
+        System.setProperty(OUTPUT_FOLDER, "output/");
+        System.setProperty(INPUT_COMPETITORS, "competitors.csv");
         System.setProperty(INPUT_DOCX, "Berchtoldschiessen_test2.docx");
-        System.setProperty(INPUT_XML, "output/data_output.xml");
-        System.setProperty(OUTPUT_DOCX, "output/Berchtoldschiessen_%s.docx");
+        System.setProperty(INPUT_XML, "data_output.xml");
+        System.setProperty(OUTPUT_DOCX, "Berchtoldschiessen_%s.docx");
         System.setProperty("app.env", "test");
+        FilePaths.loadPaths();
     }
 
     @Test
@@ -60,6 +64,7 @@ class FileReaderServiceTest {
     @Test
     void noFile_readCompetitorFile_emptyList() {
         System.setProperty(INPUT_COMPETITORS, "blablabla");
+        FilePaths.loadPaths();
         assertDoesNotThrow(() -> {
             List<CompetitorDTO> result = fileReaderService.readCompetitorFile();
 
@@ -70,7 +75,8 @@ class FileReaderServiceTest {
 
     @Test
     void wrongFileLayout_readCompetitorFile_throwException() {
-        System.setProperty(INPUT_COMPETITORS, "input/competitors_wrong.csv");
+        System.setProperty(INPUT_COMPETITORS, "competitors_wrong.csv");
+        FilePaths.loadPaths();
         Throwable throwable = assertThrows(IllegalArgumentException.class, () -> fileReaderService.readCompetitorFile());
         assertEquals("competitor.csv does not contain 4 columns.", throwable.getMessage());
     }

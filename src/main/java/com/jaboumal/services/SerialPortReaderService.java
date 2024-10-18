@@ -22,13 +22,16 @@ public class SerialPortReaderService {
         log.debug(Arrays.toString(SerialPort.getCommPorts()));
 
         try {
-            SerialPort comPort = SerialPort.getCommPort("COM6");
+            SerialPort comPort = null;
 
-            boolean scannerPortFound = Arrays.stream(SerialPort.getCommPorts())
-                    .anyMatch(serialPort -> serialPort.getSystemPortName().equals("COM6"));
+            for (SerialPort serialPort : SerialPort.getCommPorts()) {
+                if (serialPort.getSystemPortName().equals("COM6") || serialPort.getManufacturer().contains("Honeywell")) {
+                    comPort = serialPort;
+                    break;
+                }
+            }
 
-
-            if (!scannerPortFound) {
+            if (comPort == null) {
                 log.error(EventMessages.SCANNER_NOT_CONNECTED);
                 EventMessagePanel.addErrorMessage(EventMessages.SCANNER_NOT_CONNECTED);
             } else {

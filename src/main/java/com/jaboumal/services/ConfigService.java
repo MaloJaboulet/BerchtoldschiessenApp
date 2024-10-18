@@ -4,10 +4,7 @@ import com.jaboumal.BerchtoldApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -18,16 +15,13 @@ import static com.jaboumal.constants.FilePaths.*;
 public class ConfigService {
     private static final Logger log = LoggerFactory.getLogger(ConfigService.class);
     public static final String baseDirectory = "C:/BerchtoldschiessenApp/";
+    private static final Properties properties = new Properties();
+    private static String fileName = baseDirectory.concat("config/config.properties");
 
     public static void loadConfigFile() {
-        Properties prop = new Properties();
-        String fileName;
-
         if (System.getProperty("app.env") != null && System.getProperty("app.env").toLowerCase().contains("local")) {
-            fileName = "src/main/resources/config/config_local.yaml";
+            fileName = "src/main/resources/config/config_local.properties";
 
-        } else {
-            fileName = baseDirectory.concat("config/config.yaml");
         }
 
         try {
@@ -39,22 +33,41 @@ public class ConfigService {
 
         File file = new File(fileName);
         if (file.exists()) {
-            loadSystemProperties(fileName, prop);
+            loadSystemProperties(fileName);
         } else {
             log.warn("config.yaml in BerchtoldschiessenApp not found. Create a config.yaml file.");
             copyConfigFile(fileName);
-            loadSystemProperties(fileName, prop);
+            loadSystemProperties(fileName);
         }
 
-        for (String name : prop.stringPropertyNames()) {
-            String value = prop.getProperty(name);
+        for (String name : properties.stringPropertyNames()) {
+            String value = properties.getProperty(name);
             System.setProperty(name, value);
         }
-        log.debug("BASE_DIRECTORY: {}", prop.getProperty("BASE_DIRECTORY"));
-        log.debug("INPUT_DOCX: {}", prop.getProperty(INPUT_DOCX));
-        log.debug("OUTPUT_DOCX: {}", prop.getProperty(OUTPUT_DOCX));
-        log.debug("INPUT_XML: {}", prop.getProperty(INPUT_XML));
-        log.debug("INPUT_COMPETITORS: {}", prop.getProperty(INPUT_COMPETITORS));
+
+        log.debug("BASE_DIRECTORY: {}", properties.getProperty(BASE_DIRECTORY));
+        log.debug("INPUT_DOCX: {}", properties.getProperty(INPUT_DOCX));
+        log.debug("OUTPUT_DOCX: {}", properties.getProperty(OUTPUT_DOCX));
+        log.debug("INPUT_XML: {}", properties.getProperty(INPUT_XML));
+        log.debug("INPUT_COMPETITORS: {}", properties.getProperty(INPUT_COMPETITORS));
+    }
+
+    public static void replaceValue(String propertyName, String replacementValue) {
+        properties.setProperty(propertyName, replacementValue);
+
+        log.info("Property {} with value {} updated.", propertyName, replacementValue);
+        try {
+            FileOutputStream fos = new FileOutputStream(fileName);
+            properties.store(fos, "Update properties");
+            fos.close();
+        } catch (IOException ex) {
+            log.error(ex.getMessage(), ex);
+        }
+
+    }
+
+    public static String getProperty(String propertyName) {
+        return properties.getProperty(propertyName);
     }
 
     private static void createBaseDirectories() throws IOException {
@@ -74,9 +87,9 @@ public class ConfigService {
         }
     }
 
-    private static void loadSystemProperties(String fileName, Properties prop) {
+    private static void loadSystemProperties(String fileName) {
         try (FileInputStream fis = new FileInputStream(fileName)) {
-            prop.load(fis);
+            properties.load(fis);
         } catch (IOException ex) {
             log.error(ex.getMessage(), ex);
         }
