@@ -15,9 +15,19 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Base64;
 
+/**
+ * Service class for creating barcodes based on a given Schuetzen number.
+ */
 public class BarcodeCreatorService {
     private static final Logger log = LoggerFactory.getLogger(BarcodeCreatorService.class);
 
+    /**
+     * Generates a barcode for the given Schuetzen number, converts it to a Base64-encoded string.
+     *
+     * @param schuetzenNummer the Schuetzen number for which the barcode is to be created
+     * @return a Base64-encoded string representation of the generated barcode image
+     * @throws UncheckedIOException if an I/O error occurs during barcode image creation
+     */
     public String createBarcode(int schuetzenNummer) {
 
         int newSchuetzenNummer = ((schuetzenNummer + 10_000_000) * 100);

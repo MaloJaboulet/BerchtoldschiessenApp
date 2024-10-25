@@ -18,6 +18,12 @@ public class SerialPortReaderService {
     private final static Logger log = LoggerFactory.getLogger(SerialPortReaderService.class);
     static byte[] barcodeBuffer = new byte[9];
 
+    private final CompetitorController competitorController;
+
+    public SerialPortReaderService(CompetitorController competitorController) {
+        this.competitorController = competitorController;
+    }
+
     public void createSerialPortReader() {
         log.debug(Arrays.toString(SerialPort.getCommPorts()));
 
@@ -59,8 +65,8 @@ public class SerialPortReaderService {
                             String formattedBarcodeString = formatBarcode(barcodeString);
 
                             log.debug("Formatted Barcode String: {}", formattedBarcodeString);
-                            CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithLizenzNummer(Integer.parseInt(formattedBarcodeString));
-                            CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
+                            CompetitorDTO competitorDTO = competitorController.searchCompetitorWithLizenzNummer(Integer.parseInt(formattedBarcodeString));
+                            competitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
                         }
                     }
                 });

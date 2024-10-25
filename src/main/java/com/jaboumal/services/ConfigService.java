@@ -12,12 +12,28 @@ import java.util.Properties;
 
 import static com.jaboumal.constants.FilePaths.*;
 
+/**
+ * The ConfigService class provides methods to load and manage configuration properties
+ * for the application. It handles loading configuration files, setting system properties,
+ * and creating necessary directories.
+ */
 public class ConfigService {
     private static final Logger log = LoggerFactory.getLogger(ConfigService.class);
     public static final String baseDirectory = "C:/BerchtoldschiessenApp/";
     private static final Properties properties = new Properties();
     private static String fileName = baseDirectory.concat("config/config.properties");
 
+    /**
+     * Loads the application's configuration file and sets various system properties.
+     * This method performs the following steps:
+     * - Determines the appropriate configuration file based on the environment setting.
+     * - Creates necessary base directories.
+     * - Attempts to load system properties from the configuration file.
+     * - Copies the default configuration file if the specified file does not exist.
+     * - Logs the configuration details for debugging purposes.
+     *
+     * @throws RuntimeException If an I/O error occurs when creating directories or copying the configuration file.
+     */
     public static void loadConfigFile() {
         if (System.getProperty("app.env") != null && System.getProperty("app.env").toLowerCase().contains("local")) {
             fileName = "src/main/resources/config/config_local.properties";
@@ -35,7 +51,7 @@ public class ConfigService {
         if (file.exists()) {
             loadSystemProperties(fileName);
         } else {
-            log.warn("config.yaml in BerchtoldschiessenApp not found. Create a config.yaml file.");
+            log.warn("config.properties in BerchtoldschiessenApp not found. Create a config.properties file.");
             copyConfigFile(fileName);
             loadSystemProperties(fileName);
         }
@@ -52,20 +68,6 @@ public class ConfigService {
         log.debug("INPUT_COMPETITORS: {}", properties.getProperty(INPUT_COMPETITORS));
     }
 
-    public static void replaceValue(String propertyName, String replacementValue) {
-        properties.setProperty(propertyName, replacementValue);
-
-        log.info("Property {} with value {} updated.", propertyName, replacementValue);
-        try {
-            FileOutputStream fos = new FileOutputStream(fileName);
-            properties.store(fos, "Update properties");
-            fos.close();
-        } catch (IOException ex) {
-            log.error(ex.getMessage(), ex);
-        }
-
-    }
-
     public static String getProperty(String propertyName) {
         return properties.getProperty(propertyName);
     }
@@ -77,9 +79,9 @@ public class ConfigService {
         Files.createDirectories(Paths.get(baseDirectory + "output"));
     }
 
-    private static void copyConfigFile(String fileName) {
-        try (InputStream in = BerchtoldApp.class.getResourceAsStream("/config/config.yaml")) {
-            File targetFile = new File(fileName);
+    private static void copyConfigFile(String filePath) {
+        try (InputStream in = BerchtoldApp.class.getResourceAsStream("/config/config.properties")) {
+            File targetFile = new File(filePath);
             Files.copy(in, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             log.error(e.getMessage());

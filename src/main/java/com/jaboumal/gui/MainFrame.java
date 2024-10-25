@@ -35,32 +35,6 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    public void setFont(){
-        //Font labelFont = FontUtil.getFont("Segoe UI", Font.PLAIN, 14,null);
-        Font labelFont = new Font("Serif", Font.BOLD, 28);
-        System.out.println(UIManager.getFont("Label.font").toString());
-        //UIManager.put("Label.font", new FontUIResource(labelFont));
-
-
-
-        /*UIDefaults defaults = UIManager.getDefaults();
-        Enumeration<Object> keysEnumeration = defaults.keys();
-        ArrayList<Object> keysList = Collections.list(keysEnumeration);
-        for (Object key : keysList)
-        {
-            System.out.println(key);
-        }*/
-
-       Enumeration<Object> keys = UIManager.getDefaults().keys();
-        while (keys.hasMoreElements()) {
-            Object key = keys.nextElement();
-            Object value = UIManager.get (key);
-            if (value instanceof javax.swing.plaf.FontUIResource)
-                UIManager.put (key, new FontUIResource(labelFont));
-        }
-        System.out.println(UIManager.getFont("Label.font").toString());
-    }
-
     public static void addCompetitorDataToFields(CompetitorDTO competitorDTO) {
         mainPanel.addCompetitorDataToFields(competitorDTO);
     }

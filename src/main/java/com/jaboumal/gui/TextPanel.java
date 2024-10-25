@@ -81,7 +81,6 @@ public class TextPanel extends JPanel {
         searchButton.setSelected(true);
         searchButton.setRequestFocusEnabled(true);
         searchButton.setText("Search");
-        //searchButton.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, searchButton.getFont()));
         searchButton.addActionListener(new ActionListener() {
 
             @Override
@@ -120,6 +119,7 @@ public class TextPanel extends JPanel {
 
     private void searchCompetitor() {
         CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithSearchText(searchField.getText());
-        CompetitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
+        CompetitorController competitorController = new CompetitorController();
+        competitorController.addCompetitorDataToFieldsAndShowMessage(competitorDTO);
     }
 }
