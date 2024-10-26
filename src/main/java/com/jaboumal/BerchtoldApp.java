@@ -2,7 +2,6 @@ package com.jaboumal;
 
 import com.jaboumal.constants.FilePaths;
 import com.jaboumal.controller.CompetitorController;
-import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.Gui;
 import com.jaboumal.services.ConfigService;
 import com.jaboumal.services.SerialPortReaderService;

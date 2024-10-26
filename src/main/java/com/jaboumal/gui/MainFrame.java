@@ -4,9 +4,7 @@ import com.jaboumal.controller.CompetitorController;
 import com.jaboumal.dto.CompetitorDTO;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import java.awt.*;
-import java.util.Enumeration;
 
 public class MainFrame extends JFrame {
 
