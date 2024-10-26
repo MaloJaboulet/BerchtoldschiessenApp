@@ -15,6 +15,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * TextPanel class
+ * This class is a JPanel that contains the text fields for the competitor data.
+ *
+ * @author Malo Jaboulet
+ */
 public class TextPanel extends JPanel {
 
     private static final Logger log = LoggerFactory.getLogger(TextPanel.class);
@@ -29,6 +35,10 @@ public class TextPanel extends JPanel {
     private CustomButton searchButton;
     private CompetitorDTO competitorDTO;
 
+    /**
+     * Constructor
+     * This constructor creates the TextPanel and initializes the components.
+     */
     public TextPanel() {
         super(new GridLayoutManager(4, 6, new Insets(0, 50, 0, 0), -1, -1));
         firstNameLabel = new CustomLabel("Vorname");
@@ -50,6 +60,11 @@ public class TextPanel extends JPanel {
         addComponentsToPanel();
     }
 
+    /**
+     * This method adds the competitor data to the text fields.
+     *
+     * @param competitorDTO The competitor data to add to the text fields.
+     */
     public void addDateToFields(CompetitorDTO competitorDTO) {
         if (competitorDTO == null) {
             clearDataOfFields();
@@ -62,13 +77,20 @@ public class TextPanel extends JPanel {
         }
     }
 
+    /**
+     * This method returns the competitor data from the text fields.
+     *
+     * @return The competitor data from the text fields.
+     */
     public CompetitorDTO getCompetitorData() {
         return competitorDTO;
     }
 
+    /**
+     * This method creates the search text field.
+     */
     private void createSearchTextField() {
         searchField = new TextFieldWithPlaceholder();
-        //searchField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, searchField.getFont()));
         searchField.addActionListener(_ -> {
             log.debug("Enter pressed on Textfield");
             searchButton.grabFocus();
@@ -76,6 +98,9 @@ public class TextPanel extends JPanel {
         });
     }
 
+    /**
+     * This method creates the search button.
+     */
     private void createSearchButton() {
         searchButton = new CustomButton();
         searchButton.setSelected(true);
@@ -91,6 +116,9 @@ public class TextPanel extends JPanel {
         });
     }
 
+    /**
+     * This method clears the data of the text fields.
+     */
     public void clearDataOfFields() {
         firstNameField.setText("");
         lastnameField.setText("");
@@ -99,6 +127,9 @@ public class TextPanel extends JPanel {
         PrintPanel.makePrintButtonDisabled();
     }
 
+    /**
+     * This method adds the components to the panel.
+     */
     private void addComponentsToPanel() {
         add(firstNameLabel, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         add(firstNameField, new GridConstraints(0, 2, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -117,6 +148,9 @@ public class TextPanel extends JPanel {
         add(searchButton, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
     }
 
+    /**
+     * This method searches for a competitor with the search text.
+     */
     private void searchCompetitor() {
         CompetitorDTO competitorDTO = CompetitorController.searchCompetitorWithSearchText(searchField.getText());
         CompetitorController competitorController = new CompetitorController();

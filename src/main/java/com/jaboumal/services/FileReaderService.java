@@ -16,6 +16,11 @@ import java.util.Scanner;
 
 import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS_PATH;
 
+/**
+ * Service class for reading files
+ *
+ * @author Malo Jaboulet
+ */
 public class FileReaderService {
     private final static Logger log = LoggerFactory.getLogger(FileReaderService.class);
 
@@ -57,6 +62,12 @@ public class FileReaderService {
         return competitors;
     }
 
+    /**
+     * Parses a line of a CSV file into a list of strings.
+     *
+     * @param line the line to parse
+     * @return a list of strings representing the columns of the CSV file
+     */
     private List<String> getRecordFromLine(String line) {
         List<String> values = new ArrayList<>();
         try (Scanner rowScanner = new Scanner(line)) {
@@ -68,6 +79,12 @@ public class FileReaderService {
         return values;
     }
 
+    /**
+     * Copies a file from the specified path to the specified destination path.
+     *
+     * @param filePath        the path of the file to copy
+     * @param destinationPath the path of the destination file
+     */
     public static void copyFile(String filePath, String destinationPath) {
         try (InputStream in = new FileInputStream(filePath)) {
             File targetFile = new File(destinationPath);

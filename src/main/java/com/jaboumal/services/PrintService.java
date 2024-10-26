@@ -12,9 +12,19 @@ import javax.print.attribute.standard.JobName;
 import java.io.File;
 import java.io.FileInputStream;
 
+/**
+ * Service class for printing files
+ *
+ * @author Malo Jaboulet
+ */
 public class PrintService {
     private static final Logger log = LoggerFactory.getLogger(PrintService.class);
 
+    /**
+     * Print the file at the given path
+     *
+     * @param pathPrintingFile the path of the file to print
+     */
     public static void printDoc(String pathPrintingFile) {
         File outputFile = new File(pathPrintingFile);
 

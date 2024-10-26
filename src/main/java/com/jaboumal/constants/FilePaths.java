@@ -3,6 +3,12 @@ package com.jaboumal.constants;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class is used to store the file paths of the input and output files.
+ * The paths are stored in a map and can be accessed by the key.
+ *
+ * @author Malo Jaboulet
+ */
 public class FilePaths {
     public static final String BARCODE_INPUT = "src/main/resources/output/barcode.png";
     private static final String INPUT_DOCX_LOCAL = "src/main/resources/Berchtoldschiessen_test2.docx";
@@ -28,6 +34,9 @@ public class FilePaths {
 
     private static Map<String, String> paths;
 
+    /**
+     * Load the paths of the input and output files.
+     */
     public static void loadPaths() {
         paths = new HashMap<>();
         if (System.getProperty("app.env").toLowerCase().contains("local")) {
@@ -46,6 +55,12 @@ public class FilePaths {
         }
     }
 
+    /**
+     * Get the path of the file with the given filename.
+     *
+     * @param filename the name of the file
+     * @return the path of the file
+     */
     public static String getPath(String filename) {
         return paths.get(filename);
     }

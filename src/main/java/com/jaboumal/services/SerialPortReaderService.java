@@ -14,6 +14,12 @@ import org.slf4j.LoggerFactory;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
+/**
+ * Service class for reading the serial port
+ *
+ * @author Malo Jaboulet
+ * @since 26.10.2024
+ */
 public class SerialPortReaderService {
     private final static Logger log = LoggerFactory.getLogger(SerialPortReaderService.class);
     static byte[] barcodeBuffer = new byte[9];
@@ -24,6 +30,9 @@ public class SerialPortReaderService {
         this.competitorController = competitorController;
     }
 
+    /**
+     * Create a serial port reader
+     */
     public void createSerialPortReader() {
         log.debug(Arrays.toString(SerialPort.getCommPorts()));
 
@@ -77,6 +86,12 @@ public class SerialPortReaderService {
         }
     }
 
+    /**
+     * Format the barcode
+     *
+     * @param barcode the barcode to format
+     * @return the formatted barcode
+     */
     public String formatBarcode(String barcode) {
         String formattedBarcode = barcode;
         formattedBarcode = formattedBarcode.replaceAll("[A-Za-z]", "");

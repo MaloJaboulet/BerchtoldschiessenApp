@@ -19,6 +19,8 @@ import static com.jaboumal.constants.FilePaths.*;
  * The ConfigService class provides methods to load and manage configuration properties
  * for the application. It handles loading configuration files, setting system properties,
  * and creating necessary directories.
+ *
+ * @author Malo Jaboulet
  */
 public class ConfigService {
     private static final Logger log = LoggerFactory.getLogger(ConfigService.class);
@@ -71,10 +73,21 @@ public class ConfigService {
         log.debug("INPUT_COMPETITORS: {}", properties.getProperty(INPUT_COMPETITORS));
     }
 
+    /**
+     * Retrieves the value of a property from the configuration file.
+     *
+     * @param propertyName the name of the property to retrieve
+     * @return the value of the property
+     */
     public static String getProperty(String propertyName) {
         return properties.getProperty(propertyName);
     }
 
+    /**
+     * Creates the base directories for the application.
+     *
+     * @throws IOException if an I/O error occurs when creating the directories
+     */
     private static void createBaseDirectories() throws IOException {
         Files.createDirectories(Paths.get(baseDirectory));
         Files.createDirectories(Paths.get(baseDirectory + "config"));
@@ -82,6 +95,11 @@ public class ConfigService {
         Files.createDirectories(Paths.get(baseDirectory + "output"));
     }
 
+    /**
+     * Copies the default configuration file to the specified path.
+     *
+     * @param filePath the path of the configuration file to create
+     */
     private static void copyConfigFile(String filePath) {
         try (InputStream in = BerchtoldApp.class.getResourceAsStream("/config/config.properties")) {
             File targetFile = new File(filePath);
@@ -92,6 +110,11 @@ public class ConfigService {
         }
     }
 
+    /**
+     * Loads system properties from the specified file.
+     *
+     * @param fileName the name of the file to load
+     */
     private static void loadSystemProperties(String fileName) {
         try (FileInputStream fis = new FileInputStream(fileName)) {
             properties.load(fis);

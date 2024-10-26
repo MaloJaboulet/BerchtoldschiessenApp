@@ -17,6 +17,8 @@ import java.util.Base64;
 
 /**
  * Service class for creating barcodes based on a given Schuetzen number.
+ *
+ * @author Malo Jaboulet
  */
 public class BarcodeCreatorService {
     private static final Logger log = LoggerFactory.getLogger(BarcodeCreatorService.class);
@@ -45,6 +47,12 @@ public class BarcodeCreatorService {
         }
     }
 
+    /**
+     * Creates a barcode image for the given Schuetzen number.
+     *
+     * @param schuetzenNummer the Schuetzen number for which the barcode is to be created
+     * @return a BufferedImage representation of the generated barcode image
+     */
     private BufferedImage createBarcodeImage(int schuetzenNummer) {
         Code128 barcode = new Code128();
         barcode.setFontName("Monospaced");

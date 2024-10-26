@@ -1,5 +1,10 @@
 package com.jaboumal.constants;
 
+/**
+ * This class is used to store the messages that are displayed to the user.
+ *
+ * @author Malo Jaboulet
+ */
 public class EventMessages {
 
     public static final String NO_COMPETITOR_FOUND = "Kein Teilnehmer gefunden. Teilnehmer über die Suchfunktion suchen oder ein neuer Teilnehmer erstellen.";

@@ -14,8 +14,18 @@ import java.awt.event.ActionListener;
 import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS;
 import static com.jaboumal.constants.FilePaths.INPUT_DOCX;
 
+
+/**
+ * SettingsPanel class is responsible for creating the settings panel
+ * in the main window.
+ *
+ * @author Malo Jaboulet
+ */
 public class SettingsPanel extends JPanel {
 
+    /**
+     * Creates the settings panel.
+     */
     public void createSettingsPanel() {
         setLayout(new GridLayoutManager(1, 2, new Insets(0, 0, 20, 30), -1, -1));
         final Spacer spacer1 = new Spacer();

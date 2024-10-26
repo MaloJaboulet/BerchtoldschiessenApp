@@ -5,7 +5,22 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.util.Locale;
 
+/**
+ * This class is responsible for the font of the application.
+ * It contains the method to get the font.
+ *
+ * @author Malo Jaboulet
+ */
 public class FontUtil {
+    /**
+     * Method to get the font.
+     *
+     * @param fontName    the name of the font
+     * @param style       the style of the font
+     * @param size        the size of the font
+     * @param currentFont the current font
+     * @return the font
+     */
     public static Font getFont(String fontName, int style, int size, Font currentFont) {
         if (currentFont == null) return null;
         String resultName;
