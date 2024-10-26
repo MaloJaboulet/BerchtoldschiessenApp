@@ -17,6 +17,7 @@ public class FilePaths {
 
     private static final String OUTPUT_DOCX_LOCAL = "src/main/resources/output/Berchtoldschiessen_%s.docx";
     private static final String INPUT_COMPETITORS_LOCAL = "src/main/resources/input/competitors.csv";
+    private static final String OUTPUT_PRINT_RECORD_LOCAL = "src/main/resources/output/print_record_%s.csv";
 
     public static final String INPUT_DOCX = "INPUT_DOCX";
     public static final String INPUT_DOCX_PATH = "INPUT_DOCX_PATH";
@@ -26,11 +27,17 @@ public class FilePaths {
 
     public static final String OUTPUT_DOCX = "OUTPUT_DOCX";
     public static final String OUTPUT_DOCX_PATH = "OUTPUT_DOCX_PATH";
+
     public static final String INPUT_COMPETITORS = "INPUT_COMPETITORS";
     public static final String INPUT_COMPETITORS_PATH = "INPUT_COMPETITORS_PATH";
+
+    public static final String OUTPUT_PRINT_RECORD = "OUTPUT_PRINT_RECORD";
+    public static final String OUTPUT_PRINT_RECORD_PATH = "OUTPUT_PRINT_RECORD_PATH";
+
     public static final String BASE_DIRECTORY = "BASE_DIRECTORY";
     public static final String INPUT_FOLDER = "INPUT_FOLDER";
     public static final String OUTPUT_FOLDER = "OUTPUT_FOLDER";
+
 
     private static Map<String, String> paths;
 
@@ -44,6 +51,7 @@ public class FilePaths {
             paths.put(INPUT_XML_PATH, INPUT_XML_LOCAL);
             paths.put(OUTPUT_DOCX_PATH, OUTPUT_DOCX_LOCAL);
             paths.put(INPUT_COMPETITORS_PATH, INPUT_COMPETITORS_LOCAL);
+            paths.put(OUTPUT_PRINT_RECORD_PATH, OUTPUT_PRINT_RECORD_LOCAL);
         } else {
             String baseDir = System.getProperty(BASE_DIRECTORY);
             String inputDir = System.getProperty(INPUT_FOLDER);
@@ -52,6 +60,7 @@ public class FilePaths {
             paths.put(INPUT_XML_PATH, baseDir.concat(outputDir.concat(System.getProperty(INPUT_XML))));
             paths.put(OUTPUT_DOCX_PATH, baseDir.concat(outputDir.concat(System.getProperty(OUTPUT_DOCX))));
             paths.put(INPUT_COMPETITORS_PATH, baseDir.concat(inputDir.concat(System.getProperty(INPUT_COMPETITORS))));
+            paths.put(OUTPUT_PRINT_RECORD_PATH, baseDir.concat(outputDir.concat(System.getProperty(OUTPUT_PRINT_RECORD))));
         }
     }
 

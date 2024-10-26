@@ -33,6 +33,7 @@ public class BerchtoldApp {
 
         CompetitorController competitorController = new CompetitorController();
         competitorController.loadCompetitorsFromFile();
+        competitorController.createPrintRecordFile();
 
 
         SerialPortReaderService serialPortReaderService = new SerialPortReaderService(competitorController);

@@ -94,4 +94,43 @@ public class FileReaderService {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Creates a new file with the specified path.
+     *
+     * @param filePath the path of the file to create
+     * @return the created file
+     */
+    public static File createFile(String filePath) {
+        return new File(filePath);
+    }
+
+    /**
+     * Adds data to a file.
+     *
+     * @param file the file to add data to
+     * @param data the data to add
+     */
+    public static void addDataToFile(File file, String data) {
+        try (FileWriter fileWriter = new FileWriter(file, true)) {
+            fileWriter.write(data);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Deletes a file at the specified path.
+     *
+     * @param filePath the path of the file to delete
+     */
+    public static void deleteFile(String filePath) {
+        File file = new File(filePath);
+        if (file.delete()) {
+            log.info("File deleted successfully: {}", filePath);
+        } else {
+            log.error("Failed to delete the file: {}", filePath);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.jaboumal.controller;
 
 import com.jaboumal.constants.EventMessages;
+import com.jaboumal.constants.FilePaths;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.CompetitorSelectionDialog;
 import com.jaboumal.gui.EventMessagePanel;
@@ -12,6 +13,8 @@ import com.jaboumal.services.XMLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +30,9 @@ import java.util.List;
 public class CompetitorController {
     private static final Logger log = LoggerFactory.getLogger(CompetitorController.class);
     private static List<CompetitorDTO> competitors;
+    private static File printRecordFile;
+
+
 
     /**
      * Load the competitors from the file
@@ -137,6 +143,23 @@ public class CompetitorController {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
+    }
+
+    /**
+     * Create the print record file
+     */
+    public void createPrintRecordFile(){
+        String path = String.format(FilePaths.getPath(FilePaths.OUTPUT_PRINT_RECORD_PATH), LocalDate.now());
+        CompetitorController.printRecordFile = FileReaderService.createFile(path);
+    }
+
+    /**
+     * Write a record to the print record file
+     *
+     * @param record the record to write
+     */
+    public static void writePrintRecordFile(String record){
+        FileReaderService.addDataToFile(printRecordFile, record);
     }
 
     /**
