@@ -3,10 +3,12 @@ package com.jaboumal.services;
 import com.jaboumal.constants.FilePaths;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.EventMessagePanel;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -19,10 +21,16 @@ import static org.mockito.Mockito.mockStatic;
 class FileReaderServiceTest {
 
     FileReaderService fileReaderService;
+    static MockedStatic<EventMessagePanel> eventMessagePanel;
 
     @BeforeAll
     static void init() {
-        mockStatic(EventMessagePanel.class);
+        eventMessagePanel = mockStatic(EventMessagePanel.class);
+    }
+
+    @AfterAll
+    static void close() {
+        eventMessagePanel.close();
     }
 
     @BeforeEach

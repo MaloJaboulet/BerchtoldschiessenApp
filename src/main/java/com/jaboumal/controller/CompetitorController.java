@@ -138,4 +138,20 @@ public class CompetitorController {
             log.error(e.getMessage(), e);
         }
     }
+
+    /**
+     * Get the competitors
+     *
+     * @return the competitors
+     */
+    public List<CompetitorDTO> getCompetitors() {
+        return CompetitorController.competitors;
+    }
+    /**
+     * ONLY FOR TESTING
+     * Reset the competitors
+     */
+    void resetCompetitors() {
+        CompetitorController.competitors = null;
+    }
 }
