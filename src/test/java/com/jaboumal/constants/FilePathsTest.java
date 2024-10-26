@@ -4,6 +4,7 @@ import com.jaboumal.util.ConfigUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,11 +25,12 @@ class FilePathsTest {
 
         Map<String, String> result = filePaths.getPaths();
         assertNotNull(result);
-        assertEquals(4, result.size());
+        assertEquals(5, result.size());
         assertEquals("src/test/resources/output/Berchtoldschiessen_%s.docx", result.get(FilePaths.OUTPUT_DOCX_PATH));
         assertEquals("src/test/resources/output/data_output.xml", result.get(FilePaths.INPUT_XML_PATH));
         assertEquals("src/test/resources/input/competitors.csv", result.get(FilePaths.INPUT_COMPETITORS_PATH));
         assertEquals("src/test/resources/Berchtoldschiessen_test2.docx", result.get(FilePaths.INPUT_DOCX_PATH));
+        assertEquals("src/test/resources/output/Print_Record_Berchtoldschiessen_%s.csv", result.get(FilePaths.OUTPUT_PRINT_RECORD_PATH));
     }
 
     @Test
