@@ -64,4 +64,14 @@ public class FilePaths {
     public static String getPath(String filename) {
         return paths.get(filename);
     }
+
+    /**
+     * ONLY FOR TESTING
+     * Get the paths map.
+     *
+     * @return the paths map
+     */
+    Map<String, String> getPaths() {
+        return FilePaths.paths;
+    }
 }
