@@ -1,4 +1,4 @@
-package com.jaboumal.gui;
+package com.jaboumal.gui.settings;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;

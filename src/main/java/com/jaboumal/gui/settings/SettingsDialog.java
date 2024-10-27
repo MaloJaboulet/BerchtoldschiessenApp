@@ -1,4 +1,4 @@
-package com.jaboumal.gui;
+package com.jaboumal.gui.settings;
 
 import com.jaboumal.constants.FilePaths;
 import com.jaboumal.gui.customComponents.CustomButton;
@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.HyperlinkEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -44,6 +45,7 @@ public class SettingsDialog {
         final JComponent[] inputs = new JComponent[]{
                 createInputTemplateNameComponents(printTemplateFileName),
                 createCompetitorNameComponents(inputCompetitorFileName),
+                createInfoPanel(),
         };
 
         UIManager.put("OptionPane.border", new EmptyBorder(20, 50, 20, 50));
@@ -127,6 +129,70 @@ public class SettingsDialog {
     }
 
     /**
+     * Creates a panel with an information button.
+     *
+     * @return JPanel with the information button
+     */
+    private JPanel createInfoPanel() {
+        CustomButton buttonInfo = new CustomButton();
+        buttonInfo.setIcon(UIManager.getIcon("OptionPane.informationIcon"));
+        buttonInfo.setBorderPainted(false);
+        buttonInfo.setContentAreaFilled(false);
+
+        JTextPane textPane = createInfoTextPane();
+
+        final JComponent[] inputs = new JComponent[]{
+                textPane,
+        };
+
+        buttonInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, inputs, "Information", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
+        JPanel infoButtonPanel = new JPanel();
+        infoButtonPanel.setLayout(new BoxLayout(infoButtonPanel, BoxLayout.X_AXIS));
+        infoButtonPanel.add(Box.createHorizontalGlue());
+        infoButtonPanel.add(buttonInfo);
+
+
+        return infoButtonPanel;
+    }
+
+    /**
+     * Creates a text pane with information about the application.
+     *
+     * @return JTextPane with the information
+     */
+    private JTextPane createInfoTextPane() {
+        String text = "<html>" +
+                "Der gesamte Code für diese Applikation befindet sich unter diesem Link: <a href=\"https://github.com/MaloJaboulet/BerchtoldschiessenApp\">https://github.com/MaloJaboulet/BerchtoldschiessenApp</a><BR>" +
+                "Dort befindet sich ebenfalls die Dokumentation für die App." +
+                "</html>";
+
+        JTextPane textPane = new JTextPane();
+        textPane.setContentType("text/html");
+        textPane.setText(text);
+        textPane.setEditable(false);
+        textPane.setBackground(null);
+        textPane.setBorder(null);
+        textPane.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        textPane.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true); //allows to use the system font
+        textPane.addHyperlinkListener(e -> {
+            if (e.getEventType().equals(HyperlinkEvent.EventType.ACTIVATED)) {
+                try {
+                    Desktop.getDesktop().browse(e.getURL().toURI());
+                } catch (Exception ex) {
+                    log.error("Error while opening the link: {}", ex.getMessage());
+                }
+            }
+        });
+        return textPane;
+    }
+
+    /**
      * Left justifies a component.
      *
      * @param component component to justify
@@ -171,4 +237,5 @@ public class SettingsDialog {
 
         return null;
     }
+
 }
