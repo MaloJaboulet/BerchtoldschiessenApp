@@ -42,7 +42,7 @@ public class BarcodeCreatorService {
             final ByteArrayOutputStream os = new ByteArrayOutputStream();
 
             ImageIO.write(createBarcodeImage(barcodeNummer), "png", os);
-            return new String(Base64.getEncoder().encode(os.toByteArray()), StandardCharsets. ISO_8859_1);
+            return new String(Base64.getEncoder().encode(os.toByteArray()), StandardCharsets.UTF_8);
         } catch (final IOException ioe) {
             log.error(ioe.getMessage(), ioe);
             throw new UncheckedIOException(ioe);
