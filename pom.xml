@@ -131,10 +131,6 @@
             <id>jetbrains.releases</id>
             <url>https://www.jetbrains.com/intellij-repository/releases</url>
         </repository>
-        <repository>
-            <id>jetbrains.3rdparty</id>
-            <url>https://cache-redirector.jetbrains.com/intellij-dependencies</url>
-        </repository>
     </repositories>
 
     <build>
