@@ -38,6 +38,7 @@ public class XMLService {
         BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, name);
         RootDTO rootDTO = new RootDTO(berchtoldschiessenDTO);
 
+        // create XML file
         File file = new File(FilePaths.getPath(INPUT_XML_PATH));
         JAXBContext jaxbContext = JAXBContext.newInstance(RootDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -45,6 +46,7 @@ public class XMLService {
         // output pretty printed
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
+        // write data to file
         jaxbMarshaller.marshal(rootDTO, file);
     }
 
@@ -62,6 +64,7 @@ public class XMLService {
         File inputXml = new File(FilePaths.getPath(INPUT_XML_PATH));
         WordprocessingMLPackage wordMLPackage = Docx4J.load(new File(FilePaths.getPath(INPUT_DOCX_PATH)));
         FileInputStream xmlStream = new FileInputStream(inputXml);
+        // Insert the XML data into the docx
         Docx4J.bind(wordMLPackage, xmlStream, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML | Docx4J.FLAG_BIND_REMOVE_SDT);
         Docx4J.save(wordMLPackage, new File(outputDocxPath), Docx4J.FLAG_NONE);
         log.info("Saved: {}", outputDocxPath);

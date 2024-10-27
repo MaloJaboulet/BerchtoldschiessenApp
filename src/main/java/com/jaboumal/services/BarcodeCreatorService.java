@@ -32,6 +32,7 @@ public class BarcodeCreatorService {
      */
     public String createBarcode(int schuetzenNummer) {
 
+        //create barcode number based on Schuetzennummer that SIUS can read
         int newSchuetzenNummer = ((schuetzenNummer + 10_000_000) * 100);
         int rest = newSchuetzenNummer % 97;
         int barcodeNummer = (97 - rest) + newSchuetzenNummer;

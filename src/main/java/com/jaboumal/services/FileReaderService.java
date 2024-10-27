@@ -36,7 +36,7 @@ public class FileReaderService {
         List<CompetitorDTO> competitors = new ArrayList<>();
         try {
             File competitorFile = new File(FilePaths.getPath(INPUT_COMPETITORS_PATH));
-            Scanner competitorScanner = new Scanner(competitorFile);//macht einen neuen Scanner
+            Scanner competitorScanner = new Scanner(competitorFile); // creates a new scanner for the file
 
 
             while (competitorScanner.hasNextLine()) {
@@ -44,6 +44,7 @@ public class FileReaderService {
                 if (row.size() != 4) {
                     throw new IllegalArgumentException("competitor.csv does not contain 4 columns.");
                 }
+
                 int lizenzNummer = Integer.parseInt(row.get(0));
                 String firstname = row.get(1);
                 String lastname = row.get(2);

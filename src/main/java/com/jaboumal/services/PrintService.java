@@ -50,7 +50,7 @@ public class PrintService {
                 outputFile.delete();
 
                 String record = LocalDateTime.now() + "," + outputFile.getName() + "\n";
-                CompetitorController.writePrintRecordFile(record);
+                CompetitorController.writeToPrintRecordFile(record);
             }
 
         } catch (Exception e) {

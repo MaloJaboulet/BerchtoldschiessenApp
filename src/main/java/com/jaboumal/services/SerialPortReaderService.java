@@ -22,7 +22,6 @@ import java.util.Arrays;
  */
 public class SerialPortReaderService {
     private final static Logger log = LoggerFactory.getLogger(SerialPortReaderService.class);
-    static byte[] barcodeBuffer = new byte[9];
 
     private final CompetitorController competitorController;
 
@@ -37,14 +36,7 @@ public class SerialPortReaderService {
         log.debug(Arrays.toString(SerialPort.getCommPorts()));
 
         try {
-            SerialPort comPort = null;
-
-            for (SerialPort serialPort : SerialPort.getCommPorts()) {
-                if (serialPort.getSystemPortName().equals("COM6") || serialPort.getManufacturer().contains("Honeywell")) {
-                    comPort = serialPort;
-                    break;
-                }
-            }
+            SerialPort comPort  = findSerialPort();
 
             if (comPort == null) {
                 log.error(EventMessages.SCANNER_NOT_CONNECTED);
@@ -60,18 +52,14 @@ public class SerialPortReaderService {
 
                     @Override
                     public void serialEvent(SerialPortEvent event) {
-                        byte[] newData = event.getReceivedData();
-                        log.debug("Received data of size: {}", newData.length);
-                        for (byte newDatum : newData) {
-                            log.debug(String.valueOf((char) newDatum));
-                        }
+                        byte[] receivedData = event.getReceivedData();
+                        log.debug("Received data of size: {}", receivedData.length);
+                        printReceivedData(receivedData);
 
-                        if (newData.length < 8) {
+                        if (receivedData.length < 8) {
                             log.debug("Data too short");
                         } else {
-                            barcodeBuffer = Arrays.copyOfRange(newData, 0, 9);
-                            String barcodeString = Arrays.toString(new String(barcodeBuffer, StandardCharsets.UTF_8).toCharArray());
-                            String formattedBarcodeString = formatBarcode(barcodeString);
+                            String formattedBarcodeString = getBarcodeFromReceivedData(receivedData);
 
                             log.debug("Formatted Barcode String: {}", formattedBarcodeString);
                             CompetitorDTO competitorDTO = competitorController.searchCompetitorWithLizenzNummer(Integer.parseInt(formattedBarcodeString));
@@ -99,5 +87,43 @@ public class SerialPortReaderService {
                 "[^a-zA-Z0-9]", "");
 
         return formattedBarcode;
+    }
+
+    /**
+     * Find the serial port of the scanner
+     *
+     * @return the serial port
+     */
+    private SerialPort findSerialPort() {
+        for (SerialPort serialPort : SerialPort.getCommPorts()) {
+            if (serialPort.getSystemPortName().equals("COM6") || serialPort.getManufacturer().contains("Honeywell")) {
+                return serialPort;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the barcode from the received data
+     *
+     * @param receivedData the received data
+     * @return the barcode
+     */
+    private String getBarcodeFromReceivedData(byte[] receivedData) {
+        byte[] barcodeBuffer = Arrays.copyOfRange(receivedData, 0, 9);
+        String barcodeString = Arrays.toString(new String(barcodeBuffer, StandardCharsets.UTF_8).toCharArray());
+        return formatBarcode(barcodeString);
+    }
+
+    /**
+     * ONLY FOR DEBUGGING
+     * Print the received data
+     *
+     * @param receivedData the received data
+     */
+    private void printReceivedData(byte[] receivedData) {
+        for (byte newDatum : receivedData) {
+            log.debug(String.valueOf((char) newDatum));
+        }
     }
 }

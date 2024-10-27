@@ -33,7 +33,6 @@ public class CompetitorController {
     private static File printRecordFile;
 
 
-
     /**
      * Load the competitors from the file
      * If the file is not found or the format is wrong, an error message is displayed
@@ -55,7 +54,6 @@ public class CompetitorController {
      * @param competitor the competitor to add to the fields
      */
     public void addCompetitorDataToFieldsAndShowMessage(CompetitorDTO competitor) {
-
         if (competitor != null) {
             MainFrame.addCompetitorDataToFields(competitor);
             EventMessagePanel.addSuccessMessage(EventMessages.COMPETITOR_FOUND);
@@ -110,6 +108,7 @@ public class CompetitorController {
 
         if (resultList.size() > 1) {
             CompetitorSelectionDialog competitorSelectionDialog = new CompetitorSelectionDialog();
+            //open dialog to select the competitor
             CompetitorDTO selectedCompetitor = competitorSelectionDialog.showDialog(resultList);
 
             if (selectedCompetitor != null) {
@@ -158,7 +157,7 @@ public class CompetitorController {
      *
      * @param record the record to write
      */
-    public static void writePrintRecordFile(String record){
+    public static void writeToPrintRecordFile(String record){
         FileReaderService.addDataToFile(printRecordFile, record);
     }
 

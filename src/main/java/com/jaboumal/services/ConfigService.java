@@ -24,8 +24,8 @@ import static com.jaboumal.constants.FilePaths.*;
  */
 public class ConfigService {
     private static final Logger log = LoggerFactory.getLogger(ConfigService.class);
-    public static final String baseDirectory = "C:/BerchtoldschiessenApp/";
     private static final Properties properties = new Properties();
+    private static final String baseDirectory = "C:/BerchtoldschiessenApp/";
     private static String fileName = baseDirectory.concat("config/config.properties");
 
     /**
@@ -45,12 +45,7 @@ public class ConfigService {
 
         }
 
-        try {
-            createBaseDirectories();
-        } catch (IOException e) {
-            log.error("Could not create directories.", e);
-            throw new RuntimeException(e);
-        }
+        createBaseDirectories();
 
         File file = new File(fileName);
         if (file.exists()) {
@@ -83,16 +78,22 @@ public class ConfigService {
         return properties.getProperty(propertyName);
     }
 
+
     /**
      * Creates the base directories for the application.
      *
-     * @throws IOException if an I/O error occurs when creating the directories
+     * @throws RuntimeException if an I/O error occurs when creating the directories
      */
-    private static void createBaseDirectories() throws IOException {
-        Files.createDirectories(Paths.get(baseDirectory));
-        Files.createDirectories(Paths.get(baseDirectory + "config"));
-        Files.createDirectories(Paths.get(baseDirectory + "input"));
-        Files.createDirectories(Paths.get(baseDirectory + "output"));
+    private static void createBaseDirectories() {
+        try {
+            Files.createDirectories(Paths.get(baseDirectory));
+            Files.createDirectories(Paths.get(baseDirectory + "config"));
+            Files.createDirectories(Paths.get(baseDirectory + "input"));
+            Files.createDirectories(Paths.get(baseDirectory + "output"));
+        } catch (IOException e) {
+            log.error("Could not create directories.", e);
+            throw new RuntimeException(e);
+        }
     }
 
     /**
