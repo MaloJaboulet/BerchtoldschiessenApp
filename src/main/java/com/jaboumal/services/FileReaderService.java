@@ -103,7 +103,13 @@ public class FileReaderService {
      * @return the created file
      */
     public static File createFile(String filePath) {
-        return new File(filePath);
+        File file = new File(filePath);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return file;
     }
 
     /**

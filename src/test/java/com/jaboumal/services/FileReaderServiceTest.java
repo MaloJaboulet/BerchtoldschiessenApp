@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import static com.jaboumal.constants.FilePaths.*;
@@ -95,9 +96,13 @@ class FileReaderServiceTest {
     }
 
     @Test
-    void copyFile_validFile_copyFile() {
-        String sourcePath = System.getProperty(BASE_DIRECTORY) + System.getProperty(INPUT_FOLDER) + System.getProperty(INPUT_DOCX);
-        String destinationPath = System.getProperty(BASE_DIRECTORY) + System.getProperty(OUTPUT_FOLDER) + System.getProperty(INPUT_DOCX);
+    void copyFile_validFile_copyFile() throws IOException {
+        String sourcePath = System.getProperty(BASE_DIRECTORY) + System.getProperty(INPUT_FOLDER) + "text.txt";
+        File inputFile = new File(sourcePath);
+        inputFile.createNewFile();
+        assertTrue(inputFile.exists());
+
+        String destinationPath = System.getProperty(BASE_DIRECTORY) + System.getProperty(OUTPUT_FOLDER) + "text.txt";
         assertDoesNotThrow(() -> FileReaderService.copyFile(sourcePath, destinationPath));
 
         File file = new File(destinationPath);
@@ -105,6 +110,7 @@ class FileReaderServiceTest {
         assertTrue(file.exists());
 
         file.delete();
+        inputFile.delete();
     }
 
     @Test
