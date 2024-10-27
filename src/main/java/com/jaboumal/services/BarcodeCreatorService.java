@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
@@ -41,7 +42,7 @@ public class BarcodeCreatorService {
             final ByteArrayOutputStream os = new ByteArrayOutputStream();
 
             ImageIO.write(createBarcodeImage(barcodeNummer), "png", os);
-            return Base64.getEncoder().encodeToString(os.toByteArray());
+            return new String(Base64.getEncoder().encode(os.toByteArray()), StandardCharsets. ISO_8859_1);
         } catch (final IOException ioe) {
             log.error(ioe.getMessage(), ioe);
             throw new UncheckedIOException(ioe);
