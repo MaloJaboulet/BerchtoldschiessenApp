@@ -5,9 +5,19 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+/**
+ * This class is a JTextField that contains a placeholder.
+ * The placeholder is displayed when the text field is empty and not focused.
+ * When the text field is focused, the placeholder is removed.
+ *
+ * @author Malo Jaboulet
+ */
 public class TextFieldWithPlaceholder extends JTextField {
     private final String placeholder = "Vorname, Nachname, Schützennummer";
 
+    /**
+     * This constructor creates the TextFieldWithPlaceholder and initializes the components.
+     */
     public TextFieldWithPlaceholder() {
         super();
         setText("Vorname, Nachname, Schützennummer");
@@ -31,7 +41,5 @@ public class TextFieldWithPlaceholder extends JTextField {
                 }
             }
         });
-
-
     }
 }

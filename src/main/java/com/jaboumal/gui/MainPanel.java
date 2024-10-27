@@ -8,6 +8,13 @@ import com.jaboumal.dto.CompetitorDTO;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class is responsible for the main panel in the main frame.
+ * It contains the title panel, the text panel, the event message panel, the print panel and the settings panel.
+ * It also contains the method to add the competitor data to the fields.
+ *
+ * @author Malo Jaboulet
+ */
 public class MainPanel extends JPanel {
 
     private final JPanel titlePanel;
@@ -16,6 +23,9 @@ public class MainPanel extends JPanel {
     private final PrintPanel printPanel;
     private final SettingsPanel settingsPanel;
 
+    /**
+     * Constructor of the class.
+     */
     public MainPanel() {
         this.titlePanel = new TitlePanel();
         titlePanel.setName("titlePanel");
@@ -29,10 +39,19 @@ public class MainPanel extends JPanel {
         settingsPanel.createSettingsPanel();
     }
 
+    /**
+     * Method to add the competitor data to the fields.
+     *
+     * @param competitorDTO the competitor data
+     */
     public void addCompetitorDataToFields(CompetitorDTO competitorDTO) {
         textPanel.addDateToFields(competitorDTO);
     }
 
+    /**
+     * Method to create the main panel.
+     * It sets the layout and adds the title panel, the text panel, the event message panel, the print panel and the settings panel.
+     */
     public void createMainPanel() {
         setLayout(new GridLayoutManager(6, 2, new Insets(0, 0, 0, 0), -1, -1));
 
@@ -47,6 +66,11 @@ public class MainPanel extends JPanel {
 
     }
 
+    /**
+     * Method to get the competitor data.
+     *
+     * @return the competitor data
+     */
     public CompetitorDTO getCompetitorData(){
         return textPanel.getCompetitorData();
     }

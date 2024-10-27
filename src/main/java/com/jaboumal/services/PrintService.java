@@ -1,5 +1,6 @@
 package com.jaboumal.services;
 
+import com.jaboumal.controller.CompetitorController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,10 +12,21 @@ import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.JobName;
 import java.io.File;
 import java.io.FileInputStream;
+import java.time.LocalDateTime;
 
+/**
+ * Service class for printing files
+ *
+ * @author Malo Jaboulet
+ */
 public class PrintService {
     private static final Logger log = LoggerFactory.getLogger(PrintService.class);
 
+    /**
+     * Print the file at the given path
+     *
+     * @param pathPrintingFile the path of the file to print
+     */
     public static void printDoc(String pathPrintingFile) {
         File outputFile = new File(pathPrintingFile);
 
@@ -36,6 +48,9 @@ public class PrintService {
                 log.info("Printing file: {}", outputFile.getName());
                 input.close();
                 outputFile.delete();
+
+                String record = LocalDateTime.now() + "," + outputFile.getName() + "\n";
+                CompetitorController.writeToPrintRecordFile(record);
             }
 
         } catch (Exception e) {

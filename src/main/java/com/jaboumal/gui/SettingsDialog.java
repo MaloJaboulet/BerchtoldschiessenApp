@@ -18,6 +18,15 @@ import java.io.File;
 import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS_PATH;
 import static com.jaboumal.constants.FilePaths.INPUT_DOCX_PATH;
 
+/**
+ * SettingsDialog class is responsible for creating the settings dialog
+ * in the main window.
+ * It allows the user to select the input template and competitor file.
+ * The selected files are copied to the Berchtold folder.
+ * The dialog is displayed when the user clicks on the "Settings" button.
+ *
+ * @author Malo Jaboulet
+ */
 public class SettingsDialog {
     private final static Logger log = LoggerFactory.getLogger(SettingsDialog.class);
     private final JTextField inputTemplateNameField = new JTextField();
@@ -25,10 +34,15 @@ public class SettingsDialog {
     private final CustomButton buttonPrintTemplate = new CustomButton();
     private final CustomButton buttonCompetitor = new CustomButton();
 
-
-    public void showDialog(String inputTemplateFileName, String inputCompetitorFileName) {
+    /**
+     * Displays the settings dialog.
+     *
+     * @param printTemplateFileName   name of the print template file
+     * @param inputCompetitorFileName name of the input competitor file
+     */
+    public void showDialog(String printTemplateFileName, String inputCompetitorFileName) {
         final JComponent[] inputs = new JComponent[]{
-                createInputTemplateNameComponents(inputTemplateFileName),
+                createInputTemplateNameComponents(printTemplateFileName),
                 createCompetitorNameComponents(inputCompetitorFileName),
         };
 
@@ -36,6 +50,12 @@ public class SettingsDialog {
         JOptionPane.showConfirmDialog(null, inputs, "Settings", JOptionPane.DEFAULT_OPTION);
     }
 
+    /**
+     * Creates the components for the input competitor file.
+     *
+     * @param inputCompetitorFileName name of the input competitor file
+     * @return JPanel with the components
+     */
     private JPanel createCompetitorNameComponents(String inputCompetitorFileName) {
         inputCompetitorFileNameField.setText(inputCompetitorFileName);
         inputCompetitorFileNameField.setFocusable(false);
@@ -56,8 +76,14 @@ public class SettingsDialog {
         return createButtonTextfieldLabelPanel(inputCompetitorFileNameField, buttonCompetitor, "Dateiname von Teilnehmerliste");
     }
 
-    private JPanel createInputTemplateNameComponents(String inputTemplateFileName) {
-        inputTemplateNameField.setText(inputTemplateFileName);
+    /**
+     * Creates the components for the input template file.
+     *
+     * @param printTemplateFileName name of the print template file
+     * @return JPanel with the components
+     */
+    private JPanel createInputTemplateNameComponents(String printTemplateFileName) {
+        inputTemplateNameField.setText(printTemplateFileName);
         inputTemplateNameField.setFocusable(false);
 
         buttonPrintTemplate.setIcon(UIManager.getIcon("FileView.fileIcon"));
@@ -76,6 +102,14 @@ public class SettingsDialog {
         return createButtonTextfieldLabelPanel(inputTemplateNameField, buttonPrintTemplate, "Dateiname von Druckvorlage");
     }
 
+    /**
+     * Creates a panel with a text field, a button and a label.
+     *
+     * @param textField text field
+     * @param button    button
+     * @param labelText label text
+     * @return JPanel with the components
+     */
     private JPanel createButtonTextfieldLabelPanel(JTextField textField, JButton button, String labelText) {
         JPanel buttonTextFieldPanel = new JPanel();
         buttonTextFieldPanel.setLayout(new BoxLayout(buttonTextFieldPanel, BoxLayout.X_AXIS));
@@ -92,6 +126,12 @@ public class SettingsDialog {
         return componentPanel;
     }
 
+    /**
+     * Left justifies a component.
+     *
+     * @param component component to justify
+     * @return left justified component
+     */
     private Component leftJustify(Component component) {
         Box b = Box.createHorizontalBox();
         b.add(component);
@@ -101,6 +141,12 @@ public class SettingsDialog {
         return b;
     }
 
+    /**
+     * Opens a file chooser dialog and returns the selected file.
+     *
+     * @param filetype file type
+     * @return selected file
+     */
     private File selectFile(String filetype) {
         JFileChooser fileChooser = new JFileChooser();
 

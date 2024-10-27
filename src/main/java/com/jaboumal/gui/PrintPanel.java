@@ -10,10 +10,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is responsible for the print button in the main frame.
+ *
+ * @author Malo Jaboulet
+ */
 public class PrintPanel extends JPanel {
 
     private static CustomButton printButton;
 
+    /**
+     * Constructor of the class.
+     */
     public PrintPanel() {
         printButton = new CustomButton("Print");
         printButton.setEnabled(false);
@@ -29,9 +37,16 @@ public class PrintPanel extends JPanel {
         });
     }
 
+    /**
+     * Method to enable the print button.
+     */
     public static void makePrintButtonEnabled() {
         printButton.setEnabled(true);
     }
+
+    /**
+     * Method to disable the print button.
+     */
     public static void makePrintButtonDisabled() {
         printButton.setEnabled(false);
     }

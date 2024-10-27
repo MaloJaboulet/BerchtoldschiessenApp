@@ -18,13 +18,27 @@ import java.io.FileNotFoundException;
 
 import static com.jaboumal.constants.FilePaths.*;
 
+/**
+ * Service class for creating and loading XML files
+ *
+ * @author Malo Jaboulet
+ */
 public class XMLService {
     private static final Logger log = LoggerFactory.getLogger(XMLService.class);
 
+    /**
+     * Create an XML file with the given name, date of birth and barcode
+     *
+     * @param name        the name of the competitor
+     * @param dateOfBirth the date of birth of the competitor
+     * @param barcode     the barcode of the competitor
+     * @throws JAXBException if an error occurs during the creation of the XML file
+     */
     public void createXml(String name, String dateOfBirth, String barcode) throws JAXBException {
         BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, name);
         RootDTO rootDTO = new RootDTO(berchtoldschiessenDTO);
 
+        // create XML file
         File file = new File(FilePaths.getPath(INPUT_XML_PATH));
         JAXBContext jaxbContext = JAXBContext.newInstance(RootDTO.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -32,22 +46,31 @@ public class XMLService {
         // output pretty printed
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
+        // write data to file
         jaxbMarshaller.marshal(rootDTO, file);
     }
 
-
+    /**
+     * Load the XML data in the docx file
+     *
+     * @param competitorName the name of the competitor
+     * @return the path of the output docx file
+     * @throws FileNotFoundException if the input XML file is not found
+     * @throws Docx4JException       if an error occurs during the loading of the XML data in the docx file
+     */
     public String loadXMLDataInDocxFile(String competitorName) throws FileNotFoundException, Docx4JException {
-        String output_docx = String.format(FilePaths.getPath(OUTPUT_DOCX_PATH), competitorName);
+        String outputDocxPath = String.format(FilePaths.getPath(OUTPUT_DOCX_PATH), competitorName);
 
         File inputXml = new File(FilePaths.getPath(INPUT_XML_PATH));
         WordprocessingMLPackage wordMLPackage = Docx4J.load(new File(FilePaths.getPath(INPUT_DOCX_PATH)));
         FileInputStream xmlStream = new FileInputStream(inputXml);
+        // Insert the XML data into the docx
         Docx4J.bind(wordMLPackage, xmlStream, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML | Docx4J.FLAG_BIND_REMOVE_SDT);
-        Docx4J.save(wordMLPackage, new File(output_docx), Docx4J.FLAG_NONE);
-        log.info("Saved: {}", output_docx);
+        Docx4J.save(wordMLPackage, new File(outputDocxPath), Docx4J.FLAG_NONE);
+        log.info("Saved: {}", outputDocxPath);
 
         inputXml.delete();
 
-        return output_docx;
+        return outputDocxPath;
     }
 }

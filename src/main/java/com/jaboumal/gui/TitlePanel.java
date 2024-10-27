@@ -8,9 +8,19 @@ import com.jaboumal.gui.customComponents.CustomLabel;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * TitlePanel class
+ * This class is a JPanel that contains the title of the application.
+ *
+ * @author Malo Jaboulet
+ */
 public class TitlePanel extends JPanel {
     private final CustomLabel title;
 
+    /**
+     * Constructor
+     * This constructor initializes the title label and sets the layout of the panel.
+     */
     public TitlePanel() {
         title = new CustomLabel();
         setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));

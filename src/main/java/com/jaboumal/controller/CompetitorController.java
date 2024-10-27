@@ -1,6 +1,7 @@
 package com.jaboumal.controller;
 
 import com.jaboumal.constants.EventMessages;
+import com.jaboumal.constants.FilePaths;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.CompetitorSelectionDialog;
 import com.jaboumal.gui.EventMessagePanel;
@@ -12,14 +13,30 @@ import com.jaboumal.services.XMLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class for the Competitor
+ * This class is responsible for loading the competitor data from the file, searching for a competitor and creating a standblatt
+ * The class also contains a method to add the competitor data to the fields in the main frame and show a message
+ * The class also contains a method to search for a competitor with a license number
+ * The class also contains a method to search for a competitor with a search text
+ *
+ * @author Malo Jaboulet
+ */
 public class CompetitorController {
     private static final Logger log = LoggerFactory.getLogger(CompetitorController.class);
     private static List<CompetitorDTO> competitors;
+    private static File printRecordFile;
 
 
+    /**
+     * Load the competitors from the file
+     * If the file is not found or the format is wrong, an error message is displayed
+     */
     public void loadCompetitorsFromFile() {
         FileReaderService fileReaderService = new FileReaderService();
         try {
@@ -30,8 +47,13 @@ public class CompetitorController {
         }
     }
 
+    /**
+     * Add the competitor data to the fields in the main frame and show a message
+     * If the competitor is not found, an error message is displayed
+     *
+     * @param competitor the competitor to add to the fields
+     */
     public void addCompetitorDataToFieldsAndShowMessage(CompetitorDTO competitor) {
-
         if (competitor != null) {
             MainFrame.addCompetitorDataToFields(competitor);
             EventMessagePanel.addSuccessMessage(EventMessages.COMPETITOR_FOUND);
@@ -43,6 +65,12 @@ public class CompetitorController {
 
     }
 
+    /**
+     * Search for a competitor with a license number
+     *
+     * @param lizenzNummer the license number to search for
+     * @return the competitor with the license number
+     */
     public CompetitorDTO searchCompetitorWithLizenzNummer(int lizenzNummer) {
         for (CompetitorDTO competitorDTO : competitors) {
             if (competitorDTO.getLizenzNummer() == lizenzNummer) {
@@ -52,6 +80,16 @@ public class CompetitorController {
         return null;
     }
 
+    /**
+     * Search for a competitor with a search text
+     * If the search text is found in the first name, last name or license number of a competitor, the competitor is added to the result list
+     * If the result list contains only one competitor, this competitor is returned
+     * If the result list contains more than one competitor, a dialog is shown to select the competitor
+     * If no competitor is found, a warning message is displayed
+     *
+     * @param searchText the search text to search for
+     * @return the competitor with the search text
+     */
     public static CompetitorDTO searchCompetitorWithSearchText(String searchText) {
         List<CompetitorDTO> resultList = new ArrayList<>();
 
@@ -69,7 +107,8 @@ public class CompetitorController {
         }
 
         if (resultList.size() > 1) {
-            CompetitorSelectionDialog competitorSelectionDialog =new CompetitorSelectionDialog();
+            CompetitorSelectionDialog competitorSelectionDialog = new CompetitorSelectionDialog();
+            //open dialog to select the competitor
             CompetitorDTO selectedCompetitor = competitorSelectionDialog.showDialog(resultList);
 
             if (selectedCompetitor != null) {
@@ -81,18 +120,60 @@ public class CompetitorController {
         return null;
     }
 
+    /**
+     * Create a standblatt for a competitor
+     * The barcode is created with the license number of the competitor
+     * The XML file is created with the first name, last name, date of birth and barcode of the competitor
+     * The XML data is loaded in a DOCX file
+     * The DOCX file is printed
+     *
+     * @param competitor the competitor to create the standblatt for
+     */
     public static void createStandblatt(CompetitorDTO competitor) {
         try {
             BarcodeCreatorService barcodeCreatorService = new BarcodeCreatorService();
             String barcode = barcodeCreatorService.createBarcode(competitor.getLizenzNummer());
 
             XMLService xmlService = new XMLService();
-            xmlService.createXml(competitor.getFirstName() + " " + competitor.getLastName(), competitor.getDateOfBirth(), barcode);
+            xmlService.createXml(competitor.getFirstName() + "_" + competitor.getLastName(), competitor.getDateOfBirth(), barcode);
 
             String pathPrintingFile = xmlService.loadXMLDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
             PrintService.printDoc(pathPrintingFile);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
+    }
+
+    /**
+     * Create the print record file
+     */
+    public void createPrintRecordFile(){
+        String path = String.format(FilePaths.getPath(FilePaths.OUTPUT_PRINT_RECORD_PATH), LocalDate.now());
+        CompetitorController.printRecordFile = FileReaderService.createFile(path);
+    }
+
+    /**
+     * Write a record to the print record file
+     *
+     * @param record the record to write
+     */
+    public static void writeToPrintRecordFile(String record){
+        FileReaderService.addDataToFile(printRecordFile, record);
+    }
+
+    /**
+     * Get the competitors
+     *
+     * @return the competitors
+     */
+    public List<CompetitorDTO> getCompetitors() {
+        return CompetitorController.competitors;
+    }
+    /**
+     * ONLY FOR TESTING
+     * Reset the competitors
+     */
+    void resetCompetitors() {
+        CompetitorController.competitors = null;
     }
 }
