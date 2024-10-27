@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import com.jaboumal.dto.CompetitorDTO;
+import com.jaboumal.gui.settings.SettingsPanel;
 
 import javax.swing.*;
 import java.awt.*;
