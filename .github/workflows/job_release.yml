@@ -26,19 +26,13 @@ jobs:
           distribution: 'temurin'
           java-version: '22'
           cache: 'maven'
-      #- name: Build with Maven
-      #  run: mvn -DskipTests=true clean package
-
+      - name: Build with Maven
+        run: mvn -DskipTests=true clean package
+      - name: Configure Git user
+        run: |
+          git config user.email ${{ vars.BOT_EMAIL }}
+          git config user.name ${{ vars.BOT_NAME }}
       - name: Release Project
-        uses: qcastel/github-actions-maven-release@v1.12.41
-        with:
-          git-release-bot-name: ${{ var.BOT_NAME }}
-          git-release-bot-email: ${{ vars.BOT_EMAIL }}
-
-          maven-release-version-number: ${{ github.event.inputs.releaseVersion }}
-          maven-development-version-number: ${{ github.event.inputs.developmentVersion }}
-
-          maven-args: "-Dmaven.javadoc.skip=true -DskipTests -DskipITs -Ddockerfile.skip -DdockerCompose.skip -Dmaven.deploy.skip=true"
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-
+        run: mvn release:prepare release:perform -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
