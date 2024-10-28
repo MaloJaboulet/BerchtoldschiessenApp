@@ -1,0 +1,44 @@
+name: Release Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: "Default version to use when preparing a release."
+        required: true
+        default: "X.Y.Z"
+      developmentVersion:
+        description: "Default version to use for new local working copy."
+        required: true
+        default: "X.Y.Z-SNAPSHOT"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout repository
+
+      - name: Setups Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '22'
+          cache: 'maven'
+      #- name: Build with Maven
+      #  run: mvn -DskipTests=true clean package
+
+      - name: Release Project
+        uses: qcastel/github-actions-maven-release@v1.12.41
+        with:
+          git-release-bot-name: ${{ var.BOT_NAME }}
+          git-release-bot-email: ${{ vars.BOT_EMAIL }}
+
+          maven-release-version-number: ${{ github.event.inputs.releaseVersion }}
+          maven-development-version-number: ${{ github.event.inputs.developmentVersion }}
+
+          maven-args: "-Dmaven.javadoc.skip=true -DskipTests -DskipITs -Ddockerfile.skip -DdockerCompose.skip -Dmaven.deploy.skip=true"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+
