@@ -8,5 +8,5 @@ on:
 jobs:
 
   test:
-    name: Test Debug Variant
+    name: Testing code variant
     uses: ./.github/workflows/job_test.yml
