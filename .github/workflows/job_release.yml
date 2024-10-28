@@ -1,0 +1,38 @@
+name: Release Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: "Default version to use when preparing a release."
+        required: true
+        default: "X.Y.Z"
+      developmentVersion:
+        description: "Default version to use for new local working copy."
+        required: true
+        default: "X.Y.Z-SNAPSHOT"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout repository
+
+      - name: Setups Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '22'
+          cache: 'maven'
+      - name: Build with Maven
+        run: mvn -DskipTests=true clean package
+      - name: Configure Git user
+        run: |
+          git config user.email ${{ vars.BOT_EMAIL }}
+          git config user.name ${{ vars.BOT_NAME }}
+      - name: Release Project
+        run: mvn release:prepare release:perform -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
