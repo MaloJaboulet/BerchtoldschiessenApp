@@ -132,12 +132,12 @@ public class CompetitorControllerTest {
     }
 
     @Test
-    void testCreateStandblatt() {
+    void testCreateStandblattAndPrint() {
         CompetitorDTO competitor = new CompetitorDTO();
         competitor.setFirstName("Hans");
         competitor.setLastName("Peter");
         competitor.setLizenzNummer(123456);
-        CompetitorController.createStandblatt(competitor);
+        CompetitorController.createStandblattAndPrint(competitor);
         printServiceMock.verify(() -> PrintService.printDoc("src/test/resources/output/Berchtoldschiessen_Hans_Peter.docx"), times(1));
     }
 }

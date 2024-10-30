@@ -129,13 +129,13 @@ public class CompetitorController {
      *
      * @param competitor the competitor to create the standblatt for
      */
-    public static void createStandblatt(CompetitorDTO competitor) {
+    public static void createStandblattAndPrint(CompetitorDTO competitor) {
         try {
             BarcodeCreatorService barcodeCreatorService = new BarcodeCreatorService();
             String barcode = barcodeCreatorService.createBarcode(competitor.getLizenzNummer());
 
             XMLService xmlService = new XMLService();
-            xmlService.createXml(competitor.getFirstName() + "_" + competitor.getLastName(), competitor.getDateOfBirth(), barcode);
+            xmlService.createXml(competitor.getFirstName() + " " + competitor.getLastName(), competitor.getDateOfBirth(), barcode);
 
             String pathPrintingFile = xmlService.loadXMLDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
             PrintService.printDoc(pathPrintingFile);
