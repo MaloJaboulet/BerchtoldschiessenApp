@@ -13,8 +13,8 @@ import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.jaboumal.constants.FilePaths.*;
@@ -65,14 +65,14 @@ class FileReaderServiceTest {
         assertEquals(123456, competitorDTO.getLizenzNummer());
         assertEquals("Hans", competitorDTO.getFirstName());
         assertEquals("Peter", competitorDTO.getLastName());
-        assertEquals("01.01.2000", competitorDTO.getDateOfBirth());
+        assertEquals(LocalDate.of(2000, 1,1), competitorDTO.getDateOfBirth());
 
         CompetitorDTO competitorDTO2 = result.get(1);
         assertNotNull(competitorDTO2);
         assertEquals(987653, competitorDTO2.getLizenzNummer());
         assertEquals("Peter", competitorDTO2.getFirstName());
         assertEquals("Meier", competitorDTO2.getLastName());
-        assertEquals("10.10.1990", competitorDTO2.getDateOfBirth());
+        assertEquals(LocalDate.of(1990, 10, 10), competitorDTO2.getDateOfBirth());
     }
 
     @Test

@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 
 import static com.jaboumal.constants.FilePaths.*;
 
@@ -34,8 +35,9 @@ public class XMLService {
      * @param barcode     the barcode of the competitor
      * @throws JAXBException if an error occurs during the creation of the XML file
      */
-    public void createXml(String name, String dateOfBirth, String barcode) throws JAXBException {
-        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, name);
+    public void createXml(String name, LocalDate dateOfBirth, String barcode) throws JAXBException {
+        //FIXME: istAktiv and istGast are hardcoded to true and false
+        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, name, true, false);
         RootDTO rootDTO = new RootDTO(berchtoldschiessenDTO);
 
         // create XML file

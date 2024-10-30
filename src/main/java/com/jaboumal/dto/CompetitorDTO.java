@@ -1,5 +1,7 @@
 package com.jaboumal.dto;
 
+import java.time.LocalDate;
+
 /**
  * Competitor object for the XML response.
  * This class is used to represent a competitor in the XML response.
@@ -13,7 +15,7 @@ public class CompetitorDTO {
     private int lizenzNummer;
     private String firstName;
     private String lastName;
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
 
     /**
      * Default constructor.
@@ -29,7 +31,7 @@ public class CompetitorDTO {
      * @param lastName     the competitor's last name
      * @param dateOfBirth  the competitor's date of birth
      */
-    public CompetitorDTO(int lizenzNummer, String firstName, String lastName, String dateOfBirth) {
+    public CompetitorDTO(int lizenzNummer, String firstName, String lastName, LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,7 +43,7 @@ public class CompetitorDTO {
      *
      * @return the date of birth of the competitor
      */
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
@@ -50,7 +52,7 @@ public class CompetitorDTO {
      *
      * @param dateOfBirth the date of birth of the competitor
      */
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

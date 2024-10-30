@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS;
@@ -137,6 +138,7 @@ public class CompetitorControllerTest {
         competitor.setFirstName("Hans");
         competitor.setLastName("Peter");
         competitor.setLizenzNummer(123456);
+        competitor.setDateOfBirth(LocalDate.of(2000,1,1));
         CompetitorController.createStandblattAndPrint(competitor);
         printServiceMock.verify(() -> PrintService.printDoc("src/test/resources/output/Berchtoldschiessen_Hans_Peter.docx"), times(1));
     }
