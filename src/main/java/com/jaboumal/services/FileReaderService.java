@@ -4,6 +4,7 @@ import com.jaboumal.constants.EventMessages;
 import com.jaboumal.constants.FilePaths;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.EventMessagePanel;
+import com.jaboumal.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +51,7 @@ public class FileReaderService {
                 String lastname = row.get(2);
                 String dateOfBirth = row.get(3);
 
-                CompetitorDTO competitorDTO = new CompetitorDTO(lizenzNummer, firstname, lastname, dateOfBirth);
+                CompetitorDTO competitorDTO = new CompetitorDTO(lizenzNummer, firstname, lastname, DateUtil.stringToDate(dateOfBirth));
                 competitors.add(competitorDTO);
             }
             competitorScanner.close();
