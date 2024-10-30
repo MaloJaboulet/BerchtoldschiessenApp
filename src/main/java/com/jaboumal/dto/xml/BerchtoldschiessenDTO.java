@@ -1,4 +1,4 @@
-package com.jaboumal.dto;
+package com.jaboumal.dto.xml;
 
 import jakarta.xml.bind.annotation.XmlElement;
 

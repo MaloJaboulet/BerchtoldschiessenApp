@@ -1,8 +1,8 @@
 package com.jaboumal.services;
 
 import com.jaboumal.constants.FilePaths;
-import com.jaboumal.dto.BerchtoldschiessenDTO;
-import com.jaboumal.dto.RootDTO;
+import com.jaboumal.dto.xml.BerchtoldschiessenDTO;
+import com.jaboumal.dto.xml.RootDTO;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
