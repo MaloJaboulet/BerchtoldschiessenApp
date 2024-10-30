@@ -61,6 +61,6 @@ public class MainFrame extends JFrame {
      */
     public static void createAndPrintStandblatt() {
         CompetitorDTO competitorDTO = mainPanel.getCompetitorData();
-        CompetitorController.createStandblatt(competitorDTO);
+        CompetitorController.createStandblattAndPrint(competitorDTO);
     }
 }

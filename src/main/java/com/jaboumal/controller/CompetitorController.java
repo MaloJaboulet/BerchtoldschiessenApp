@@ -129,7 +129,7 @@ public class CompetitorController {
      *
      * @param competitor the competitor to create the standblatt for
      */
-    public static void createStandblatt(CompetitorDTO competitor) {
+    public static void createStandblattAndPrint(CompetitorDTO competitor) {
         try {
             BarcodeCreatorService barcodeCreatorService = new BarcodeCreatorService();
             String barcode = barcodeCreatorService.createBarcode(competitor.getLizenzNummer());
