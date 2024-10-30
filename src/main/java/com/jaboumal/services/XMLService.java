@@ -65,7 +65,7 @@ public class XMLService {
         WordprocessingMLPackage wordMLPackage = Docx4J.load(new File(FilePaths.getPath(INPUT_DOCX_PATH)));
         FileInputStream xmlStream = new FileInputStream(inputXml);
         // Insert the XML data into the docx
-        Docx4J.bind(wordMLPackage, xmlStream, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML | Docx4J.FLAG_BIND_REMOVE_SDT);
+        Docx4J.bind(wordMLPackage, xmlStream, Docx4J.FLAG_BIND_INSERT_XML | Docx4J.FLAG_BIND_BIND_XML);
         Docx4J.save(wordMLPackage, new File(outputDocxPath), Docx4J.FLAG_NONE);
         log.info("Saved: {}", outputDocxPath);
 
