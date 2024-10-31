@@ -1,4 +1,4 @@
-name: On PR Opened Test Code
+name: On PR Opened or Push Test Code
 
 on:
   pull_request:
