@@ -18,6 +18,7 @@ Diese Anwendung dient der Erstellung von Standblättern für das Berchtoldschies
         - `nachname` - Der Nachname des Teilnehmers.
         - `geburtsDatum` - Das Geburtsdatum des Teilnehmers.
         - `istGast` - Ein boolescher Wert, der angibt, ob der Teilnehmer ein Gast ist. (true/false)
+    - Die Datei kann über den Knopf `Settings` in der Anwendung ausgewählt werden.
 2. Führen Sie die Anwendung aus, um Standblätter zu erstellen.
 3. Verwenden Sie den Druckdienst, um die generierten Dokumente zu drucken.
 
