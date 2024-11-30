@@ -66,6 +66,7 @@ class FileReaderServiceTest {
         assertEquals("Hans", competitorDTO.getFirstName());
         assertEquals("Peter", competitorDTO.getLastName());
         assertEquals(LocalDate.of(2000, 1,1), competitorDTO.getDateOfBirth());
+        assertTrue(competitorDTO.isGuest());
 
         CompetitorDTO competitorDTO2 = result.get(1);
         assertNotNull(competitorDTO2);
@@ -73,6 +74,7 @@ class FileReaderServiceTest {
         assertEquals("Peter", competitorDTO2.getFirstName());
         assertEquals("Meier", competitorDTO2.getLastName());
         assertEquals(LocalDate.of(1990, 10, 10), competitorDTO2.getDateOfBirth());
+        assertFalse(competitorDTO2.isGuest());
     }
 
     @Test
@@ -92,7 +94,7 @@ class FileReaderServiceTest {
         System.setProperty(INPUT_COMPETITORS, "competitors_wrong.csv");
         FilePaths.loadPaths();
         Throwable throwable = assertThrows(IllegalArgumentException.class, () -> fileReaderService.readCompetitorFile());
-        assertEquals("competitor.csv does not contain 4 columns.", throwable.getMessage());
+        assertEquals("competitor.csv does not contain 5 columns.", throwable.getMessage());
     }
 
     @Test

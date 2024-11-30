@@ -26,7 +26,7 @@ class XMLServiceTest {
 
     @Test
     void createXml() throws JAXBException {
-        xmlService.createXml("Hans_Peter", DateUtil.stringToDate("01.01.2000"), "123456789");
+        xmlService.createXml("Hans", "Peter", DateUtil.stringToDate("01.01.2000"), "123456789", true);
 
         File file = new File(FilePaths.getPath(INPUT_XML_PATH));
 
@@ -38,7 +38,7 @@ class XMLServiceTest {
 
     @Test
     void loadXMLDataInDocxFile() throws JAXBException, FileNotFoundException, Docx4JException {
-        xmlService.createXml("Hans_Peter", DateUtil.stringToDate("01.01.2000"), "123456789");
+        xmlService.createXml("Hans", "Peter", DateUtil.stringToDate("01.01.2000"), "123456789", true);
 
         String outputDocxPath = xmlService.loadXMLDataInDocxFile("Hans_Peter");
 
