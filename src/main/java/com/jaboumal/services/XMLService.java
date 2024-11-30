@@ -36,9 +36,8 @@ public class XMLService {
      * @param barcode     the barcode of the competitor
      * @throws JAXBException if an error occurs during the creation of the XML file
      */
-    public void createXml(String firstName, String lastName, LocalDate dateOfBirth, String barcode) throws JAXBException {
-        //FIXME: istAktiv and istGast are hardcoded to true and false
-        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, firstName, lastName, true, false);
+    public void createXml(String firstName, String lastName, LocalDate dateOfBirth, String barcode, boolean isGuest) throws JAXBException {
+        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, firstName, lastName, !isGuest, isGuest);
         RootDTO rootDTO = new RootDTO(berchtoldschiessenDTO);
 
         // create XML file
