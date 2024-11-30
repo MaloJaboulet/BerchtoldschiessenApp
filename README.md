@@ -42,6 +42,9 @@ mvn clean install
 mvn test
 ```
 
+### Neue Vorlage erstellen
+[Neue Vorlage erstellen](src/docs/Create_New_Template.md)
+
 ## Autoren
 
 - [@Malo Jaboulet](https://www.github.com/MaloJaboulet)
