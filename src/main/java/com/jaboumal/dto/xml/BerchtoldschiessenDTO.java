@@ -15,8 +15,10 @@ import java.time.format.DateTimeFormatterBuilder;
  */
 public class BerchtoldschiessenDTO {
     private final DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder().appendPattern("dd.MM.yyyy").toFormatter();
-    @XmlElement(name = "name")
-    private String name;
+    @XmlElement(name = "firstName")
+    private String firstName;
+    @XmlElement(name = "lastName")
+    private String lastName;
     @XmlElement(name = "geburtsdatum")
     private String geburtsdatum;
     @XmlElement(name = "barcode")
@@ -41,14 +43,16 @@ public class BerchtoldschiessenDTO {
      * @param geburtsdatum the birth date of the competitor
      * @param istAktiv     if the competitor is active
      * @param istGast      if the competitor is a guest
-     * @param name         the name of the competitor
+     * @param firstName    the first name of the competitor
+     * @param lastName     the last name of the competitor
      */
-    public BerchtoldschiessenDTO(String barcode, LocalDate geburtsdatum, String name, boolean istAktiv, boolean istGast) {
+    public BerchtoldschiessenDTO(String barcode, LocalDate geburtsdatum, String firstName, String lastName, boolean istAktiv, boolean istGast) {
         this.barcode = barcode;
         this.datum = LocalDate.now().format(dateTimeFormatter);
         this.geburtsdatum = DateUtil.dateToString(geburtsdatum);
         this.istAktiv = istAktiv;
         this.istGast = istGast;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 }

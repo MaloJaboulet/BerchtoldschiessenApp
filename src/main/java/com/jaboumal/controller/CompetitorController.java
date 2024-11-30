@@ -135,7 +135,7 @@ public class CompetitorController {
             String barcode = barcodeCreatorService.createBarcode(competitor.getLizenzNummer());
 
             XMLService xmlService = new XMLService();
-            xmlService.createXml(competitor.getFirstName() + " " + competitor.getLastName(), competitor.getDateOfBirth(), barcode);
+            xmlService.createXml(competitor.getFirstName(), competitor.getLastName(), competitor.getDateOfBirth(), barcode);
 
             String pathPrintingFile = xmlService.loadXMLDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
             PrintService.printDoc(pathPrintingFile);
