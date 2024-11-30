@@ -2,6 +2,7 @@ package com.jaboumal.services;
 
 import com.jaboumal.constants.FilePaths;
 import com.jaboumal.util.ConfigUtil;
+import com.jaboumal.util.DateUtil;
 import jakarta.xml.bind.JAXBException;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +26,7 @@ class XMLServiceTest {
 
     @Test
     void createXml() throws JAXBException {
-        xmlService.createXml("Hans_Peter", "2000-01-01", "123456789");
+        xmlService.createXml("Hans", "Peter", DateUtil.stringToDate("01.01.2000"), "123456789", true);
 
         File file = new File(FilePaths.getPath(INPUT_XML_PATH));
 
@@ -37,7 +38,7 @@ class XMLServiceTest {
 
     @Test
     void loadXMLDataInDocxFile() throws JAXBException, FileNotFoundException, Docx4JException {
-        xmlService.createXml("Hans_Peter", "2000-01-01", "123456789");
+        xmlService.createXml("Hans", "Peter", DateUtil.stringToDate("01.01.2000"), "123456789", true);
 
         String outputDocxPath = xmlService.loadXMLDataInDocxFile("Hans_Peter");
 

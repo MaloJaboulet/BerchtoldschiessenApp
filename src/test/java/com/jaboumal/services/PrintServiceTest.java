@@ -1,5 +1,6 @@
 package com.jaboumal.services;
 
+import com.jaboumal.controller.CompetitorController;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class PrintServiceTest {
 
-    private final String pathPrintingFile = "src/test/resources/output/Berchtoldschiessen_Hans_Peter.docx";
     @Mock
     private javax.print.PrintService printServiceMock;
 
@@ -36,6 +36,8 @@ class PrintServiceTest {
     void setUp() throws IOException {
         copyTestFiles();
         MockitoAnnotations.openMocks(this);
+        CompetitorController competitorController = new CompetitorController();
+        competitorController.createPrintRecordFile();
     }
 
     @Test
@@ -50,6 +52,7 @@ class PrintServiceTest {
 
 
             // Act
+            String pathPrintingFile = "src/test/resources/output/Berchtoldschiessen_Hans_Peter.docx";
             PrintService.printDoc(pathPrintingFile);
 
             // Assert

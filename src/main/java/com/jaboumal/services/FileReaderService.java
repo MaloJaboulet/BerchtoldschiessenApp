@@ -4,6 +4,7 @@ import com.jaboumal.constants.EventMessages;
 import com.jaboumal.constants.FilePaths;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.EventMessagePanel;
+import com.jaboumal.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class FileReaderService {
 
     /**
      * Reads the competitor file from the specified path and parses its content into a list of CompetitorDTO objects.
-     * Each line of the file is expected to contain four columns: lizenzNummer, firstname, lastname, and dateOfBirth.
+     * Each line of the file is expected to contain four columns: lizenzNummer, firstname, lastname, dateOfBirth, isGuest.
      * If the file is not found, an error message is logged and displayed.
      *
      * @return a list of CompetitorDTO objects parsed from the competitor file
@@ -41,16 +42,17 @@ public class FileReaderService {
 
             while (competitorScanner.hasNextLine()) {
                 List<String> row = getRecordFromLine(competitorScanner.nextLine());
-                if (row.size() != 4) {
-                    throw new IllegalArgumentException("competitor.csv does not contain 4 columns.");
+                if (row.size() != 5) {
+                    throw new IllegalArgumentException("competitor.csv does not contain 5 columns.");
                 }
 
                 int lizenzNummer = Integer.parseInt(row.get(0));
                 String firstname = row.get(1);
                 String lastname = row.get(2);
                 String dateOfBirth = row.get(3);
+                boolean isGuest = Boolean.parseBoolean(row.get(4));
 
-                CompetitorDTO competitorDTO = new CompetitorDTO(lizenzNummer, firstname, lastname, dateOfBirth);
+                CompetitorDTO competitorDTO = new CompetitorDTO(lizenzNummer, firstname, lastname, DateUtil.stringToDate(dateOfBirth), isGuest);
                 competitors.add(competitorDTO);
             }
             competitorScanner.close();

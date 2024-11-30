@@ -1,2 +1,2 @@
-123456,Hans,Peter,01.01.2000
-987653,Peter,Meier,10.10.1990
+123456,Hans,Peter,01.01.2000,true
+987653,Peter,Meier,10.10.1990,false

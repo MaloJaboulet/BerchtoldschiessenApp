@@ -1,9 +1,11 @@
 package com.jaboumal.dto;
 
+import java.time.LocalDate;
+
 /**
  * Competitor object for the XML response.
  * This class is used to represent a competitor in the XML response.
- * It contains the competitor's license number, first name, last name and date of birth
+ * It contains the competitor's license number, first name, last name, date of birth and isGuest
  * of the competitor.
  *
  * @author Malo Jaboulet
@@ -13,13 +15,15 @@ public class CompetitorDTO {
     private int lizenzNummer;
     private String firstName;
     private String lastName;
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
+    private boolean isGuest;
 
     /**
      * Default constructor.
      */
     public CompetitorDTO() {
     }
+
 
     /**
      * Constructor with the competitor's license number, first name, last name and date of birth.
@@ -28,10 +32,12 @@ public class CompetitorDTO {
      * @param firstName    the competitor's first name
      * @param lastName     the competitor's last name
      * @param dateOfBirth  the competitor's date of birth
+     * @param isGuest      the competitor's guest status
      */
-    public CompetitorDTO(int lizenzNummer, String firstName, String lastName, String dateOfBirth) {
+    public CompetitorDTO(int lizenzNummer, String firstName, String lastName, LocalDate dateOfBirth, boolean isGuest) {
         this.dateOfBirth = dateOfBirth;
         this.firstName = firstName;
+        this.isGuest = isGuest;
         this.lastName = lastName;
         this.lizenzNummer = lizenzNummer;
     }
@@ -41,7 +47,7 @@ public class CompetitorDTO {
      *
      * @return the date of birth of the competitor
      */
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
@@ -50,7 +56,7 @@ public class CompetitorDTO {
      *
      * @param dateOfBirth the date of birth of the competitor
      */
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -106,6 +112,24 @@ public class CompetitorDTO {
      */
     public void setLizenzNummer(int lizenzNummer) {
         this.lizenzNummer = lizenzNummer;
+    }
+
+    /**
+     * Returns if the competitor is a guest.
+     *
+     * @return if the competitor is a guest
+     */
+    public boolean isGuest() {
+        return isGuest;
+    }
+
+    /**
+     * Sets if the competitor is a guest.
+     *
+     * @param guest if the competitor is a guest
+     */
+    public void setGuest(boolean guest) {
+        isGuest = guest;
     }
 
     /**

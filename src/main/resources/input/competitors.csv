@@ -1,4 +1,4 @@
-123456,Luis,Wittwer,10.02.1999
-987654,Jessica,Lehnen,04.09.1890
-123987,Jessica,Peter,04.09.1890
-1,Hans,Peter,17.01.2004
+123456,Luis,Wittwer,10.02.1999,false
+987654,Jessica,Lehnen,04.09.1890,true
+123987,Jessica,Peter,04.09.1890,true
+1,Hans,Peter,17.01.2004,false

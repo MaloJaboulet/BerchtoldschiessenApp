@@ -1,8 +1,8 @@
 package com.jaboumal.services;
 
 import com.jaboumal.constants.FilePaths;
-import com.jaboumal.dto.BerchtoldschiessenDTO;
-import com.jaboumal.dto.RootDTO;
+import com.jaboumal.dto.xml.BerchtoldschiessenDTO;
+import com.jaboumal.dto.xml.RootDTO;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.time.LocalDate;
 
 import static com.jaboumal.constants.FilePaths.*;
 
@@ -29,13 +30,14 @@ public class XMLService {
     /**
      * Create an XML file with the given name, date of birth and barcode
      *
-     * @param name        the name of the competitor
+     * @param firstName   the first name of the competitor
+     * @param lastName    the last name of the competitor
      * @param dateOfBirth the date of birth of the competitor
      * @param barcode     the barcode of the competitor
      * @throws JAXBException if an error occurs during the creation of the XML file
      */
-    public void createXml(String name, String dateOfBirth, String barcode) throws JAXBException {
-        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, name);
+    public void createXml(String firstName, String lastName, LocalDate dateOfBirth, String barcode, boolean isGuest) throws JAXBException {
+        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, firstName, lastName, !isGuest, isGuest);
         RootDTO rootDTO = new RootDTO(berchtoldschiessenDTO);
 
         // create XML file
