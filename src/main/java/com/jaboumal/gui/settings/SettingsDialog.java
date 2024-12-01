@@ -1,6 +1,7 @@
 package com.jaboumal.gui.settings;
 
 import com.jaboumal.constants.FilePaths;
+import com.jaboumal.controller.CompetitorController;
 import com.jaboumal.gui.customComponents.CustomButton;
 import com.jaboumal.gui.customComponents.CustomLabel;
 import com.jaboumal.services.FileReaderService;
@@ -71,6 +72,7 @@ public class SettingsDialog {
                     inputCompetitorFileNameField.setText(selectedFile.getName());
                     //Copy selected file to Berchtold folder
                     FileReaderService.copyFile(selectedFile.getPath(), FilePaths.getPath(INPUT_COMPETITORS_PATH));
+                    CompetitorController.loadCompetitorsFromFile();
                 }
             }
         });
