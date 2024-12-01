@@ -4,10 +4,7 @@ import com.jaboumal.BerchtoldApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -78,6 +75,20 @@ public class ConfigService {
         return properties.getProperty(propertyName);
     }
 
+    public static void replaceProperty(String key, String value) {
+        if (System.getProperty("app.env") != null && System.getProperty("app.env").toLowerCase().contains("local")) {
+            fileName = "src/main/resources/config/config_local.properties";
+
+        }
+
+        try (FileOutputStream fileOutputStream = new FileOutputStream(fileName)) {
+            properties.setProperty(key, value);
+            properties.store(fileOutputStream, null);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 
     /**
      * Creates the base directories for the application.
