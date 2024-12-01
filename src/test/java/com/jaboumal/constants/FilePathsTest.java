@@ -24,12 +24,15 @@ class FilePathsTest {
 
         Map<String, String> result = filePaths.getPaths();
         assertNotNull(result);
-        assertEquals(5, result.size());
+        assertEquals(8, result.size());
         assertEquals("src/test/resources/output/Berchtoldschiessen_%s.docx", result.get(FilePaths.OUTPUT_DOCX_PATH));
         assertEquals("src/test/resources/output/data_output.xml", result.get(FilePaths.INPUT_XML_PATH));
         assertEquals("src/test/resources/input/competitors.csv", result.get(FilePaths.INPUT_COMPETITORS_PATH));
         assertEquals("src/test/resources/Standbl_Ber.docx", result.get(FilePaths.INPUT_DOCX_PATH));
         assertEquals("src/test/resources/output/Print_Record_Berchtoldschiessen_%s.csv", result.get(FilePaths.OUTPUT_PRINT_RECORD_PATH));
+        assertEquals("src/test/resources/", result.get(FilePaths.BASE_DIRECTORY));
+        assertEquals("input/", result.get(FilePaths.INPUT_FOLDER));
+        assertEquals("output/", result.get(FilePaths.OUTPUT_FOLDER));
     }
 
     @Test

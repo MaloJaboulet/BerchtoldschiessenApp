@@ -41,6 +41,9 @@ public class FilePaths {
         String baseDir = System.getProperty(BASE_DIRECTORY);
         String inputDir = System.getProperty(INPUT_FOLDER);
         String outputDir = System.getProperty(OUTPUT_FOLDER);
+        paths.put(BASE_DIRECTORY, baseDir);
+        paths.put(INPUT_FOLDER, inputDir);
+        paths.put(OUTPUT_FOLDER, outputDir);
         paths.put(INPUT_DOCX_PATH, baseDir.concat(System.getProperty(INPUT_DOCX)));
         paths.put(INPUT_XML_PATH, baseDir.concat(outputDir.concat(System.getProperty(INPUT_XML))));
         paths.put(OUTPUT_DOCX_PATH, baseDir.concat(outputDir.concat(System.getProperty(OUTPUT_DOCX))));

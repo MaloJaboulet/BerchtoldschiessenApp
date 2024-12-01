@@ -3,6 +3,7 @@ package com.jaboumal.gui.settings;
 import com.jaboumal.constants.FilePaths;
 import com.jaboumal.gui.customComponents.CustomButton;
 import com.jaboumal.gui.customComponents.CustomLabel;
+import com.jaboumal.services.ConfigService;
 import com.jaboumal.services.FileReaderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS_PATH;
-import static com.jaboumal.constants.FilePaths.INPUT_DOCX_PATH;
+import static com.jaboumal.constants.FilePaths.*;
 
 /**
  * SettingsDialog class is responsible for creating the settings dialog
@@ -69,8 +69,15 @@ public class SettingsDialog {
                 File selectedFile = selectFile("csv");
                 if (selectedFile != null) {
                     inputCompetitorFileNameField.setText(selectedFile.getName());
+
+                    String fileName = selectedFile.getName();
+                    String destinationPath = FilePaths.getPath(BASE_DIRECTORY).concat(FilePaths.getPath(INPUT_FOLDER)).concat(fileName);
+                    log.debug("Copying file: {} to {}", fileName, destinationPath);
+
                     //Copy selected file to Berchtold folder
-                    FileReaderService.copyFile(selectedFile.getPath(), FilePaths.getPath(INPUT_COMPETITORS_PATH));
+                    FileReaderService.copyFile(selectedFile.getPath(), destinationPath);
+                    FileReaderService.deleteFile(FilePaths.getPath(INPUT_COMPETITORS_PATH));
+                    ConfigService.replaceProperty(INPUT_COMPETITORS, fileName);
                 }
             }
         });
@@ -95,8 +102,15 @@ public class SettingsDialog {
                 File selectedFile = selectFile("docx");
                 if (selectedFile != null) {
                     inputTemplateNameField.setText(selectedFile.getName());
+
+                    String fileName = selectedFile.getName();
+                    String destinationPath = FilePaths.getPath(BASE_DIRECTORY).concat(fileName);
+                    log.debug("Copying file: {} to {}", fileName, destinationPath);
+
                     //Copy selected file to Berchtold folder
-                    FileReaderService.copyFile(selectedFile.getPath(), FilePaths.getPath(INPUT_DOCX_PATH));
+                    FileReaderService.copyFile(selectedFile.getPath(), destinationPath);
+                    FileReaderService.deleteFile(FilePaths.getPath(INPUT_DOCX_PATH));
+                    ConfigService.replaceProperty(INPUT_DOCX, fileName);
                 }
             }
         });
