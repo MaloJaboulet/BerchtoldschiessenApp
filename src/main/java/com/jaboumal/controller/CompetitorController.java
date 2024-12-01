@@ -37,7 +37,7 @@ public class CompetitorController {
      * Load the competitors from the file
      * If the file is not found or the format is wrong, an error message is displayed
      */
-    public void loadCompetitorsFromFile() {
+    public static void loadCompetitorsFromFile() {
         FileReaderService fileReaderService = new FileReaderService();
         try {
             competitors = fileReaderService.readCompetitorFile();
