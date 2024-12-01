@@ -1,6 +1,7 @@
 package com.jaboumal.gui.settings;
 
 import com.jaboumal.constants.FilePaths;
+import com.jaboumal.controller.CompetitorController;
 import com.jaboumal.gui.customComponents.CustomButton;
 import com.jaboumal.gui.customComponents.CustomLabel;
 import com.jaboumal.services.ConfigService;
@@ -78,6 +79,7 @@ public class SettingsDialog {
                     FileReaderService.copyFile(selectedFile.getPath(), destinationPath);
                     FileReaderService.deleteFile(FilePaths.getPath(INPUT_COMPETITORS_PATH));
                     ConfigService.replaceProperty(INPUT_COMPETITORS, fileName);
+                    CompetitorController.loadCompetitorsFromFile();
                 }
             }
         });
