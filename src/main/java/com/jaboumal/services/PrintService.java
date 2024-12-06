@@ -1,6 +1,7 @@
 package com.jaboumal.services;
 
 import com.jaboumal.controller.CompetitorController;
+import org.docx4j.Docx4J;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,9 +11,14 @@ import javax.print.attribute.HashDocAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.MediaSizeName;
+import javax.print.attribute.standard.PrintQuality;
+import javax.print.attribute.standard.Sides;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 /**
  * Service class for printing files
@@ -28,26 +34,23 @@ public class PrintService {
      * @param pathPrintingFile the path of the file to print
      */
     public static void printDoc(String pathPrintingFile) {
-        File outputFile = new File(pathPrintingFile);
+        String docxPath = pathPrintingFile;
+        String pdfPath = pathPrintingFile.replace(".docx", ".pdf");
+
+        FileReaderService.convertDocxToPdf(docxPath, pdfPath);
+        File wordFile = new File(docxPath);
+        wordFile.delete();
+        File outputFile = new File(pdfPath);
 
         try {
-            PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-            DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
             javax.print.PrintService defaultService = PrintServiceLookup.lookupDefaultPrintService();
 
             log.debug("Default Print Service: {}", defaultService);
             if (defaultService != null) {
-                DocPrintJob job = defaultService.createPrintJob();
-                FileInputStream input = new FileInputStream(outputFile);
-                DocAttributeSet das = new HashDocAttributeSet();
-                Doc doc = new SimpleDoc(input, flavor, das);
 
-
-                pras.add(new JobName(outputFile.getName(), null));
-                job.print(doc, pras);
-                log.info("Printing file: {}", outputFile.getName());
-                input.close();
+                Desktop.getDesktop().print(outputFile);
                 outputFile.delete();
+
 
                 String record = LocalDateTime.now() + "," + outputFile.getName() + "\n";
                 CompetitorController.writeToPrintRecordFile(record);

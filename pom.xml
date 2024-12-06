@@ -13,6 +13,7 @@
 
         <docx4j.version>11.5.0</docx4j.version>
         <java.version>22</java.version>
+        <documents4j.version>1.1.12</documents4j.version>
     </properties>
 
     <scm>
@@ -28,10 +29,6 @@
             <artifactId>docx4j-core</artifactId>
             <version>${docx4j.version}</version>
             <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>jcl-over-slf4j</artifactId>
-                </exclusion>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-api</artifactId>
@@ -62,6 +59,29 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.documents4j/documents4j-api -->
+        <dependency>
+            <groupId>com.documents4j</groupId>
+            <artifactId>documents4j-api</artifactId>
+            <version>${documents4j.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.documents4j/documents4j-transformer-msoffice-word -->
+        <dependency>
+            <groupId>com.documents4j</groupId>
+            <artifactId>documents4j-transformer-msoffice-word</artifactId>
+            <version>${documents4j.version}</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/com.documents4j/documents4j-local -->
+        <dependency>
+            <groupId>com.documents4j</groupId>
+            <artifactId>documents4j-local</artifactId>
+            <version>${documents4j.version}</version>
+        </dependency>
+
 
 
         <dependency>
