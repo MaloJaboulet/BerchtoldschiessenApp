@@ -29,7 +29,6 @@ public class FilePaths {
     public static final String INPUT_FOLDER = "INPUT_FOLDER";
 
     public static final String OUTPUT_FOLDER = "OUTPUT_FOLDER";
-    public static final String OUTPUT_FOLDER_PATH = "OUTPUT_FOLDER_PATH";
 
 
     private static Map<String, String> paths;
@@ -46,7 +45,6 @@ public class FilePaths {
         paths.put(BASE_DIRECTORY, baseDir);
         paths.put(INPUT_FOLDER, inputDir);
         paths.put(OUTPUT_FOLDER, outputDir);
-        paths.put(OUTPUT_FOLDER_PATH, baseDir.concat(outputDir));
         paths.put(INPUT_DOCX_PATH, baseDir.concat(System.getProperty(INPUT_DOCX)));
         paths.put(INPUT_XML_PATH, baseDir.concat(outputDir.concat(System.getProperty(INPUT_XML))));
         paths.put(OUTPUT_DOCX_PATH, baseDir.concat(outputDir.concat(System.getProperty(OUTPUT_DOCX))));

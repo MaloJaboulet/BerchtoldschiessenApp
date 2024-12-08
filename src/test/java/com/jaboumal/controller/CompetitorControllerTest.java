@@ -8,10 +8,7 @@ import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.MainFrame;
 import com.jaboumal.services.PrintService;
 import com.jaboumal.util.ConfigUtil;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -132,6 +129,7 @@ public class CompetitorControllerTest {
         assertNull(result);
     }
 
+    @Disabled("Will print a real file")
     @Test
     void testCreateStandblattAndPrint() {
         CompetitorDTO competitor = new CompetitorDTO();

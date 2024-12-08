@@ -3,6 +3,7 @@ package com.jaboumal.services;
 import com.jaboumal.controller.CompetitorController;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -20,6 +21,7 @@ import java.io.InputStream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@Disabled("Will print a real file")
 @ExtendWith(MockitoExtension.class)
 class PrintServiceTest {
 
