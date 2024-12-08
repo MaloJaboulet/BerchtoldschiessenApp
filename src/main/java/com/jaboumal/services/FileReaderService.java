@@ -1,22 +1,12 @@
 package com.jaboumal.services;
 
-import com.documents4j.api.DocumentType;
-import com.documents4j.api.IConverter;
-import com.documents4j.job.LocalConverter;
+
 import com.jaboumal.constants.EventMessages;
 import com.jaboumal.constants.FilePaths;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.util.DateUtil;
-import org.docx4j.Docx4J;
-import org.docx4j.convert.out.pdf.viaXSLFO.PdfSettings;
-import org.docx4j.fonts.IdentityPlusMapper;
-import org.docx4j.fonts.Mapper;
-import org.docx4j.fonts.PhysicalFont;
-import org.docx4j.fonts.PhysicalFonts;
-import org.docx4j.model.structure.SectionWrapper;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
-import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +16,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS_PATH;
 
@@ -154,37 +142,6 @@ public class FileReaderService {
             log.info("File deleted successfully: {}", filePath);
         } else {
             log.error("Failed to delete the file: {}", filePath);
-        }
-    }
-
-    /**
-     * Converts a DOCX file to a PDF file.
-     *
-     * @param docxFilePath the path of the DOCX file to convert
-     * @param pdfFilePath  the path of the PDF file to create
-     */
-    public static void convertDocxToPdf(String docxFilePath, String pdfFilePath) {
-        log.info("Conversion of DOCX to PDF started");
-        File wordFile = new File(docxFilePath);
-        File pdfFile = new File(pdfFilePath);
-        File tempFolder = new File(FilePaths.getPath(FilePaths.OUTPUT_FOLDER_PATH));
-
-        IConverter converter = LocalConverter.builder()
-                .baseFolder(tempFolder)
-                .workerPool(20, 25, 2, TimeUnit.SECONDS)
-                .processTimeout(5, TimeUnit.SECONDS)
-                .build();
-
-        Future<Boolean> conversion = converter
-                .convert(wordFile).as(DocumentType.MS_WORD)
-                .to(pdfFile).as(DocumentType.PDF)
-                .prioritizeWith(1000) // optional
-                .schedule();
-
-        converter.shutDown();
-
-        if (conversion.isDone()) {
-            log.info("Conversion of DOCX to PDF completed");
         }
     }
 }

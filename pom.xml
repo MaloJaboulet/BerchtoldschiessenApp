@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jaboumal</groupId>
@@ -60,30 +61,6 @@
             </exclusions>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.documents4j/documents4j-api -->
-        <dependency>
-            <groupId>com.documents4j</groupId>
-            <artifactId>documents4j-api</artifactId>
-            <version>${documents4j.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.documents4j/documents4j-transformer-msoffice-word -->
-        <dependency>
-            <groupId>com.documents4j</groupId>
-            <artifactId>documents4j-transformer-msoffice-word</artifactId>
-            <version>${documents4j.version}</version>
-        </dependency>
-
-
-        <!-- https://mvnrepository.com/artifact/com.documents4j/documents4j-local -->
-        <dependency>
-            <groupId>com.documents4j</groupId>
-            <artifactId>documents4j-local</artifactId>
-            <version>${documents4j.version}</version>
-        </dependency>
-
-
-
         <dependency>
             <groupId>uk.org.okapibarcode</groupId>
             <artifactId>okapibarcode</artifactId>
@@ -104,6 +81,7 @@
             <version>242.22855.106</version>
         </dependency>
 
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -120,7 +98,6 @@
             <artifactId>log4j-slf4j2-impl</artifactId>
             <version>2.24.1</version>
         </dependency>
-
 
 
         <!-- test dependency -->
