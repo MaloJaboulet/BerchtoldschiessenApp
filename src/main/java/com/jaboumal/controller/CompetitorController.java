@@ -8,8 +8,8 @@ import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.MainFrame;
 import com.jaboumal.services.BarcodeCreatorService;
 import com.jaboumal.services.FileReaderService;
+import com.jaboumal.services.PDFService;
 import com.jaboumal.services.PrintService;
-import com.jaboumal.services.XMLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,10 +134,8 @@ public class CompetitorController {
             BarcodeCreatorService barcodeCreatorService = new BarcodeCreatorService();
             String barcode = barcodeCreatorService.createBarcode(competitor.getLizenzNummer());
 
-            XMLService xmlService = new XMLService();
-            xmlService.createXml(competitor.getFirstName(), competitor.getLastName(), competitor.getDateOfBirth(), barcode, competitor.isGuest());
-
-            String pathPrintingFile = xmlService.loadXMLDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
+            PDFService PDFService = new PDFService();
+            String pathPrintingFile = PDFService.createPDF(competitor.getFirstName(), competitor.getLastName(), competitor.getDateOfBirth(), barcode, competitor.isGuest());
             PrintService.printDoc(pathPrintingFile);
         } catch (Exception e) {
             log.error(e.getMessage(), e);

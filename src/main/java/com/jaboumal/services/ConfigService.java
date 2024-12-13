@@ -59,9 +59,8 @@ public class ConfigService {
         }
 
         log.debug("BASE_DIRECTORY: {}", properties.getProperty(BASE_DIRECTORY));
-        log.debug("INPUT_DOCX: {}", properties.getProperty(INPUT_DOCX));
-        log.debug("OUTPUT_DOCX: {}", properties.getProperty(OUTPUT_DOCX));
-        log.debug("INPUT_XML: {}", properties.getProperty(INPUT_XML));
+        log.debug("INPUT_PDF: {}", properties.getProperty(INPUT_PDF));
+        log.debug("OUTPUT_FILE: {}", properties.getProperty(OUTPUT_FILE));
         log.debug("INPUT_COMPETITORS: {}", properties.getProperty(INPUT_COMPETITORS));
     }
 

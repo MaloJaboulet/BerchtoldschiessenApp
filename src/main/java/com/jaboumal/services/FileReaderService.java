@@ -6,7 +6,6 @@ import com.jaboumal.constants.FilePaths;
 import com.jaboumal.dto.CompetitorDTO;
 import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.util.DateUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -101,7 +101,7 @@ public class SettingsDialog {
         buttonPrintTemplate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                File selectedFile = selectFile("docx");
+                File selectedFile = selectFile("pdf");
                 if (selectedFile != null) {
                     inputTemplateNameField.setText(selectedFile.getName());
 
@@ -111,8 +111,8 @@ public class SettingsDialog {
 
                     //Copy selected file to Berchtold folder
                     FileReaderService.copyFile(selectedFile.getPath(), destinationPath);
-                    FileReaderService.deleteFile(FilePaths.getPath(INPUT_DOCX_PATH));
-                    ConfigService.replaceProperty(INPUT_DOCX, fileName);
+                    FileReaderService.deleteFile(FilePaths.getPath(INPUT_PDF_PATH));
+                    ConfigService.replaceProperty(INPUT_PDF, fileName);
                 }
             }
         });

@@ -124,15 +124,15 @@ class FileReaderServiceTest {
 
     @Test
     void copyFile_invalidDestinationPath_throwException() {
-        String sourcePath = System.getProperty(BASE_DIRECTORY) + System.getProperty(INPUT_FOLDER) + System.getProperty(INPUT_DOCX);
-        String destinationPath = System.getProperty(BASE_DIRECTORY) + "blablabla" + System.getProperty(OUTPUT_FOLDER) + System.getProperty(INPUT_DOCX);
+        String sourcePath = System.getProperty(BASE_DIRECTORY) + System.getProperty(INPUT_FOLDER) + System.getProperty(INPUT_PDF);
+        String destinationPath = System.getProperty(BASE_DIRECTORY) + "blablabla" + System.getProperty(OUTPUT_FOLDER) + System.getProperty(INPUT_PDF);
         assertThrows(RuntimeException.class, () -> FileReaderService.copyFile(sourcePath, destinationPath));
     }
 
     @Test
     void copyFile_invalidSourcePath_throwException() {
-        String sourcePath = System.getProperty(BASE_DIRECTORY) + "blablabla" + System.getProperty(INPUT_FOLDER) + System.getProperty(INPUT_DOCX);
-        String destinationPath = System.getProperty(BASE_DIRECTORY) + System.getProperty(OUTPUT_FOLDER) + System.getProperty(INPUT_DOCX);
+        String sourcePath = System.getProperty(BASE_DIRECTORY) + "blablabla" + System.getProperty(INPUT_FOLDER) + System.getProperty(INPUT_PDF);
+        String destinationPath = System.getProperty(BASE_DIRECTORY) + System.getProperty(OUTPUT_FOLDER) + System.getProperty(INPUT_PDF);
         assertThrows(RuntimeException.class, () -> FileReaderService.copyFile(sourcePath, destinationPath));
     }
 

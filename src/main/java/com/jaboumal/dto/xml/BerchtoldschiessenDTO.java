@@ -55,4 +55,36 @@ public class BerchtoldschiessenDTO {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public DateTimeFormatter getDateTimeFormatter() {
+        return dateTimeFormatter;
+    }
+
+    public String getDatum() {
+        return datum;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getGeburtsdatum() {
+        return geburtsdatum;
+    }
+
+    public boolean isIstAktiv() {
+        return istAktiv;
+    }
+
+    public boolean isIstGast() {
+        return istGast;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
 }

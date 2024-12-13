@@ -4,8 +4,14 @@ import com.jaboumal.controller.CompetitorController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.print.PrintServiceLookup;
+import javax.print.*;
+import javax.print.attribute.DocAttributeSet;
+import javax.print.attribute.HashDocAttributeSet;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.JobName;
 import java.io.File;
+import java.io.FileInputStream;
 import java.time.LocalDateTime;
 
 /**
@@ -22,27 +28,45 @@ public class PrintService {
      * @param pathPrintingFile the path of the file to print
      */
     public static void printDoc(String pathPrintingFile) {
-        File outputFile = new File(pathPrintingFile);
-
         try {
+            PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+            DocFlavor flavor = DocFlavor.INPUT_STREAM.PNG;
             javax.print.PrintService defaultService = PrintServiceLookup.lookupDefaultPrintService();
 
             log.debug("Default Print Service: {}", defaultService);
             if (defaultService != null) {
 
-                ProcessBuilder builder = new ProcessBuilder("cmd", "/c", "start", "winword", "/q", "/mFilePrintDefault", "/mFileCloseOrExit ", "/mFileClose", "/mFileExit", outputFile.getAbsolutePath());
-                builder.redirectErrorStream(true);
-                builder.start();
+               // ProcessBuilder builder = new ProcessBuilder("cmd", "/c", "start", "winword", "/q", "/mFilePrintDefault", "/mFileCloseOrExit ", "/mFileClose", "/mFileExit", outputFile.getAbsolutePath());
+               // builder.redirectErrorStream(true);
+               // builder.start();
 
-                outputFile.delete();
+                // number of pages in PDF is 2
+                for (int i = 1; i <= 2; i++) {
+                    File outputFile = new File(String.format(pathPrintingFile, i));
+                    if (!outputFile.exists()) {
+                       continue;
+                    }
+
+                    DocPrintJob job = defaultService.createPrintJob();
+                    FileInputStream input = new FileInputStream(outputFile);
+                    DocAttributeSet das = new HashDocAttributeSet();
+                    Doc doc = new SimpleDoc(input, flavor, das);
 
 
-                String record = LocalDateTime.now() + "," + outputFile.getName() + "\n";
-                CompetitorController.writeToPrintRecordFile(record);
+                    pras.add(new JobName(outputFile.getName(), null));
+                    job.print(doc, pras);
+                    log.info("Printing file: {}", outputFile.getName());
+                    input.close();
+                    outputFile.delete();
+
+
+                    String record = LocalDateTime.now() + "," + outputFile.getName() + "\n";
+                    CompetitorController.writeToPrintRecordFile(record);
+                }
             }
 
         } catch (Exception e) {
-            log.error("Failed to print file: {}", outputFile.getName(), e);
+            log.error("Failed to print file: {}", pathPrintingFile, e);
         }
     }
 }

@@ -24,11 +24,10 @@ class FilePathsTest {
 
         Map<String, String> result = filePaths.getPaths();
         assertNotNull(result);
-        assertEquals(8, result.size());
-        assertEquals("src/test/resources/output/Berchtoldschiessen_%s.docx", result.get(FilePaths.OUTPUT_DOCX_PATH));
-        assertEquals("src/test/resources/output/data_output.xml", result.get(FilePaths.INPUT_XML_PATH));
+        assertEquals(7, result.size());
+        assertEquals("src/test/resources/output/Berchtoldschiessen_%s", result.get(FilePaths.OUTPUT_FILE_PATH));
         assertEquals("src/test/resources/input/competitors.csv", result.get(FilePaths.INPUT_COMPETITORS_PATH));
-        assertEquals("src/test/resources/Standbl_Ber.docx", result.get(FilePaths.INPUT_DOCX_PATH));
+        assertEquals("src/test/resources/Standbl_Ber.pdf", result.get(FilePaths.INPUT_PDF_PATH));
         assertEquals("src/test/resources/output/Print_Record_Berchtoldschiessen_%s.csv", result.get(FilePaths.OUTPUT_PRINT_RECORD_PATH));
         assertEquals("src/test/resources/", result.get(FilePaths.BASE_DIRECTORY));
         assertEquals("input/", result.get(FilePaths.INPUT_FOLDER));
@@ -39,9 +38,9 @@ class FilePathsTest {
     void getPathWithKey() {
         FilePaths.loadPaths();
 
-        String result = FilePaths.getPath(FilePaths.OUTPUT_DOCX_PATH);
+        String result = FilePaths.getPath(FilePaths.OUTPUT_FILE_PATH);
         assertNotNull(result);
-        assertEquals("src/test/resources/output/Berchtoldschiessen_%s.docx", result);
+        assertEquals("src/test/resources/output/Berchtoldschiessen_%s", result);
     }
 
     @Test

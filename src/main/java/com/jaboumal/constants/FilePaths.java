@@ -10,14 +10,11 @@ import java.util.Map;
  * @author Malo Jaboulet
  */
 public class FilePaths {
-    public static final String INPUT_DOCX = "INPUT_DOCX";
-    public static final String INPUT_DOCX_PATH = "INPUT_DOCX_PATH";
+    public static final String INPUT_PDF = "INPUT_PDF";
+    public static final String INPUT_PDF_PATH = "INPUT_PDF_PATH";
 
-    public static final String INPUT_XML = "INPUT_XML";
-    public static final String INPUT_XML_PATH = "INPUT_XML_PATH";
-
-    public static final String OUTPUT_DOCX = "OUTPUT_DOCX";
-    public static final String OUTPUT_DOCX_PATH = "OUTPUT_DOCX_PATH";
+    public static final String OUTPUT_FILE = "OUTPUT_FILE";
+    public static final String OUTPUT_FILE_PATH = "OUTPUT_FILE_PATH";
 
     public static final String INPUT_COMPETITORS = "INPUT_COMPETITORS";
     public static final String INPUT_COMPETITORS_PATH = "INPUT_COMPETITORS_PATH";
@@ -45,9 +42,8 @@ public class FilePaths {
         paths.put(BASE_DIRECTORY, baseDir);
         paths.put(INPUT_FOLDER, inputDir);
         paths.put(OUTPUT_FOLDER, outputDir);
-        paths.put(INPUT_DOCX_PATH, baseDir.concat(System.getProperty(INPUT_DOCX)));
-        paths.put(INPUT_XML_PATH, baseDir.concat(outputDir.concat(System.getProperty(INPUT_XML))));
-        paths.put(OUTPUT_DOCX_PATH, baseDir.concat(outputDir.concat(System.getProperty(OUTPUT_DOCX))));
+        paths.put(INPUT_PDF_PATH, baseDir.concat(System.getProperty(INPUT_PDF)));
+        paths.put(OUTPUT_FILE_PATH, baseDir.concat(outputDir.concat(System.getProperty(OUTPUT_FILE))));
         paths.put(INPUT_COMPETITORS_PATH, baseDir.concat(inputDir.concat(System.getProperty(INPUT_COMPETITORS))));
         paths.put(OUTPUT_PRINT_RECORD_PATH, baseDir.concat(outputDir.concat(System.getProperty(OUTPUT_PRINT_RECORD))));
     }
