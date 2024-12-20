@@ -111,8 +111,8 @@ public class SettingsDialog {
 
                     //Copy selected file to Berchtold folder
                     FileReaderService.copyFile(selectedFile.getPath(), destinationPath);
-                    FileReaderService.deleteFile(FilePaths.getPath(INPUT_PDF_PATH));
-                    ConfigService.replaceProperty(INPUT_PDF, fileName);
+                    FileReaderService.deleteFile(FilePaths.getPath(INPUT_GEWEHR_PDF_PATH));
+                    ConfigService.replaceProperty(INPUT_GEWEHR_PDF, fileName);
                 }
             }
         });

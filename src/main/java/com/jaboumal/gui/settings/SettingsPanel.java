@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS;
-import static com.jaboumal.constants.FilePaths.INPUT_PDF;
+import static com.jaboumal.constants.FilePaths.INPUT_GEWEHR_PDF;
 
 
 /**
@@ -37,7 +37,7 @@ public class SettingsPanel extends JPanel {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
              SettingsDialog settingsDialog = new SettingsDialog();
-             settingsDialog.showDialog(ConfigService.getProperty(INPUT_PDF), ConfigService.getProperty(INPUT_COMPETITORS));
+             settingsDialog.showDialog(ConfigService.getProperty(INPUT_GEWEHR_PDF), ConfigService.getProperty(INPUT_COMPETITORS));
             }
         });
     }

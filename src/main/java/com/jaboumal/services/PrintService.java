@@ -13,6 +13,9 @@ import javax.print.attribute.standard.OrientationRequested;
 import java.io.File;
 import java.io.FileInputStream;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Service class for printing files
@@ -21,52 +24,57 @@ import java.time.LocalDateTime;
  */
 public class PrintService {
     private static final Logger log = LoggerFactory.getLogger(PrintService.class);
+    // Thread Pool für die Hintergrundausführung
+    private static final ExecutorService executorService = Executors.newCachedThreadPool();
 
     /**
-     * Print the file at the given path
+     * Asynchronously print the file at the given path
      *
-     * @param pathPrintingFile the path of the file to print
+     * @param pathsPrintingFile the path of the file to print
      */
-    public static void printDoc(String pathPrintingFile) {
-        try {
-            PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-            pras.add(MediaSizeName.ISO_A4);
-            pras.add(OrientationRequested.PORTRAIT);
+    public static void printDoc(List<String> pathsPrintingFile) {
+        executorService.submit(() -> {
+            try {
+                PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+                pras.add(MediaSizeName.ISO_A4);
+                pras.add(OrientationRequested.PORTRAIT);
 
-            javax.print.PrintService defaultService = PrintServiceLookup.lookupDefaultPrintService();
+                javax.print.PrintService defaultService = PrintServiceLookup.lookupDefaultPrintService();
 
+                log.debug("Default Print Service: {}", defaultService);
+                if (defaultService != null) {
+                    for (String pathPrintingFile : pathsPrintingFile) {
+                        if (pathPrintingFile == null) {
+                            continue;
+                        }
 
-            log.debug("Default Print Service: {}", defaultService);
-            if (defaultService != null) {
-                // number of pages in PDF is 2
-                for (int i = 1; i == 1; i++) {
-                    File outputFile = new File(String.format(pathPrintingFile, i));
-                    if (!outputFile.exists()) {
-                        continue;
+                        File outputFile = new File(pathPrintingFile);
+
+                        DocPrintJob job = defaultService.createPrintJob();
+                        FileInputStream input = new FileInputStream(outputFile);
+                        Doc doc = new SimpleDoc(input, DocFlavor.INPUT_STREAM.PNG, null);
+
+                        pras.add(new JobName(outputFile.getName(), null));
+                        //job.print(doc, pras);
+
+                        log.info("Printing file: {}", outputFile.getName());
+                        input.close();
+                        outputFile.delete();
+
+                        String record = LocalDateTime.now() + "," + outputFile.getName() + "\n";
+                        CompetitorController.writeToPrintRecordFile(record);
                     }
-
-                    DocPrintJob job = defaultService.createPrintJob();
-                    FileInputStream input = new FileInputStream(outputFile);
-                    Doc doc = new SimpleDoc(input, DocFlavor.INPUT_STREAM.PNG, null);
-
-
-                    pras.add(new JobName(outputFile.getName(), null));
-                    long start = System.currentTimeMillis();
-                    job.print(doc, pras);
-                    long end = System.currentTimeMillis();
-                    log.info("Printing time: {}", end - start);
-                    log.info("Printing file: {}", outputFile.getName());
-                    input.close();
-                    outputFile.delete();
-
-
-                    String record = LocalDateTime.now() + "," + outputFile.getName() + "\n";
-                    CompetitorController.writeToPrintRecordFile(record);
                 }
+            } catch (Exception e) {
+                log.error("Failed to print file: {}", pathsPrintingFile, e);
             }
+        });
+    }
 
-        } catch (Exception e) {
-            log.error("Failed to print file: {}", pathPrintingFile, e);
-        }
+    /**
+     * Shutdown the executor service
+     */
+    public static void shutdown() {
+        executorService.shutdown();
     }
 }

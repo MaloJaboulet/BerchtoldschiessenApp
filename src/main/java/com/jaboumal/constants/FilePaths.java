@@ -10,8 +10,11 @@ import java.util.Map;
  * @author Malo Jaboulet
  */
 public class FilePaths {
-    public static final String INPUT_PDF = "INPUT_PDF";
-    public static final String INPUT_PDF_PATH = "INPUT_PDF_PATH";
+    public static final String INPUT_GEWEHR_PDF = "INPUT_GEWEHR_PDF";
+    public static final String INPUT_GEWEHR_PDF_PATH = "INPUT_GEWEHR_PDF_PATH";
+
+    public static final String INPUT_PISTOLE_PDF = "INPUT_PISTOLE_PDF";
+    public static final String INPUT_PISTOLE_PDF_PATH = "INPUT_PISTOLE_PDF_PATH";
 
     public static final String OUTPUT_FILE = "OUTPUT_FILE";
     public static final String OUTPUT_FILE_PATH = "OUTPUT_FILE_PATH";
@@ -42,7 +45,8 @@ public class FilePaths {
         paths.put(BASE_DIRECTORY, baseDir);
         paths.put(INPUT_FOLDER, inputDir);
         paths.put(OUTPUT_FOLDER, outputDir);
-        paths.put(INPUT_PDF_PATH, baseDir.concat(System.getProperty(INPUT_PDF)));
+        paths.put(INPUT_GEWEHR_PDF_PATH, baseDir.concat(System.getProperty(INPUT_GEWEHR_PDF)));
+        paths.put(INPUT_PISTOLE_PDF_PATH, baseDir.concat(System.getProperty(INPUT_PISTOLE_PDF)));
         paths.put(OUTPUT_FILE_PATH, baseDir.concat(outputDir.concat(System.getProperty(OUTPUT_FILE))));
         paths.put(INPUT_COMPETITORS_PATH, baseDir.concat(inputDir.concat(System.getProperty(INPUT_COMPETITORS))));
         paths.put(OUTPUT_PRINT_RECORD_PATH, baseDir.concat(outputDir.concat(System.getProperty(OUTPUT_PRINT_RECORD))));

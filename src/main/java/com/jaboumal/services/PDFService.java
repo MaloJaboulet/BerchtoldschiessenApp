@@ -27,34 +27,40 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Base64;
 
-import static com.jaboumal.constants.FilePaths.INPUT_PDF_PATH;
-import static com.jaboumal.constants.FilePaths.OUTPUT_FILE_PATH;
+import static com.jaboumal.constants.FilePaths.*;
 
 /**
- * Service class for creating and loading XML files
- *
- * @author Malo Jaboulet
- */
+ * PDFService class
+ * This class provides methods to create PDF files from templates and convert them to images.
+ * It uses the iText and PDFBox libraries to manipulate PDF files.
+ * The PDF files are created from templates and filled with data from the DTOs.
+ * The PDF files are then converted to images for printing.
+ * The images are saved in the output directory.
+ * The class is used by the CompetitorController to generate PDF files for competitors
+ * participating in the Berchtoldschiessen.
+ * The class is also used by the PrintService to print the generated PDF files.
+ **/
 public class PDFService {
     private static final Logger log = LoggerFactory.getLogger(PDFService.class);
 
+
     /**
-     * Create an XML file with the given name, date of birth and barcode
+     * Create a PDF file from the Gewehr template and convert it to an image
      *
      * @param firstName   the first name of the competitor
      * @param lastName    the last name of the competitor
      * @param dateOfBirth the date of birth of the competitor
      * @param barcode     the barcode of the competitor
-     * @param isGuest     if the competitor is a guest
-     * @return the path of the output file
+     * @param isGuest     whether the competitor is a guest
+     * @return the path of the image file
      */
-    public String createPDF(String firstName, String lastName, LocalDate dateOfBirth, String barcode, boolean isGuest) {
+    public String createPDFGewehr(String firstName, String lastName, LocalDate dateOfBirth, String barcode, boolean isGuest) {
         BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, firstName, lastName, !isGuest, isGuest);
         String imageOutputPath = null;
         try {
-            String pdfOutputPath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH) + ".pdf", firstName + "_" + lastName);
+            String pdfOutputPath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH) + ".pdf", firstName + "_" + lastName, 1);
             // Step 1: Load the PDF document
-            PdfDocument pdfDoc = new PdfDocument(new PdfReader(FilePaths.getPath(INPUT_PDF_PATH)), new PdfWriter(pdfOutputPath));
+            PdfDocument pdfDoc = new PdfDocument(new PdfReader(FilePaths.getPath(INPUT_GEWEHR_PDF_PATH)), new PdfWriter(pdfOutputPath));
 
             // Step 2: Get the AcroForm
             PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
@@ -77,7 +83,60 @@ public class PDFService {
             pdfDoc.close();
             log.debug("Pdf saved");
 
-            imageOutputPath = pdfToImage(pdfOutputPath, firstName, lastName);
+            imageOutputPath = pdfToImage(pdfOutputPath, firstName, lastName, 1);
+
+            File file = new File(pdfOutputPath);
+            file.delete();
+            log.debug("Pdf deleted");
+
+        } catch (IOException e) {
+            log.error("Error: {}", e.getMessage());
+        }
+
+        return imageOutputPath;
+    }
+
+
+    /**
+     * Create a PDF file from the Pistole template and convert it to an image
+     *
+     * @param firstName   the first name of the competitor
+     * @param lastName    the last name of the competitor
+     * @param dateOfBirth the date of birth of the competitor
+     * @param isGuest     whether the competitor is a guest
+     * @return the path of the image file
+     */
+    public String createPDFPistole(String firstName, String lastName, LocalDate dateOfBirth, boolean isGuest) {
+        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(null, dateOfBirth, firstName, lastName, !isGuest, isGuest);
+        String imageOutputPath = null;
+        try {
+            String pdfOutputPath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH) + ".pdf", firstName + "_" + lastName, 2);
+            // Step 1: Load the PDF document
+            PdfDocument pdfDoc = new PdfDocument(new PdfReader(FilePaths.getPath(INPUT_PISTOLE_PDF_PATH)), new PdfWriter(pdfOutputPath));
+
+            // Step 2: Get the AcroForm
+            PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
+            Document document = new Document(pdfDoc);
+
+            form.getField("firstName").setValue(berchtoldschiessenDTO.getFirstName());
+            form.getField("lastName").setValue(berchtoldschiessenDTO.getLastName());
+            form.getField("geburtsdatum").setValue(berchtoldschiessenDTO.getGeburtsdatum());
+            form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
+            form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.isIstAktiv()));
+            form.getField("firstName2").setValue(berchtoldschiessenDTO.getFirstName());
+            form.getField("lastName2").setValue(berchtoldschiessenDTO.getLastName());
+            form.getField("geburtsdatum2").setValue(berchtoldschiessenDTO.getGeburtsdatum());
+            form.getField("istGast2").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
+            form.getField("istAktiv2").setValue(String.valueOf(berchtoldschiessenDTO.isIstAktiv()));
+
+
+            form.flattenFields();
+            // Step 5: Close the document
+            document.close();
+            pdfDoc.close();
+            log.debug("Pdf saved");
+
+            imageOutputPath = pdfToImage(pdfOutputPath, firstName, lastName, 2);
 
             File file = new File(pdfOutputPath);
             file.delete();
@@ -130,13 +189,13 @@ public class PDFService {
      * @param firstName the first name of the competitor
      * @param lastName  the last name of the competitor
      */
-    private String pdfToImage(String path, String firstName, String lastName) {
-        String outputImagePath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH), firstName + "_" + lastName) + "_%d.png";
+    private String pdfToImage(String path, String firstName, String lastName, int number) {
+        String outputImagePath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH), firstName + "_" + lastName, number) + ".png";
         try (PDDocument document = Loader.loadPDF(new File(path))) {
             PDFRenderer renderer = new PDFRenderer(document);
             for (int page = 0; page < document.getNumberOfPages(); page++) {
                 BufferedImage image = renderer.renderImageWithDPI(page, 300, ImageType.RGB);
-                File outputFile = new File(String.format(outputImagePath, page + 1));
+                File outputFile = new File(outputImagePath);
                 ImageIO.write(image, "PNG", outputFile);
             }
 

@@ -135,8 +135,21 @@ public class CompetitorController {
             String barcode = barcodeCreatorService.createBarcode(competitor.getLizenzNummer());
 
             PDFService PDFService = new PDFService();
-            String pathPrintingFile = PDFService.createPDF(competitor.getFirstName(), competitor.getLastName(), competitor.getDateOfBirth(), barcode, competitor.isGuest());
-            PrintService.printDoc(pathPrintingFile);
+            String pathPrintingFileGewehr = null;
+            String pathPrintingFilePistole = null;
+
+            if (competitor.isGewehr()) {
+                pathPrintingFileGewehr = PDFService.createPDFGewehr(competitor.getFirstName(), competitor.getLastName(), competitor.getDateOfBirth(), barcode, competitor.isGuest());
+            }
+            if (competitor.isPistole()) {
+                pathPrintingFilePistole = PDFService.createPDFPistole(competitor.getFirstName(), competitor.getLastName(), competitor.getDateOfBirth(), competitor.isGuest());
+            }
+
+            List<String> pathsPrintingFile = new ArrayList<>();
+            pathsPrintingFile.add(pathPrintingFileGewehr);
+            pathsPrintingFile.add(pathPrintingFilePistole);
+
+            PrintService.printDoc(pathsPrintingFile);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -145,7 +158,7 @@ public class CompetitorController {
     /**
      * Create the print record file
      */
-    public void createPrintRecordFile(){
+    public void createPrintRecordFile() {
         String path = String.format(FilePaths.getPath(FilePaths.OUTPUT_PRINT_RECORD_PATH), LocalDate.now());
         CompetitorController.printRecordFile = FileReaderService.createFile(path);
     }
@@ -155,7 +168,7 @@ public class CompetitorController {
      *
      * @param record the record to write
      */
-    public static void writeToPrintRecordFile(String record){
+    public static void writeToPrintRecordFile(String record) {
         FileReaderService.addDataToFile(printRecordFile, record);
     }
 
@@ -167,6 +180,7 @@ public class CompetitorController {
     public List<CompetitorDTO> getCompetitors() {
         return CompetitorController.competitors;
     }
+
     /**
      * ONLY FOR TESTING
      * Reset the competitors

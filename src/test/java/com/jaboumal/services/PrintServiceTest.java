@@ -17,6 +17,7 @@ import javax.print.attribute.standard.JobName;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -55,7 +56,7 @@ class PrintServiceTest {
 
             // Act
             String pathPrintingFile = "src/test/resources/output/Berchtoldschiessen_Hans_Peter.docx";
-            PrintService.printDoc(pathPrintingFile);
+            PrintService.printDoc(Collections.singletonList(pathPrintingFile));
 
             // Assert
             ArgumentCaptor<Doc> docCaptor = ArgumentCaptor.forClass(Doc.class);
@@ -83,14 +84,14 @@ class PrintServiceTest {
             // Mock PrintServiceLookup to return a valid PrintService
             printServiceLookupMockedStatic.when(PrintServiceLookup::lookupDefaultPrintService).thenReturn(null);
             // Act
-            assertDoesNotThrow(() -> PrintService.printDoc(pathPrintingFile));
+            assertDoesNotThrow(() -> PrintService.printDoc(Collections.singletonList(pathPrintingFile)));
         }
     }
 
     @Test
     void testPrintDocWithException() {
         // Act
-        assertDoesNotThrow(() ->PrintService.printDoc("BlaBlaBla"));
+        assertDoesNotThrow(() ->PrintService.printDoc(Collections.singletonList("BlaBlaBla")));
 
     }
 
