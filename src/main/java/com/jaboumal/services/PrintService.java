@@ -55,7 +55,7 @@ public class PrintService {
                         Doc doc = new SimpleDoc(input, DocFlavor.INPUT_STREAM.PNG, null);
 
                         pras.add(new JobName(outputFile.getName(), null));
-                        //job.print(doc, pras);
+                        job.print(doc, pras);
 
                         log.info("Printing file: {}", outputFile.getName());
                         input.close();
