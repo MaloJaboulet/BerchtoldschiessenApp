@@ -31,20 +31,21 @@ import static com.jaboumal.constants.FilePaths.*;
  */
 public class SettingsDialog {
     private final static Logger log = LoggerFactory.getLogger(SettingsDialog.class);
-    private final JTextField inputTemplateNameField = new JTextField();
+    //private final JTextField inputTemplateNameField = new JTextField();
     private final JTextField inputCompetitorFileNameField = new JTextField();
-    private final CustomButton buttonPrintTemplate = new CustomButton();
+    //private final CustomButton buttonPrintTemplate = new CustomButton();
     private final CustomButton buttonCompetitor = new CustomButton();
 
     /**
      * Displays the settings dialog.
      *
-     * @param printTemplateFileName   name of the print template file
+     * @param printTemplateFilePistole   name of the print template file
      * @param inputCompetitorFileName name of the input competitor file
      */
-    public void showDialog(String printTemplateFileName, String inputCompetitorFileName) {
+    public void showDialog(String printTemplateFileGewehr, String printTemplateFilePistole, String inputCompetitorFileName) {
         final JComponent[] inputs = new JComponent[]{
-                createInputTemplateNameComponents(printTemplateFileName),
+                createInputTemplateNameComponents(printTemplateFileGewehr, "Dateiname von Druckvorlage für Gewehr", INPUT_GEWEHR_PDF, INPUT_GEWEHR_PDF_PATH),
+                createInputTemplateNameComponents(printTemplateFilePistole, "Dateiname von Druckvorlage für Pistole", INPUT_PISTOLE_PDF, INPUT_PISTOLE_PDF_PATH),
                 createCompetitorNameComponents(inputCompetitorFileName),
                 createInfoPanel(),
         };
@@ -93,7 +94,9 @@ public class SettingsDialog {
      * @param printTemplateFileName name of the print template file
      * @return JPanel with the components
      */
-    private JPanel createInputTemplateNameComponents(String printTemplateFileName) {
+    private JPanel createInputTemplateNameComponents(String printTemplateFileName, String labelText, String propertyName, String path) {
+        JTextField inputTemplateNameField = new JTextField();
+        CustomButton buttonPrintTemplate = new CustomButton();
         inputTemplateNameField.setText(printTemplateFileName);
         inputTemplateNameField.setFocusable(false);
 
@@ -111,13 +114,13 @@ public class SettingsDialog {
 
                     //Copy selected file to Berchtold folder
                     FileReaderService.copyFile(selectedFile.getPath(), destinationPath);
-                    FileReaderService.deleteFile(FilePaths.getPath(INPUT_GEWEHR_PDF_PATH));
-                    ConfigService.replaceProperty(INPUT_GEWEHR_PDF, fileName);
+                    FileReaderService.deleteFile(FilePaths.getPath(path));
+                    ConfigService.replaceProperty(propertyName, fileName);
                 }
             }
         });
 
-        return createButtonTextfieldLabelPanel(inputTemplateNameField, buttonPrintTemplate, "Dateiname von Druckvorlage");
+        return createButtonTextfieldLabelPanel(inputTemplateNameField, buttonPrintTemplate, labelText);
     }
 
     /**
