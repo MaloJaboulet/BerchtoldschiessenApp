@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,8 +95,16 @@ public class CompetitorController {
         List<CompetitorDTO> resultList = new ArrayList<>();
 
         for (CompetitorDTO competitorDTO : competitors) {
-            if (competitorDTO.getFirstName().toLowerCase().contains(searchText.toLowerCase()) ||
-                    competitorDTO.getLastName().toLowerCase().contains(searchText.toLowerCase()) ||
+            String firstName = competitorDTO.getFirstName().toLowerCase();
+            String lastName = competitorDTO.getLastName().toLowerCase();
+            String firstNameFiltered = Normalizer.normalize(firstName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+            String lastNameFiltered = Normalizer.normalize(lastName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+            searchText = searchText.toLowerCase();
+
+            if (firstName.contains(searchText) ||
+                    firstNameFiltered.contains(searchText) ||
+                    lastName.contains(searchText) ||
+                    lastNameFiltered.contains(searchText) ||
                     String.valueOf(competitorDTO.getLizenzNummer()).equals(searchText)) {
                 log.info("Found person for: {}", searchText);
                 resultList.add(competitorDTO);
