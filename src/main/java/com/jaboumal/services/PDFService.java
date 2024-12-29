@@ -21,10 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.Base64;
 
@@ -75,6 +75,9 @@ public class PDFService {
             form.getField("datum").setValue(berchtoldschiessenDTO.getDatum());
             form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
             form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.isIstAktiv()));
+            //Need to be there, if not the checkboxes are checked flipped
+            form.getField("istGast").setValue(berchtoldschiessenDTO.isIstGast() ? "On" : "Off");
+            form.getField("istAktiv").setValue(berchtoldschiessenDTO.isIstAktiv() ? "On" : "Off");
 
             addImageToForm(field, berchtoldschiessenDTO, document, form);
 
@@ -122,14 +125,20 @@ public class PDFService {
             form.getField("firstName").setValue(berchtoldschiessenDTO.getFirstName());
             form.getField("lastName").setValue(berchtoldschiessenDTO.getLastName());
             form.getField("geburtsdatum").setValue(berchtoldschiessenDTO.getGeburtsdatum());
-            form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
-            form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.isIstAktiv()));
             form.getField("firstName2").setValue(berchtoldschiessenDTO.getFirstName());
             form.getField("lastName2").setValue(berchtoldschiessenDTO.getLastName());
             form.getField("geburtsdatum2").setValue(berchtoldschiessenDTO.getGeburtsdatum());
+
+
+            form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
+            form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.isIstAktiv()));
+            //Need to be there, if not the checkboxes are checked flipped
+            form.getField("istGast").setValue(berchtoldschiessenDTO.isIstGast() ? "On" : "Off");
+            form.getField("istAktiv").setValue(berchtoldschiessenDTO.isIstAktiv() ? "On" : "Off");
             form.getField("istGast2").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
             form.getField("istAktiv2").setValue(String.valueOf(berchtoldschiessenDTO.isIstAktiv()));
-
+            form.getField("istGast2").setValue(berchtoldschiessenDTO.isIstGast() ? "On" : "Off");
+            form.getField("istAktiv2").setValue(berchtoldschiessenDTO.isIstAktiv() ? "On" : "Off");
 
             form.flattenFields();
             // Step 5: Close the document
@@ -196,6 +205,14 @@ public class PDFService {
      * @param lastName  the last name of the competitor
      */
     private String pdfToImage(String path, String firstName, String lastName, int number) {
+        //replace all é, è, à, etc. with e, a, etc.
+        firstName = Normalizer.normalize(firstName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        firstName = firstName.replaceAll(" ", "_");
+        lastName = Normalizer.normalize(lastName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        lastName = lastName.replaceAll(" ", "_");
+
+
+
         String outputImagePath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH), firstName + "_" + lastName, number) + ".png";
         try (PDDocument document = Loader.loadPDF(new File(path))) {
             PDFRenderer renderer = new PDFRenderer(document);
