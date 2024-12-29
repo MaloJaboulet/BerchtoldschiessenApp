@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -138,6 +139,11 @@ public class PDFService {
 
             imageOutputPath = pdfToImage(pdfOutputPath, firstName, lastName, 2);
 
+            //TODO remove when pdf is vertical
+            BufferedImage originalImg = ImageIO.read(new File(imageOutputPath));
+            BufferedImage rotatedImg = rotateClockwise90(originalImg);
+            ImageIO.write(rotatedImg, "PNG", new File(imageOutputPath));
+
             File file = new File(pdfOutputPath);
             file.delete();
             log.debug("Pdf deleted");
@@ -206,4 +212,15 @@ public class PDFService {
 
         return outputImagePath;
     }
+
+    private BufferedImage rotateClockwise90(BufferedImage src) {
+        int w = src.getWidth();
+        int h = src.getHeight();
+        BufferedImage dest = new BufferedImage(h, w, src.getType());
+        for (int y = 0; y < h; y++)
+            for (int x = 0; x < w; x++)
+                dest.setRGB(y, w - x - 1, src.getRGB(x, y));
+        return dest;
+    }
+
 }
