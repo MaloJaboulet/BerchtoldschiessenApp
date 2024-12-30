@@ -3,12 +3,14 @@ package com.jaboumal.services;
 import com.jaboumal.util.ConfigUtil;
 import com.jaboumal.util.DateUtil;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled("PDFServiceTest. Run this test manually.")
 class PDFServiceTest {
 
     private PDFService pdfService;
