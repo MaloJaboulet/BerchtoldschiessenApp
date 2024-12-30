@@ -1,5 +1,6 @@
 package com.jaboumal.services;
 
+
 import com.jaboumal.constants.EventMessages;
 import com.jaboumal.constants.FilePaths;
 import com.jaboumal.dto.CompetitorDTO;
@@ -39,7 +40,6 @@ public class FileReaderService {
             File competitorFile = new File(FilePaths.getPath(INPUT_COMPETITORS_PATH));
             Scanner competitorScanner = new Scanner(competitorFile); // creates a new scanner for the file
 
-
             while (competitorScanner.hasNextLine()) {
                 List<String> row = getRecordFromLine(competitorScanner.nextLine());
                 if (row.size() != 5) {
@@ -56,12 +56,14 @@ public class FileReaderService {
                 competitors.add(competitorDTO);
             }
             competitorScanner.close();
+
         } catch (FileNotFoundException e) {
             log.error(e.getMessage(), e);
             EventMessagePanel.addErrorMessage(EventMessages.NO_COMPETITOR_FILE_FOUND);
         }
 
         log.info("Competitors file read");
+        log.info("Number of competitors: {}", competitors.size());
         return competitors;
     }
 

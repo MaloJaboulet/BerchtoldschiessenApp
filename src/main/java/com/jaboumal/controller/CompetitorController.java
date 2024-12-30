@@ -8,12 +8,13 @@ import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.MainFrame;
 import com.jaboumal.services.BarcodeCreatorService;
 import com.jaboumal.services.FileReaderService;
+import com.jaboumal.services.PDFService;
 import com.jaboumal.services.PrintService;
-import com.jaboumal.services.XMLService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,8 +95,16 @@ public class CompetitorController {
         List<CompetitorDTO> resultList = new ArrayList<>();
 
         for (CompetitorDTO competitorDTO : competitors) {
-            if (competitorDTO.getFirstName().toLowerCase().contains(searchText.toLowerCase()) ||
-                    competitorDTO.getLastName().toLowerCase().contains(searchText.toLowerCase()) ||
+            String firstName = competitorDTO.getFirstName().toLowerCase();
+            String lastName = competitorDTO.getLastName().toLowerCase();
+            String firstNameFiltered = Normalizer.normalize(firstName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+            String lastNameFiltered = Normalizer.normalize(lastName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+            searchText = searchText.toLowerCase();
+
+            if (firstName.contains(searchText) ||
+                    firstNameFiltered.contains(searchText) ||
+                    lastName.contains(searchText) ||
+                    lastNameFiltered.contains(searchText) ||
                     String.valueOf(competitorDTO.getLizenzNummer()).equals(searchText)) {
                 log.info("Found person for: {}", searchText);
                 resultList.add(competitorDTO);
@@ -134,11 +143,22 @@ public class CompetitorController {
             BarcodeCreatorService barcodeCreatorService = new BarcodeCreatorService();
             String barcode = barcodeCreatorService.createBarcode(competitor.getLizenzNummer());
 
-            XMLService xmlService = new XMLService();
-            xmlService.createXml(competitor.getFirstName(), competitor.getLastName(), competitor.getDateOfBirth(), barcode, competitor.isGuest());
+            PDFService PDFService = new PDFService();
+            String pathPrintingFileGewehr = null;
+            String pathPrintingFilePistole = null;
 
-            String pathPrintingFile = xmlService.loadXMLDataInDocxFile(competitor.getFirstName() + "_" + competitor.getLastName());
-            PrintService.printDoc(pathPrintingFile);
+            if (competitor.isGewehr()) {
+                pathPrintingFileGewehr = PDFService.createPDFGewehr(competitor.getFirstName(), competitor.getLastName(), competitor.getDateOfBirth(), barcode, competitor.isGuest());
+            }
+            if (competitor.isPistole()) {
+                pathPrintingFilePistole = PDFService.createPDFPistole(competitor.getFirstName(), competitor.getLastName(), competitor.getDateOfBirth(), competitor.isGuest());
+            }
+
+            List<String> pathsPrintingFile = new ArrayList<>();
+            pathsPrintingFile.add(pathPrintingFileGewehr);
+            pathsPrintingFile.add(pathPrintingFilePistole);
+
+            PrintService.printDoc(pathsPrintingFile);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -147,7 +167,7 @@ public class CompetitorController {
     /**
      * Create the print record file
      */
-    public void createPrintRecordFile(){
+    public void createPrintRecordFile() {
         String path = String.format(FilePaths.getPath(FilePaths.OUTPUT_PRINT_RECORD_PATH), LocalDate.now());
         CompetitorController.printRecordFile = FileReaderService.createFile(path);
     }
@@ -157,7 +177,7 @@ public class CompetitorController {
      *
      * @param record the record to write
      */
-    public static void writeToPrintRecordFile(String record){
+    public static void writeToPrintRecordFile(String record) {
         FileReaderService.addDataToFile(printRecordFile, record);
     }
 
@@ -169,6 +189,7 @@ public class CompetitorController {
     public List<CompetitorDTO> getCompetitors() {
         return CompetitorController.competitors;
     }
+
     /**
      * ONLY FOR TESTING
      * Reset the competitors

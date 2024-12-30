@@ -17,6 +17,8 @@ public class CompetitorDTO {
     private String lastName;
     private LocalDate dateOfBirth;
     private boolean isGuest;
+    private boolean gewehr;
+    private boolean pistole;
 
     /**
      * Default constructor.
@@ -130,6 +132,42 @@ public class CompetitorDTO {
      */
     public void setGuest(boolean guest) {
         isGuest = guest;
+    }
+
+    /**
+     * Returns if the competitor is a gewehr shooter.
+     *
+     * @return if the competitor is a gewehr shooter
+     */
+    public boolean isGewehr() {
+        return gewehr;
+    }
+
+    /**
+     * Sets if the competitor is a gewehr shooter.
+     *
+     * @param gewehr if the competitor is a gewehr shooter
+     */
+    public void setGewehr(boolean gewehr) {
+        this.gewehr = gewehr;
+    }
+
+    /**
+     * Returns if the competitor is a pistole shooter.
+     *
+     * @return if the competitor is a pistole shooter
+     */
+    public boolean isPistole() {
+        return pistole;
+    }
+
+    /**
+     * Sets if the competitor is a pistole shooter.
+     *
+     * @param pistole if the competitor is a pistole shooter
+     */
+    public void setPistole(boolean pistole) {
+        this.pistole = pistole;
     }
 
     /**

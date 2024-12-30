@@ -2,6 +2,7 @@ package com.jaboumal.gui;
 
 import com.jaboumal.controller.CompetitorController;
 import com.jaboumal.dto.CompetitorDTO;
+import com.jaboumal.services.PrintService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +26,9 @@ public class MainFrame extends JFrame {
         MainFrame.mainPanel = new MainPanel();
         mainPanel.setName("mainPanel");
         mainPanel.setFont(new Font("Serif", Font.BOLD, 28));
+
+        // Add shutdown hook to call PrintService.shutdown() when the application is closed
+        Runtime.getRuntime().addShutdownHook(new Thread(PrintService::shutdown));
     }
 
     /**

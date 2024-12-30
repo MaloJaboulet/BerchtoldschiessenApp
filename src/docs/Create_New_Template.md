@@ -7,25 +7,25 @@
     - Der Standardpfad ist `C:/BerchtoldschiessenApp/`.
 
 2. **Erstellen Sie eine neue Vorlagendatei**:
-    - Erstellen Sie eine neue `.docx`-Datei im `BASE_DIRECTORY`.
-    - Benennen Sie die Datei entsprechend, zum Beispiel `New_Template.docx`.
+    - Erstellen Sie eine neue `.pdf`-Datei im `BASE_DIRECTORY`.
+    - Benennen Sie die Datei entsprechend, zum Beispiel `New_Template.pdf`.
 
 3. **Bearbeiten Sie die Vorlage**:
-    - Öffnen Sie die neu erstellte „docx“-Datei mit einem Textverarbeitungsprogramm (z. B. Microsoft Word).
+    - Öffnen Sie die neu erstellte „pdf“-Datei mit einem Textverarbeitungsprogramm (z. B. Libre Office oder Adobe Acrobat Reader).
     - Gestalten Sie die Vorlage entsprechend Ihren Anforderungen.
     - Es sollten keine Platzhalter geändert werden. [Platzhalter hinzufügen](#Platzhalter-hinzufügen).
 
 4. **Speichern Sie die Vorlage**:
-    - Speichern Sie die Änderungen in der Datei `.docx`.
+    - Speichern Sie die Änderungen in der Datei `.pdf`.
     - Stellen Sie sicher, dass die Datei im `BASE_DIRECTORY` gespeichert ist.
 
 ## Verwendung der neuen Vorlage
 
 1. **Aktualisieren Sie die Konfiguration**:
     - Öffnen Sie die Datei `config.properties`.
-    - Aktualisieren Sie die Eigenschaft „INPUT_DOCX“, um auf die neue Vorlagendatei zu verweisen. Zum Beispiel:
+    - Aktualisieren Sie die Eigenschaft „INPUT_PDF“, um auf die neue Vorlagendatei zu verweisen. Zum Beispiel:
       ```ini
-      INPUT_DOCX=Neue_Vorlage.docx
+      INPUT_PDF=Neue_Vorlage.pdf
       ```
 
 2. **Starten Sie die Anwendung**:
@@ -51,18 +51,9 @@ Um neue Platzhalter hinzuzufügen, folgen Sie den Schritten unten:
    `BerchtoldschiessenDTO`](../main/java/com/jaboumal/dto/xml/BerchtoldschiessenDTO.java) hinzufügen:
     - Fügen Sie ein neues Feld in die Klasse `CompetitorDTO` hinzu.
     - Fügen Sie ein neues Feld in die Klasse `BerchtoldschiessenDTO` hinzu.
-3. XML-Datei von BerchtoldschiessenDTO erstellen.
-    - Es muss eine XML-Datei mit allen Feldern erstellt werden.
-    - Am einfachsten wir die output-data.xml Datei benutzt. Dafür muss die Zeile `inputXml.delete();` in der Klasse
-      `XMLService` auskommentiert werden.
-4. Platzhalter in der Vorlage hinzufügen:
-    - Die Vorlage in Word öffnen.
-    - Den Reiter `Entwicklertools` auswählen. Falls dieser nicht sichtbar ist, kann er in den Word-Optionen aktiviert
-      werden.
-    - Klicken Sie auf `XML-Zuordnungsbereich` und wählen Sie die XML-Datei aus.
-    - Wählen Sie `No Namespace` aus.
-    - Ordnen Sie die Felder aus der XML-Datei den Platzhaltern in der Vorlage zu. Es müssen alle Felder zugeordnet
-      werden, auch wenn diese schon vorher dort waren.
+3. Platzhalter in der Vorlage hinzufügen:
+    - Die Vorlage in Editor öffnen.
+    - Neue PDF-Form Elemente hinzufügen. (Sollten Bilder für Platzhalter verwendet werden, dann schauen, wie es für den [Barcode](../main/java/com/jaboumal/services/PDFService.java) gemacht wurde.)
 
 ## Hinweise
 

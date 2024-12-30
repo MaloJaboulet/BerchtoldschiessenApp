@@ -12,12 +12,13 @@ Diese Anwendung dient der Erstellung von Standblättern für das Berchtoldschies
 ## Verwendung
 
 1. Stellen Sie sicher, dass Ihre Teilnehmerdaten in einer CSV-Datei (`competitors.csv`) vorliegen.
-    - Die CSV-Datei muss die folgenden Spalten enthalten. Die Spaltennamen dürfen nicht in der Datei enthalten sein.:
+    - Die CSV-Datei muss die folgenden Spalten enthalten. Die Spaltennamen dürfen nicht in der Datei enthalten sein:
         - `lizenzNummer` - Die Lizenznummer des Teilnehmers.
         - `vorname` - Der Vorname des Teilnehmers.
         - `nachname` - Der Nachname des Teilnehmers.
         - `geburtsDatum` - Das Geburtsdatum des Teilnehmers.
         - `istGast` - Ein boolescher Wert, der angibt, ob der Teilnehmer ein Gast ist. (true/false)
+    - Die Datei muss im <u>UTF-8-Format</u> vorliegen und mit <u>Kommas</u> getrennt sein. 
     - Die Datei kann über den Knopf `Settings` in der Anwendung ausgewählt werden.
 2. Führen Sie die Anwendung aus, um Standblätter zu erstellen.
 3. Verwenden Sie den Druckdienst, um die generierten Dokumente zu drucken.

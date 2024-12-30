@@ -8,15 +8,13 @@ import com.jaboumal.gui.EventMessagePanel;
 import com.jaboumal.gui.MainFrame;
 import com.jaboumal.services.PrintService;
 import com.jaboumal.util.ConfigUtil;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import static com.jaboumal.constants.FilePaths.INPUT_COMPETITORS;
@@ -132,6 +130,7 @@ public class CompetitorControllerTest {
         assertNull(result);
     }
 
+    @Disabled("Will print a real file")
     @Test
     void testCreateStandblattAndPrint() {
         CompetitorDTO competitor = new CompetitorDTO();
@@ -140,6 +139,6 @@ public class CompetitorControllerTest {
         competitor.setLizenzNummer(123456);
         competitor.setDateOfBirth(LocalDate.of(2000,1,1));
         CompetitorController.createStandblattAndPrint(competitor);
-        printServiceMock.verify(() -> PrintService.printDoc("src/test/resources/output/Berchtoldschiessen_Hans_Peter.docx"), times(1));
+        printServiceMock.verify(() -> PrintService.printDoc(Collections.singletonList("src/test/resources/output/Berchtoldschiessen_Hans_Peter.docx")), times(1));
     }
 }

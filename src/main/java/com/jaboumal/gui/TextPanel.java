@@ -32,6 +32,8 @@ public class TextPanel extends JPanel {
     private final CustomLabel shooterNumberField;
     private final CustomLabel searchLabel;
     private JTextField searchField;
+    private final JCheckBox gewehrCheckbox;
+    private final JCheckBox pistoleCheckBox;
     private CustomButton searchButton;
     private CompetitorDTO competitorDTO;
 
@@ -40,7 +42,7 @@ public class TextPanel extends JPanel {
      * This constructor creates the TextPanel and initializes the components.
      */
     public TextPanel() {
-        super(new GridLayoutManager(4, 6, new Insets(0, 50, 0, 0), -1, -1));
+        super(new GridLayoutManager(5, 6, new Insets(0, 50, 0, 0), -1, -1));
         firstNameLabel = new CustomLabel("Vorname");
         firstNameField = new CustomLabel();
         firstNameField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, firstNameField.getFont()));
@@ -53,11 +55,63 @@ public class TextPanel extends JPanel {
         shooterNumberField = new CustomLabel();
         shooterNumberField.setFont(FontUtil.getFont("Segoe UI", Font.PLAIN, 14, shooterNumberField.getFont()));
 
+        gewehrCheckbox = createGewehrCheckbox();
+        pistoleCheckBox = createPistoleCheckbox();
+
         searchLabel = new CustomLabel("Suche");
         createSearchTextField();
         createSearchButton();
 
         addComponentsToPanel();
+    }
+
+    /**
+     * This method creates the Pistole checkbox.
+     *
+     * @return The created Pistole checkbox.
+     */
+    private JCheckBox createPistoleCheckbox() {
+        final JCheckBox pistoleCheckBox;
+        pistoleCheckBox = new JCheckBox("Pistole 50m");
+        pistoleCheckBox.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, pistoleCheckBox.getFont()));
+        pistoleCheckBox.setEnabled(false);
+        pistoleCheckBox.addActionListener(e -> {
+            if (pistoleCheckBox.isSelected()) {
+                competitorDTO.setPistole(true);
+                PrintPanel.makePrintButtonEnabled();
+            }else {
+                competitorDTO.setPistole(false);
+                if (!competitorDTO.isGewehr()) {
+                    PrintPanel.makePrintButtonDisabled();
+                }
+            }
+        });
+
+        return pistoleCheckBox;
+    }
+
+    /**
+     * This method creates the Gewehr checkbox.
+     *
+     * @return The created Gewehr checkbox.
+     */
+    private JCheckBox createGewehrCheckbox() {
+        final JCheckBox gewehrCheckbox;
+        gewehrCheckbox = new JCheckBox("Gewehr 50m/300m");
+        gewehrCheckbox.setFont(FontUtil.getFont("Segoe UI", Font.BOLD, 14, gewehrCheckbox.getFont()));
+        gewehrCheckbox.setEnabled(false);
+        gewehrCheckbox.addActionListener(e -> {
+            if (gewehrCheckbox.isSelected()) {
+                competitorDTO.setGewehr(true);
+                PrintPanel.makePrintButtonEnabled();
+            } else {
+                competitorDTO.setGewehr(false);
+                if (!competitorDTO.isPistole()) {
+                    PrintPanel.makePrintButtonDisabled();
+                }
+            }
+        });
+        return gewehrCheckbox;
     }
 
     /**
@@ -69,11 +123,15 @@ public class TextPanel extends JPanel {
         if (competitorDTO == null) {
             clearDataOfFields();
         } else {
+            gewehrCheckbox.setSelected(false);
+            pistoleCheckBox.setSelected(false);
+            PrintPanel.makePrintButtonDisabled();
             firstNameField.setText(competitorDTO.getFirstName());
             lastnameField.setText(competitorDTO.getLastName());
             shooterNumberField.setText(String.valueOf(competitorDTO.getLizenzNummer()));
             this.competitorDTO = competitorDTO;
-            PrintPanel.makePrintButtonEnabled();
+            gewehrCheckbox.setEnabled(true);
+            pistoleCheckBox.setEnabled(true);
         }
     }
 
@@ -124,6 +182,12 @@ public class TextPanel extends JPanel {
         lastnameField.setText("");
         shooterNumberField.setText("");
         this.competitorDTO = null;
+
+        gewehrCheckbox.setSelected(false);
+        gewehrCheckbox.setEnabled(false);
+        pistoleCheckBox.setSelected(false);
+        pistoleCheckBox.setEnabled(false);
+
         PrintPanel.makePrintButtonDisabled();
     }
 
@@ -146,6 +210,10 @@ public class TextPanel extends JPanel {
         final Spacer spacer3 = new Spacer();
         add(spacer3, new GridConstraints(3, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         add(searchButton, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 1, false));
+
+
+        add(gewehrCheckbox, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        add(pistoleCheckBox, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
