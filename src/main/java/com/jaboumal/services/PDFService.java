@@ -71,7 +71,7 @@ public class PDFService {
             PdfFormField field = form.getField("barcode");
             form.getField("firstName").setValue(berchtoldschiessenDTO.getFirstName());
             form.getField("lastName").setValue(berchtoldschiessenDTO.getLastName());
-            form.getField("geburtsdatum").setValue(berchtoldschiessenDTO.getGeburtsdatum());
+            form.getField("geburtsdatum").setValue(getBirthYear(berchtoldschiessenDTO.getGeburtsdatum()));
             form.getField("datum").setValue(berchtoldschiessenDTO.getDatum());
             form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
             form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.isIstAktiv()));
@@ -124,7 +124,7 @@ public class PDFService {
 
             form.getField("firstName").setValue(berchtoldschiessenDTO.getFirstName());
             form.getField("lastName").setValue(berchtoldschiessenDTO.getLastName());
-            form.getField("geburtsdatum").setValue(berchtoldschiessenDTO.getGeburtsdatum());
+            form.getField("geburtsdatum").setValue(getBirthYear(berchtoldschiessenDTO.getGeburtsdatum()));
             form.getField("firstName2").setValue(berchtoldschiessenDTO.getFirstName());
             form.getField("lastName2").setValue(berchtoldschiessenDTO.getLastName());
             form.getField("geburtsdatum2").setValue(berchtoldschiessenDTO.getGeburtsdatum());
@@ -228,6 +228,10 @@ public class PDFService {
         }
 
         return outputImagePath;
+    }
+
+    private String getBirthYear(String birthbay){
+        return birthbay.substring(birthbay.length()-4);
     }
 
     private BufferedImage rotateClockwise90(BufferedImage src) {
