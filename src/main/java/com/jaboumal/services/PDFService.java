@@ -127,7 +127,7 @@ public class PDFService {
             form.getField("geburtsdatum").setValue(getBirthYear(berchtoldschiessenDTO.getGeburtsdatum()));
             form.getField("firstName2").setValue(berchtoldschiessenDTO.getFirstName());
             form.getField("lastName2").setValue(berchtoldschiessenDTO.getLastName());
-            form.getField("geburtsdatum2").setValue(berchtoldschiessenDTO.getGeburtsdatum());
+            form.getField("geburtsdatum2").setValue(getBirthYear(berchtoldschiessenDTO.getGeburtsdatum()));
 
 
             form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
