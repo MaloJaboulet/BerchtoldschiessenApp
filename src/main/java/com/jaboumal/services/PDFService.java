@@ -47,6 +47,26 @@ import static com.jaboumal.constants.FilePaths.OUTPUT_FILE_PATH;
 public class PDFService {
     private static final Logger log = LoggerFactory.getLogger(PDFService.class);
 
+    private static final int GEWEHR_TYPE = 1;
+    private static final int PISTOLE_TYPE = 2;
+    private static final int IMAGE_DPI = 300;
+    private static final String IMAGE_FORMAT = "PNG";
+    private static final String PDF_EXTENSION = ".pdf";
+    private static final String IMAGE_EXTENSION = ".png";
+
+    private static final int BARCODE_HEIGHT = 45;
+    private static final int BARCODE_WIDTH = 170;
+
+    private static final String FIELD_BARCODE = "barcode";
+    private static final String FIELD_FIRST_NAME = "firstName";
+    private static final String FIELD_LAST_NAME = "lastName";
+    private static final String FIELD_BIRTH_DATE = "geburtsdatum";
+    private static final String FIELD_DATE = "datum";
+    private static final String FIELD_IS_GUEST = "istGast";
+    private static final String FIELD_IS_ACTIVE = "istAktiv";
+    private static final String CHECKBOX_ON = "On";
+    private static final String CHECKBOX_OFF = "Off";
+
 
     /**
      * Create a PDF file from the Gewehr template and convert it to an image
@@ -59,48 +79,8 @@ public class PDFService {
      * @return the path of the image file
      */
     public String createPDFGewehr(String firstName, String lastName, LocalDate dateOfBirth, String barcode, boolean isGuest) {
-        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(firstName, lastName, dateOfBirth, barcode, null, isGuest, !isGuest);
-        String imageOutputPath = null;
-        try {
-            String pdfOutputPath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH) + ".pdf", firstName + "_" + lastName, 1);
-            // Step 1: Load the PDF document
-            PdfDocument pdfDoc = new PdfDocument(new PdfReader(FilePaths.getPath(INPUT_GEWEHR_PDF_PATH)), new PdfWriter(pdfOutputPath));
-
-            // Step 2: Get the AcroForm
-            PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
-            Document document = new Document(pdfDoc);
-
-            // Step 3: Locate the form field (example field name: "imageField")
-            PdfFormField field = form.getField("barcode");
-            form.getField("firstName").setValue(berchtoldschiessenDTO.firstName());
-            form.getField("lastName").setValue(berchtoldschiessenDTO.lastName());
-            form.getField("geburtsdatum").setValue(getBirthYear(berchtoldschiessenDTO.geburtsdatum()));
-            form.getField("datum").setValue(DateUtil.dateToString(berchtoldschiessenDTO.datum()));
-            form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.istGast()));
-            form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.istAktiv()));
-            //Need to be there, if not the checkboxes are checked flipped
-            form.getField("istGast").setValue(berchtoldschiessenDTO.istGast() ? "On" : "Off");
-            form.getField("istAktiv").setValue(berchtoldschiessenDTO.istAktiv() ? "On" : "Off");
-
-            addImageToForm(field, berchtoldschiessenDTO, document, form);
-
-            form.flattenFields();
-            // Step 5: Close the document
-            document.close();
-            pdfDoc.close();
-            log.debug("Pdf saved");
-
-            imageOutputPath = pdfToImage(pdfOutputPath, firstName, lastName, 1);
-
-            File file = new File(pdfOutputPath);
-            file.delete();
-            log.debug("Pdf deleted");
-
-        } catch (IOException e) {
-            log.error("Error: {}", e.getMessage());
-        }
-
-        return imageOutputPath;
+        BerchtoldschiessenDTO dto = new BerchtoldschiessenDTO(firstName, lastName, dateOfBirth, barcode, null, isGuest, !isGuest);
+        return createPDF(dto, INPUT_GEWEHR_PDF_PATH, GEWEHR_TYPE, true);
     }
 
 
@@ -114,136 +94,316 @@ public class PDFService {
      * @return the path of the image file
      */
     public String createPDFPistole(String firstName, String lastName, LocalDate dateOfBirth, boolean isGuest) {
-        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(firstName, lastName, dateOfBirth, null, null, isGuest, !isGuest);
-        String imageOutputPath = null;
+        BerchtoldschiessenDTO dto = new BerchtoldschiessenDTO(firstName, lastName, dateOfBirth, null, null, isGuest, !isGuest);
+        return createPDF(dto, INPUT_PISTOLE_PDF_PATH, PISTOLE_TYPE, false);
+    }
+
+    /**
+     * Common method to create a PDF from a template and convert it to an image
+     *
+     * @param dto            the data transfer object containing competitor information
+     * @param templatePath   the path to the PDF template
+     * @param documentType   the type of document (GEWEHR_TYPE or PISTOLE_TYPE)
+     * @param includeBarcode whether to include a barcode in the document
+     * @return the path of the generated image file, or null if an error occurred
+     */
+    private String createPDF(BerchtoldschiessenDTO dto, String templatePath, int documentType, boolean includeBarcode) {
+        String pdfOutputPath = null;
+        String imageOutputPath;
+
         try {
-            String pdfOutputPath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH) + ".pdf", firstName + "_" + lastName, 2);
-            // Step 1: Load the PDF document
-            PdfDocument pdfDoc = new PdfDocument(new PdfReader(FilePaths.getPath(INPUT_PISTOLE_PDF_PATH)), new PdfWriter(pdfOutputPath));
+            pdfOutputPath = generatePdfPath(dto.firstName(), dto.lastName(), documentType);
 
-            // Step 2: Get the AcroForm
-            PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
-            Document document = new Document(pdfDoc);
+            PdfDocument pdfDoc = new PdfDocument(
+                    new PdfReader(FilePaths.getPath(templatePath)),
+                    new PdfWriter(pdfOutputPath)
+            );
 
-            form.getField("firstName").setValue(berchtoldschiessenDTO.firstName());
-            form.getField("lastName").setValue(berchtoldschiessenDTO.lastName());
-            form.getField("geburtsdatum").setValue(getBirthYear(berchtoldschiessenDTO.geburtsdatum()));
-            form.getField("firstName2").setValue(berchtoldschiessenDTO.firstName());
-            form.getField("lastName2").setValue(berchtoldschiessenDTO.lastName());
-            form.getField("geburtsdatum2").setValue(getBirthYear(berchtoldschiessenDTO.geburtsdatum()));
+            try (Document document = new Document(pdfDoc)) {
+                PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
 
+                if (documentType == GEWEHR_TYPE) {
+                    populateGewehrForm(form, dto, document, includeBarcode);
+                } else if (documentType == PISTOLE_TYPE) {
+                    populatePistoleForm(form, dto);
+                }
 
-            form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.istGast()));
-            form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.istAktiv()));
-            //Need to be there, if not the checkboxes are checked flipped
-            form.getField("istGast").setValue(berchtoldschiessenDTO.istGast() ? "On" : "Off");
-            form.getField("istAktiv").setValue(berchtoldschiessenDTO.istAktiv() ? "On" : "Off");
-            form.getField("istGast2").setValue(String.valueOf(berchtoldschiessenDTO.istGast()));
-            form.getField("istAktiv2").setValue(String.valueOf(berchtoldschiessenDTO.istAktiv()));
-            form.getField("istGast2").setValue(berchtoldschiessenDTO.istGast() ? "On" : "Off");
-            form.getField("istAktiv2").setValue(berchtoldschiessenDTO.istAktiv() ? "On" : "Off");
-
-            form.flattenFields();
-            // Step 5: Close the document
-            document.close();
-            pdfDoc.close();
-            log.debug("Pdf saved");
-
-            imageOutputPath = pdfToImage(pdfOutputPath, firstName, lastName, 2);
-
-            //TODO remove when pdf is vertical
-            BufferedImage originalImg = ImageIO.read(new File(imageOutputPath));
-            BufferedImage rotatedImg = rotateClockwise90(originalImg);
-            ImageIO.write(rotatedImg, "PNG", new File(imageOutputPath));
-
-            File file = new File(pdfOutputPath);
-            file.delete();
-            log.debug("Pdf deleted");
-
-        } catch (IOException e) {
-            log.error("Error: {}", e.getMessage());
-        }
-
-        return imageOutputPath;
-    }
-
-    /**
-     * Add the image to the form
-     *
-     * @param field                 the form field
-     * @param berchtoldschiessenDTO the DTO
-     * @param document              the document
-     * @param form                  the form
-     */
-    private void addImageToForm(PdfFormField field, BerchtoldschiessenDTO berchtoldschiessenDTO, Document document, PdfAcroForm form) {
-        if (field != null) {
-            // Step 4: Replace field with an image
-            ImageData imageData = ImageDataFactory.create(Base64.getDecoder().decode(berchtoldschiessenDTO.barcode()));
-            Image image = new Image(imageData);
-
-            // Optional: Adjust image position and size
-            image.setHeight(45);
-            image.setWidth(170);
-            image.setHorizontalAlignment(HorizontalAlignment.CENTER);
-
-            // Get field rectangle and add the image
-            com.itextpdf.kernel.geom.Rectangle rect = field.getWidgets().getFirst().getRectangle().toRectangle();
-
-            image.setFixedPosition(rect.getLeft(), rect.getBottom(), rect.getWidth());
-            document.add(image);
-
-            // Remove the original field after placing the image
-            form.removeField("barcode");
-
-        } else {
-            log.error("Field 'imageField' not found.");
-        }
-    }
-
-    /**
-     * Convert the PDF file to an image
-     *
-     * @param path      the path of the PDF file
-     * @param firstName the first name of the competitor
-     * @param lastName  the last name of the competitor
-     */
-    private String pdfToImage(String path, String firstName, String lastName, int number) {
-        //replace all é, è, à, etc. with e, a, etc.
-        firstName = Normalizer.normalize(firstName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-        firstName = firstName.replaceAll(" ", "_");
-        lastName = Normalizer.normalize(lastName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-        lastName = lastName.replaceAll(" ", "_");
-
-        String outputImagePath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH), firstName + "_" + lastName, number) + ".png";
-        try (PDDocument document = Loader.loadPDF(new File(path))) {
-            PDFRenderer renderer = new PDFRenderer(document);
-            for (int page = 0; page < document.getNumberOfPages(); page++) {
-                BufferedImage image = renderer.renderImageWithDPI(page, 300, ImageType.RGB);
-                File outputFile = new File(outputImagePath);
-                ImageIO.write(image, "PNG", outputFile);
+                form.flattenFields();
             }
 
-            log.debug("Pdf converted to image");
+            pdfDoc.close();
+            log.debug("PDF saved: {}", pdfOutputPath);
+
+            imageOutputPath = convertPdfToImage(pdfOutputPath, dto.firstName(), dto.lastName(), documentType);
+
+            if (documentType == PISTOLE_TYPE) {
+                rotateImageClockwise90(imageOutputPath);
+            }
+
+            return imageOutputPath;
+
         } catch (IOException e) {
-            log.error("Could not convert pdf to image: {}", e.getMessage());
+            log.error("Error creating PDF for {} {}: {}", dto.firstName(), dto.lastName(), e.getMessage(), e);
+            return null;
+        } finally {
+            deletePdfFile(pdfOutputPath);
+        }
+    }
+
+    /**
+     * Populate the Gewehr form with data from the DTO
+     *
+     * @param form           the PDF form to populate
+     * @param dto            the data transfer object
+     * @param document       the PDF document
+     * @param includeBarcode whether to include a barcode
+     */
+    private void populateGewehrForm(PdfAcroForm form, BerchtoldschiessenDTO dto, Document document, boolean includeBarcode) {
+        setFormFieldValue(form, FIELD_FIRST_NAME, dto.firstName());
+        setFormFieldValue(form, FIELD_LAST_NAME, dto.lastName());
+        setFormFieldValue(form, FIELD_BIRTH_DATE, getBirthYear(dto.geburtsdatum()));
+        setFormFieldValue(form, FIELD_DATE, DateUtil.dateToString(dto.datum()));
+        setCheckboxField(form, FIELD_IS_GUEST, dto.istGast());
+        setCheckboxField(form, FIELD_IS_ACTIVE, dto.istAktiv());
+
+        if (includeBarcode) {
+            PdfFormField barcodeField = form.getField(FIELD_BARCODE);
+            addBarcodeToForm(barcodeField, dto, document, form);
+        }
+    }
+
+    /**
+     * Populate the Pistole form with data from the DTO
+     *
+     * @param form the PDF form to populate
+     * @param dto  the data transfer object
+     */
+    private void populatePistoleForm(PdfAcroForm form, BerchtoldschiessenDTO dto) {
+        String birthYear = getBirthYear(dto.geburtsdatum());
+
+        // First section
+        setFormFieldValue(form, FIELD_FIRST_NAME, dto.firstName());
+        setFormFieldValue(form, FIELD_LAST_NAME, dto.lastName());
+        setFormFieldValue(form, FIELD_BIRTH_DATE, birthYear);
+        setCheckboxField(form, FIELD_IS_GUEST, dto.istGast());
+        setCheckboxField(form, FIELD_IS_ACTIVE, dto.istAktiv());
+
+        // Second section (duplicate fields with "2" suffix)
+        setFormFieldValue(form, FIELD_FIRST_NAME + "2", dto.firstName());
+        setFormFieldValue(form, FIELD_LAST_NAME + "2", dto.lastName());
+        setFormFieldValue(form, FIELD_BIRTH_DATE + "2", birthYear);
+        setCheckboxField(form, FIELD_IS_GUEST + "2", dto.istGast());
+        setCheckboxField(form, FIELD_IS_ACTIVE + "2", dto.istAktiv());
+    }
+
+    /**
+     * Set a text field value in the form
+     *
+     * @param form      the PDF form
+     * @param fieldName the name of the field
+     * @param value     the value to set
+     */
+    private void setFormFieldValue(PdfAcroForm form, String fieldName, String value) {
+        PdfFormField field = form.getField(fieldName);
+        if (field != null) {
+            field.setValue(value);
+        } else {
+            log.warn("Form field '{}' not found", fieldName);
+        }
+    }
+
+    /**
+     * Set a checkbox field value in the form
+     *
+     * @param form      the PDF form
+     * @param fieldName the name of the field
+     * @param checked   whether the checkbox should be checked
+     */
+    private void setCheckboxField(PdfAcroForm form, String fieldName, boolean checked) {
+        PdfFormField field = form.getField(fieldName);
+        if (field != null) {
+            // Need to set twice to avoid checkbox being flipped
+            field.setValue(String.valueOf(checked));
+            field.setValue(checked ? CHECKBOX_ON : CHECKBOX_OFF);
+        } else {
+            log.warn("Checkbox field '{}' not found", fieldName);
+        }
+    }
+
+    /**
+     * Add a barcode image to the form
+     *
+     * @param field    the form field where the barcode should be placed
+     * @param dto      the data transfer object containing the barcode
+     * @param document the PDF document
+     * @param form     the PDF form
+     */
+    private void addBarcodeToForm(PdfFormField field, BerchtoldschiessenDTO dto, Document document, PdfAcroForm form) {
+        if (field == null) {
+            log.error("Barcode field not found");
+            return;
+        }
+
+        if (dto.barcode() == null || dto.barcode().isEmpty()) {
+            log.warn("Barcode data is empty");
+            return;
+        }
+
+        try {
+            ImageData imageData = ImageDataFactory.create(Base64.getDecoder().decode(dto.barcode()));
+            Image image = new Image(imageData);
+
+            image.setHeight(BARCODE_HEIGHT);
+            image.setWidth(BARCODE_WIDTH);
+            image.setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+            com.itextpdf.kernel.geom.Rectangle rect = field.getWidgets().getFirst().getRectangle().toRectangle();
+            image.setFixedPosition(rect.getLeft(), rect.getBottom(), rect.getWidth());
+
+            document.add(image);
+            form.removeField(FIELD_BARCODE);
+        } catch (Exception e) {
+            log.error("Error adding barcode to form: {}", e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Generate the PDF output path
+     *
+     * @param firstName    the first name
+     * @param lastName     the last name
+     * @param documentType the document type
+     * @return the PDF output path
+     */
+    private String generatePdfPath(String firstName, String lastName, int documentType) {
+        String sanitizedName = sanitizeName(firstName) + "_" + sanitizeName(lastName);
+        return String.format(FilePaths.getPath(OUTPUT_FILE_PATH) + PDF_EXTENSION, sanitizedName, documentType);
+    }
+
+    /**
+     * Sanitize a name for use in a filename
+     *
+     * @param name the name to sanitize
+     * @return the sanitized name
+     */
+    private String sanitizeName(String name) {
+        if (name == null || name.isEmpty()) {
+            return "unknown";
+        }
+        // Remove diacritics (é, è, à, etc.)
+        String normalized = Normalizer.normalize(name, Normalizer.Form.NFD);
+        String ascii = normalized.replaceAll("[^\\p{ASCII}]", "");
+        // Replace spaces with underscores
+        return ascii.replaceAll(" ", "_");
+    }
+
+    /**
+     * Convert a PDF file to a PNG image
+     *
+     * @param pdfPath      the path to the PDF file
+     * @param firstName    the first name
+     * @param lastName     the last name
+     * @param documentType the document type
+     * @return the path to the generated image
+     */
+    private String convertPdfToImage(String pdfPath, String firstName, String lastName, int documentType) {
+        String sanitizedFirstName = sanitizeName(firstName);
+        String sanitizedLastName = sanitizeName(lastName);
+        String outputImagePath = String.format(
+                FilePaths.getPath(OUTPUT_FILE_PATH),
+                sanitizedFirstName + "_" + sanitizedLastName,
+                documentType
+        ) + IMAGE_EXTENSION;
+
+        try (PDDocument document = Loader.loadPDF(new File(pdfPath))) {
+            PDFRenderer renderer = new PDFRenderer(document);
+
+            for (int page = 0; page < document.getNumberOfPages(); page++) {
+                BufferedImage image = renderer.renderImageWithDPI(page, IMAGE_DPI, ImageType.RGB);
+                File outputFile = new File(outputImagePath);
+                ImageIO.write(image, IMAGE_FORMAT, outputFile);
+            }
+
+            log.debug("PDF converted to image: {}", outputImagePath);
+        } catch (IOException e) {
+            log.error("Could not convert PDF to image: {}", e.getMessage(), e);
         }
 
         return outputImagePath;
     }
 
+    /**
+     * Rotate an image clockwise by 90 degrees
+     *
+     * @param imagePath the path to the image file
+     */
+    private void rotateImageClockwise90(String imagePath) {
+        try {
+            BufferedImage originalImg = ImageIO.read(new File(imagePath));
+            BufferedImage rotatedImg = rotateImageClockwise90(originalImg);
+            ImageIO.write(rotatedImg, IMAGE_FORMAT, new File(imagePath));
+            log.debug("Image rotated: {}", imagePath);
+        } catch (IOException e) {
+            log.error("Could not rotate image: {}", e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Rotate a BufferedImage clockwise by 90 degrees
+     *
+     * @param src the source image
+     * @return the rotated image
+     */
+    private BufferedImage rotateImageClockwise90(BufferedImage src) {
+        int originalWidth = src.getWidth();
+        int originalHeight = src.getHeight();
+
+        // When rotating 90 degrees clockwise, dimensions swap
+        BufferedImage dest = new BufferedImage(originalHeight, originalWidth, src.getType());
+
+        for (int y = 0; y < originalHeight; y++) {
+            for (int x = 0; x < originalWidth; x++) {
+                // Rotate clockwise 90°: (x, y) -> (height - 1 - y, x)
+                dest.setRGB(originalHeight - 1 - y, x, src.getRGB(x, y));
+            }
+        }
+
+        return dest;
+    }
+
+    /**
+     * Extract the birth year from a date
+     *
+     * @param birthday the birthday date
+     * @return the birth year as a string
+     */
     private String getBirthYear(LocalDate birthday) {
+        if (birthday == null) {
+            return "";
+        }
         String birthdayStr = DateUtil.dateToString(birthday);
         return birthdayStr.substring(birthdayStr.length() - 4);
     }
 
-    private BufferedImage rotateClockwise90(BufferedImage src) {
-        int w = src.getWidth();
-        int h = src.getHeight();
-        BufferedImage dest = new BufferedImage(h, w, src.getType());
-        for (int y = 0; y < h; y++)
-            for (int x = 0; x < w; x++)
-                dest.setRGB(y, w - x - 1, src.getRGB(x, y));
-        return dest;
-    }
+    /**
+     * Delete a PDF file
+     *
+     * @param pdfPath the path to the PDF file
+     */
+    private void deletePdfFile(String pdfPath) {
+        if (pdfPath == null) {
+            return;
+        }
 
+        try {
+            File file = new File(pdfPath);
+            if (file.exists() && !file.delete()) {
+                log.warn("Could not delete temporary PDF file: {}", pdfPath);
+            } else {
+                log.debug("Temporary PDF deleted: {}", pdfPath);
+            }
+        } catch (Exception e) {
+            log.warn("Error deleting temporary PDF file {}: {}", pdfPath, e.getMessage());
+        }
+    }
 }
