@@ -1,5 +1,8 @@
 name: Release Project
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -14,11 +17,13 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-        name: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Setups Java
         uses: actions/setup-java@v3
