@@ -11,9 +11,9 @@
     - Benennen Sie die Datei entsprechend, zum Beispiel `New_Template.pdf`.
 
 3. **Bearbeiten Sie die Vorlage**:
-    - Öffnen Sie die neu erstellte „pdf“-Datei mit einem Textverarbeitungsprogramm (z. B. Libre Office oder Adobe Acrobat Reader).
+    - Öffnen Sie die neu erstellte „pdf"-Datei mit einem Textverarbeitungsprogramm (z. B. Libre Office oder Adobe Acrobat Reader).
     - Gestalten Sie die Vorlage entsprechend Ihren Anforderungen.
-    - Es sollten keine Platzhalter geändert werden. [Platzhalter hinzufügen](#Platzhalter-hinzufügen).
+    - Es sollten keine Platzhalter geändert werden. [Platzhalter hinzufügen](#platzhalter-hinzufügen-in-vorlage)
 
 4. **Speichern Sie die Vorlage**:
     - Speichern Sie die Änderungen in der Datei `.pdf`.
@@ -48,7 +48,7 @@ Um neue Platzhalter hinzuzufügen, folgen Sie den Schritten unten:
     - Fügen Sie eine neue Spalte in der Datei `competitors.csv` hinzu.
 
 2. Felder in [`CompetitorDTO`](../main/java/com/jaboumal/dto/CompetitorDTO.java) und [
-   `BerchtoldschiessenDTO`](../main/java/com/jaboumal/dto/xml/BerchtoldschiessenDTO.java) hinzufügen:
+   `BerchtoldschiessenDTO`](../main/java/com/jaboumal/dto/BerchtoldschiessenDTO.java) hinzufügen:
     - Fügen Sie ein neues Feld in die Klasse `CompetitorDTO` hinzu.
     - Fügen Sie ein neues Feld in die Klasse `BerchtoldschiessenDTO` hinzu.
 3. Platzhalter in der Vorlage hinzufügen:
