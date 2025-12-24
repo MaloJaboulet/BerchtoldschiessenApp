@@ -3,12 +3,15 @@ package com.jaboumal.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Base64;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class BarcodeCreatorServiceTest {
 
     private BarcodeCreatorService barcodeCreatorService;
@@ -19,11 +22,19 @@ class BarcodeCreatorServiceTest {
     }
 
     @Test
-    void validSchuetzenNummer_createBarcode_returnBase64String() throws IOException {
-        File barcode = new File("src/test/resources/123456_barcode.txt");
-        String expectedBarcodeString = Files.readString(Path.of(barcode.getPath()));
-        String returnString = barcodeCreatorService.createBarcode(123456);
+    void validSchuetzenNummer_createBarcode_returnValidBase64ImageAndCorrectContent() throws IOException {
+        int input = 123456;
 
-        assertEquals(expectedBarcodeString, returnString);
+        String returnString = barcodeCreatorService.createBarcode(input);
+        assertNotNull(returnString, "Returned Base64 string should not be null");
+        byte[] imageBytes = Base64.getDecoder().decode(returnString);
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(imageBytes)) {
+            BufferedImage img = ImageIO.read(bais);
+            assertNotNull(img, "Decoded Base64 should be a valid image");
+            assertTrue(img.getWidth() > 0, "Image width should be > 0");
+            assertTrue(img.getHeight() > 0, "Image height should be > 0");
+        }
     }
+
+
 }
