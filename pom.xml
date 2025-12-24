@@ -4,7 +4,7 @@
 
     <groupId>com.jaboumal</groupId>
     <artifactId>BerchtoldSchiessenApp</artifactId>
-    <version>1.5.3-SNAPSHOT</version>
+    <version>1.5.3</version>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
@@ -19,7 +19,7 @@
         <connection>scm:git:https://github.com/MaloJaboulet/BerchtoldschiessenApp.git</connection>
         <developerConnection>scm:git:https://github.com/MaloJaboulet/BerchtoldschiessenApp.git</developerConnection>
         <url>https://github.com/MaloJaboulet/BerchtoldschiessenApp</url>
-        <tag>${project.version}</tag>
+        <tag>1.5.3</tag>
     </scm>
 
     <dependencies>
