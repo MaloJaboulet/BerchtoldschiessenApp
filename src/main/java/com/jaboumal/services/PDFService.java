@@ -185,6 +185,7 @@ public class PDFService {
         setFormFieldValue(form, FIELD_FIRST_NAME, dto.firstName());
         setFormFieldValue(form, FIELD_LAST_NAME, dto.lastName());
         setFormFieldValue(form, FIELD_BIRTH_DATE, birthYear);
+        setFormFieldValue(form, FIELD_DATE, DateUtil.dateToString(dto.datum()));
         setCheckboxField(form, FIELD_IS_GUEST, dto.istGast());
         setCheckboxField(form, FIELD_IS_ACTIVE, dto.istAktiv());
 
@@ -192,6 +193,7 @@ public class PDFService {
         setFormFieldValue(form, FIELD_FIRST_NAME + "2", dto.firstName());
         setFormFieldValue(form, FIELD_LAST_NAME + "2", dto.lastName());
         setFormFieldValue(form, FIELD_BIRTH_DATE + "2", birthYear);
+        setFormFieldValue(form, FIELD_DATE + "2", DateUtil.dateToString(dto.datum()));
         setCheckboxField(form, FIELD_IS_GUEST + "2", dto.istGast());
         setCheckboxField(form, FIELD_IS_ACTIVE + "2", dto.istAktiv());
     }
