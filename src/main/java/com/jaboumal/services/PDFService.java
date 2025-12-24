@@ -13,6 +13,7 @@ import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.jaboumal.constants.FilePaths;
 import com.jaboumal.dto.xml.BerchtoldschiessenDTO;
+import com.jaboumal.util.DateUtil;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
@@ -28,7 +29,9 @@ import java.text.Normalizer;
 import java.time.LocalDate;
 import java.util.Base64;
 
-import static com.jaboumal.constants.FilePaths.*;
+import static com.jaboumal.constants.FilePaths.INPUT_GEWEHR_PDF_PATH;
+import static com.jaboumal.constants.FilePaths.INPUT_PISTOLE_PDF_PATH;
+import static com.jaboumal.constants.FilePaths.OUTPUT_FILE_PATH;
 
 /**
  * PDFService class
@@ -56,7 +59,7 @@ public class PDFService {
      * @return the path of the image file
      */
     public String createPDFGewehr(String firstName, String lastName, LocalDate dateOfBirth, String barcode, boolean isGuest) {
-        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(barcode, dateOfBirth, firstName, lastName, !isGuest, isGuest);
+        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(firstName, lastName, dateOfBirth, barcode, null, isGuest, !isGuest);
         String imageOutputPath = null;
         try {
             String pdfOutputPath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH) + ".pdf", firstName + "_" + lastName, 1);
@@ -69,15 +72,15 @@ public class PDFService {
 
             // Step 3: Locate the form field (example field name: "imageField")
             PdfFormField field = form.getField("barcode");
-            form.getField("firstName").setValue(berchtoldschiessenDTO.getFirstName());
-            form.getField("lastName").setValue(berchtoldschiessenDTO.getLastName());
-            form.getField("geburtsdatum").setValue(getBirthYear(berchtoldschiessenDTO.getGeburtsdatum()));
-            form.getField("datum").setValue(berchtoldschiessenDTO.getDatum());
-            form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
-            form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.isIstAktiv()));
+            form.getField("firstName").setValue(berchtoldschiessenDTO.firstName());
+            form.getField("lastName").setValue(berchtoldschiessenDTO.lastName());
+            form.getField("geburtsdatum").setValue(getBirthYear(berchtoldschiessenDTO.geburtsdatum()));
+            form.getField("datum").setValue(DateUtil.dateToString(berchtoldschiessenDTO.datum()));
+            form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.istGast()));
+            form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.istAktiv()));
             //Need to be there, if not the checkboxes are checked flipped
-            form.getField("istGast").setValue(berchtoldschiessenDTO.isIstGast() ? "On" : "Off");
-            form.getField("istAktiv").setValue(berchtoldschiessenDTO.isIstAktiv() ? "On" : "Off");
+            form.getField("istGast").setValue(berchtoldschiessenDTO.istGast() ? "On" : "Off");
+            form.getField("istAktiv").setValue(berchtoldschiessenDTO.istAktiv() ? "On" : "Off");
 
             addImageToForm(field, berchtoldschiessenDTO, document, form);
 
@@ -111,7 +114,7 @@ public class PDFService {
      * @return the path of the image file
      */
     public String createPDFPistole(String firstName, String lastName, LocalDate dateOfBirth, boolean isGuest) {
-        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(null, dateOfBirth, firstName, lastName, !isGuest, isGuest);
+        BerchtoldschiessenDTO berchtoldschiessenDTO = new BerchtoldschiessenDTO(firstName, lastName, dateOfBirth, null, null, isGuest, !isGuest);
         String imageOutputPath = null;
         try {
             String pdfOutputPath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH) + ".pdf", firstName + "_" + lastName, 2);
@@ -122,23 +125,23 @@ public class PDFService {
             PdfAcroForm form = PdfAcroForm.getAcroForm(pdfDoc, true);
             Document document = new Document(pdfDoc);
 
-            form.getField("firstName").setValue(berchtoldschiessenDTO.getFirstName());
-            form.getField("lastName").setValue(berchtoldschiessenDTO.getLastName());
-            form.getField("geburtsdatum").setValue(getBirthYear(berchtoldschiessenDTO.getGeburtsdatum()));
-            form.getField("firstName2").setValue(berchtoldschiessenDTO.getFirstName());
-            form.getField("lastName2").setValue(berchtoldschiessenDTO.getLastName());
-            form.getField("geburtsdatum2").setValue(getBirthYear(berchtoldschiessenDTO.getGeburtsdatum()));
+            form.getField("firstName").setValue(berchtoldschiessenDTO.firstName());
+            form.getField("lastName").setValue(berchtoldschiessenDTO.lastName());
+            form.getField("geburtsdatum").setValue(getBirthYear(berchtoldschiessenDTO.geburtsdatum()));
+            form.getField("firstName2").setValue(berchtoldschiessenDTO.firstName());
+            form.getField("lastName2").setValue(berchtoldschiessenDTO.lastName());
+            form.getField("geburtsdatum2").setValue(getBirthYear(berchtoldschiessenDTO.geburtsdatum()));
 
 
-            form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
-            form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.isIstAktiv()));
+            form.getField("istGast").setValue(String.valueOf(berchtoldschiessenDTO.istGast()));
+            form.getField("istAktiv").setValue(String.valueOf(berchtoldschiessenDTO.istAktiv()));
             //Need to be there, if not the checkboxes are checked flipped
-            form.getField("istGast").setValue(berchtoldschiessenDTO.isIstGast() ? "On" : "Off");
-            form.getField("istAktiv").setValue(berchtoldschiessenDTO.isIstAktiv() ? "On" : "Off");
-            form.getField("istGast2").setValue(String.valueOf(berchtoldschiessenDTO.isIstGast()));
-            form.getField("istAktiv2").setValue(String.valueOf(berchtoldschiessenDTO.isIstAktiv()));
-            form.getField("istGast2").setValue(berchtoldschiessenDTO.isIstGast() ? "On" : "Off");
-            form.getField("istAktiv2").setValue(berchtoldschiessenDTO.isIstAktiv() ? "On" : "Off");
+            form.getField("istGast").setValue(berchtoldschiessenDTO.istGast() ? "On" : "Off");
+            form.getField("istAktiv").setValue(berchtoldschiessenDTO.istAktiv() ? "On" : "Off");
+            form.getField("istGast2").setValue(String.valueOf(berchtoldschiessenDTO.istGast()));
+            form.getField("istAktiv2").setValue(String.valueOf(berchtoldschiessenDTO.istAktiv()));
+            form.getField("istGast2").setValue(berchtoldschiessenDTO.istGast() ? "On" : "Off");
+            form.getField("istAktiv2").setValue(berchtoldschiessenDTO.istAktiv() ? "On" : "Off");
 
             form.flattenFields();
             // Step 5: Close the document
@@ -175,7 +178,7 @@ public class PDFService {
     private void addImageToForm(PdfFormField field, BerchtoldschiessenDTO berchtoldschiessenDTO, Document document, PdfAcroForm form) {
         if (field != null) {
             // Step 4: Replace field with an image
-            ImageData imageData = ImageDataFactory.create(Base64.getDecoder().decode(berchtoldschiessenDTO.getBarcode()));
+            ImageData imageData = ImageDataFactory.create(Base64.getDecoder().decode(berchtoldschiessenDTO.barcode()));
             Image image = new Image(imageData);
 
             // Optional: Adjust image position and size
@@ -211,8 +214,6 @@ public class PDFService {
         lastName = Normalizer.normalize(lastName, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
         lastName = lastName.replaceAll(" ", "_");
 
-
-
         String outputImagePath = String.format(FilePaths.getPath(OUTPUT_FILE_PATH), firstName + "_" + lastName, number) + ".png";
         try (PDDocument document = Loader.loadPDF(new File(path))) {
             PDFRenderer renderer = new PDFRenderer(document);
@@ -230,8 +231,9 @@ public class PDFService {
         return outputImagePath;
     }
 
-    private String getBirthYear(String birthbay){
-        return birthbay.substring(birthbay.length()-4);
+    private String getBirthYear(LocalDate birthday) {
+        String birthdayStr = DateUtil.dateToString(birthday);
+        return birthdayStr.substring(birthdayStr.length() - 4);
     }
 
     private BufferedImage rotateClockwise90(BufferedImage src) {
