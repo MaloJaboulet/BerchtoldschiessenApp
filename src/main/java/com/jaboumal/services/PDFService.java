@@ -12,7 +12,7 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.properties.HorizontalAlignment;
 import com.jaboumal.constants.FilePaths;
-import com.jaboumal.dto.xml.BerchtoldschiessenDTO;
+import com.jaboumal.dto.BerchtoldschiessenDTO;
 import com.jaboumal.util.DateUtil;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;

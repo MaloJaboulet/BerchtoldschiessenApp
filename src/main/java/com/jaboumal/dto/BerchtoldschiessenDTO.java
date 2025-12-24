@@ -1,4 +1,4 @@
-package com.jaboumal.dto.xml;
+package com.jaboumal.dto;
 
 import java.time.LocalDate;
 
